@@ -1,7 +1,54 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="UTF-8">
         <link rel="stylesheet" type="text/css" href="style/style.css">
     </head>
-    <body></body>
+    <body>
+        <div id="donation-widget">
+            <div class="slider">
+                <div class="pane">
+                    <h3>Doner her</h3>
+                    <input type="text" class="email" placeholder="email" data-error-msg="Some error msg"></input>
+                </div>
+                <div class="pane">
+                    <h3>Velg sum</h3>
+                    <input type="text" class="amount" placeholder="sum"></input>
+                </div>
+                <div class="pane shares">
+                    <h3>Velg fordeling</h3>
+                    <div class="share-distribution">
+                        <div class="mode-switch">
+                            <span class="absolute">123</span>
+                            <span class="percentage">%</span>
+                            <div class="selector"></div>
+                        </div>
+
+                        <ul class="organizations">
+                        </ul>
+
+                        <ul class="overlay-organizations"></ul>
+
+                        <span class="total">0/100</span>
+                    </div>
+                </div>
+                <div class="pane">
+                    <h3>Takk!</h3>
+                    <h4>Du kan nå overføre til oss med KID<h4>
+                    <span></span>
+                </div>
+            </div>
+
+            <div class="error"></div>
+            <div class="progress" style="width: 0%;"></div>
+        </div>
+
+        <script src="script/widget.js"></script>
+        <script>
+            var donationWidgetElement = document.getElementById("donation-widget");
+
+            var widget = DonationWidget(donationWidgetElement);
+            //widget.goToSlide(1)
+        </script>
+    </body>
 </html>
