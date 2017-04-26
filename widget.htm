@@ -6,14 +6,25 @@
     </head>
     <body>
         <div id="donation-widget">
+            <div id="no_api_error">
+                <h3>Ingen tilkobling</h3>
+                <p>Hei! Vi når dessverre ikke serveren vår fra din maskin. Du kan forsøke igjen på et senere tidspunkt. Takk!</p>
+            </div>
+
             <div class="slider">
                 <div class="pane">
                     <h3>Doner her</h3>
-                    <input type="text" class="email" placeholder="email" data-error-msg="Some error msg"></input>
+                    <input type="text" class="email" placeholder="email"></input>
                 </div>
-                <div class="pane">
+                <div class="pane amount">
                     <h3>Velg sum</h3>
                     <input type="text" class="amount" placeholder="sum"></input>
+                    <div class="select-split">
+                        <label for="check-select-split">Velg fordeling</label>
+
+                        <input type="checkbox" id="check-select-split" />
+                        <label class="box" for ="check-select-split"></label>
+                    </div>
                 </div>
                 <div class="pane shares">
                     <h3>Velg fordeling</h3>

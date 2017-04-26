@@ -20,6 +20,26 @@ function DonationWidget(widgetElement) {
 
     this.panes = this.element.getElementsByClassName("pane");
 
+    var notDefaultPanes = ["shares"]
+
+    console.log(this.panes)
+
+    /*
+    var something = this.panes.reduce(function(acc, elem) {
+        if (notDefaultPanes.every(function(className, i, array) { 
+            console.log(elem)
+            console.log(array)
+            return elem.classList.contains(className);
+         })) return acc;
+        else return acc + 1;
+    },0);
+    */
+    this.panes.reduce(function(acc, elem) {
+        return acc;
+    }, 0);
+
+    this.defaultPanes = 90;
+
     this.slider.style.width = (this.panes.length * this.width) + "px";
 
     for (var i = 0; i < this.panes.length; i++) {
@@ -119,8 +139,10 @@ function DonationWidget(widgetElement) {
         var email = this.getElementsByClassName("email")[0].value;
 
         _self.request("users", "POST", {email: email}, function(err, data) {
-            if (err) {
-                error(err);
+            if (err == 0 || err) {
+                if (err == 0) error("Når ikke server. Forsøk igjen senere.");
+                else if (err == 400) error("Ikke en gyldig email");
+
                 nxtBtn.classList.remove("loading");
                 return;
             }
@@ -193,76 +215,92 @@ function DonationWidget(widgetElement) {
     function setupDonationList(pane) {
         setTimeout(function() {
             _self.request("organizations/active", "GET", { }, function(err, data) {
-                _self.organizations = data.content;
+                if (err == 0) {
+                    setNoApiError();
+                } else {
+                    _self.organizations = data.content;
 
-                var list = pane.getElementsByClassName("organizations")[0];
-                var leftover = 0;
+                    var list = pane.getElementsByClassName("organizations")[0];
+                    var leftover = 0;
 
-                _self.splitSharesTotal = pane.getElementsByClassName("total")[0];
+                    _self.splitSharesTotal = pane.getElementsByClassName("total")[0];
 
-                console.log(_self.organizations);
-                console.log(_self.organizations.length);
+                    for (var i = 0; i < _self.organizations.length; i++) {
+                        var org = _self.organizations[i];
+                        org.element = createListItem(org);
 
-                
+                        list.appendChild(org.element);
+                    }
 
-                for (var i = 0; i < _self.organizations.length; i++) {
-                    var org = _self.organizations[i];
-                    org.element = createListItem(org);
+                    function createListItem(org) {
+                        var li = document.createElement("li");
 
-                    list.appendChild(org.element);
-                }
+                        var span = document.createElement("span");
+                        span.innerHTML = org.name;
 
-                function createListItem(org) {
-                    var li = document.createElement("li");
+                        li.appendChild(span);
 
-                    var span = document.createElement("span");
-                    span.innerHTML = org.name;
-
-                    li.appendChild(span);
-
-                    var info = document.createElement("div");
-                    info.classList.add("info");
+                        var info = document.createElement("div");
+                        info.classList.add("info");
 
 
-                    info.addEventListener("click", function(e) {
-                        showOrganizationInfo(org);
-                    });
+                        info.addEventListener("click", function(e) {
+                            showOrganizationInfo(org);
+                        });
 
-                    li.appendChild(info);
+                        li.appendChild(info);
 
-                    var inputWrapper = document.createElement("div");
-                    inputWrapper.classList.add("input-wrapper");
+                        var inputWrapper = document.createElement("div");
+                        inputWrapper.classList.add("input-wrapper");
 
-                    li.appendChild(inputWrapper);
+                        li.appendChild(inputWrapper);
 
-                    var input = document.createElement("input");
-                    input.setAttribute("type", "number");
+                        var input = document.createElement("input");
+                        input.setAttribute("type", "number");
 
-                    org.inputElement = input;
+                        org.inputElement = input;
 
-                    input.addEventListener("input", function(e) {
-                        var val;
-                        if (this.value.length > 0) val = parseFloat(this.value);
-                        else val = 0;
+                        input.addEventListener("input", function(e) {
+                            var val;
+                            if (this.value.length > 0) val = parseFloat(this.value);
+                            else val = 0;
+                            
+                            org.setValue = val;
+                            updateTotalShares();
+                        });
+
+                        inputWrapper.appendChild(input);
+
+                        return li;
+                    }
+
+                    function createInfoListItem(org) {
+                        var li = document.createElement("li");
                         
-                        org.setValue = val;
-                        updateTotalShares();
-                    });
+                        var header = document.createElement("div");
+                        header.classList.add("header");
 
-                    inputWrapper.appendChild(input);
+                        header.style.backgroundImage = org.headerImage;
 
-                    return li;
-                }
+                        var headerText = document.createElement("h3");
+                        headerText.innerHTML = org.name;
 
-                function createInfoListItem(org) {
-                    var li = document.createElement("li");
-                    
-                    var header = document.createElement("div");
-                    header.classList.add("header");
+                        header.appendChild(headerText);
 
-                    
+                        li.appendChild(header);
 
-                    return li;
+                        var content = document.createElement("div");
+                        content.classList.add("content");
+
+                        var contentParagraph = document.createElement("p");
+                        contentParagraph.innerHTML = org.longDesc;
+
+                        content.appendChild(contentParagraph);
+
+
+
+                        return li;
+                    }
                 }
             });
         }, 10) 
@@ -382,15 +420,33 @@ function DonationWidget(widgetElement) {
     }
 
     /* Error element */
+    var errorTimeout;
     function error(msg) {
         _self.activeError = true;
         _self.error.innerHTML = msg;
         _self.error.classList.add("active");
+
+        errorTimeout = setTimeout(function() {
+            hideError();
+        }, 5000);
     }
 
     function hideError() {
+        //Error timeout remove
+        console.log(errorTimeout)
+        //if (errorTimeout) errorTimeout.clear();
+
         _self.error.classList.remove("active");
         _self.activeError = false;
+    }
+
+    function setNoApiError() {
+        var noApiErrorElement = document.getElementById("no_api_error");
+
+        /*
+        noApiErrorElement.style.zIndex = 10;
+        noApiErrorElement.classList.add("active");
+        */
     }
 
     /* Network helpers */
@@ -412,7 +468,7 @@ function DonationWidget(widgetElement) {
                         cb(response.content, null);
                     }
                 } else {
-                    cb("Når ikke server. Forsøk igjen senere. (" + this.status+ ")", null); 
+                    cb(this.status, null); 
                 }
             }
         };
