@@ -34,9 +34,11 @@ function DonationWidget(widgetElement) {
         else return acc + 1;
     },0);
     */
+    /*
     this.panes.reduce(function(acc, elem) {
         return acc;
     }, 0);
+    */
 
     this.defaultPanes = 90;
 
