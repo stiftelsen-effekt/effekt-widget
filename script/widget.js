@@ -170,11 +170,34 @@ function DonationWidget(widgetElement) {
         var nxtBtn = this.getElementsByClassName("btn")[0];
         nxtBtn.classList.add("loading");
 
-        _self.nextSlide();
+        var donationSplit = _self.organizations.map((org) => {
+            return {
+                id: org._id,
+                split: (_self.sharesType == "decimal" ? (org.setValue / _self.donationAmount) * 100 : org.setValue)
+            }
+        })
 
-        setTimeout(function() {
-            nxtBtn.classList.remove("loading");
-        }, 200);
+        _self.request("donations", "POST", {
+            amount: _self.donationAmount,
+            organizations: donationSplit
+        }, function(err, data) {
+            if (err == 0 || err) {
+                if (err == 0) error("Når ikke server. Forsøk igjen senere.");
+                else if (err == 400) error("Det er noe feil med donasjonen");
+
+                nxtBtn.classList.remove("loading");
+                return;
+            }
+
+            console.log(_self.panes[_self.currentSlide+1])
+
+            console.log(data)
+
+            _self.panes[_self.currentSlide+1].getElementsByClassName("amount")[0].innerHTML = _self.donationAmount + "kr";
+            _self.panes[_self.currentSlide+1].getElementsByClassName("KID")[0].innerHTML = data.content.KID;
+            
+            _self.nextSlide();
+        });
     }
 
     /* Focusing functions */
@@ -235,7 +258,10 @@ function DonationWidget(widgetElement) {
                     }
 
                     function createListItem(org) {
+                        //console.log(org);
+
                         var li = document.createElement("li");
+                        //li.setAttribute("data-id", org._id);
 
                         var span = document.createElement("span");
                         span.innerHTML = org.name;

@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="style/totalModule.css">
+    </head>
+
+    <body>
+        <div id="effekt-transaction-module">
+            <input type="date" placeholder="fra" class="from" />
+            <input type="date" placeholder="til" class="to" />
+            <button class="submit">Hent data</button>
+            <div class="results"></div>
+        </div>
+
+        <script src="script/totalModule.js"></script>
+        <script>
+        totalModule(document.getElementById("effekt-transaction-module"));
+        </script>
+    </body>
+</html>
+
