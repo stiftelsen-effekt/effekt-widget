@@ -1,8 +1,6 @@
 function DonationWidget(widgetElement) {
     var _self = this;
 
-    var getTranslateXRegEx = /\.*translateX\((.*)px\)/i;
-
     this.element = widgetElement;
     this.activeError = false;
 
@@ -64,10 +62,9 @@ function DonationWidget(widgetElement) {
             throw new Error("No submit function specified for a pane");
         }
 
-        if (i != panes.length) insertNextButton(pane);
-        if (i != 0 && i != panes.length) insertPrevButton(pane);
-        if (i != panes.length) submitOnEnter(pane);
-        
+        if (i != panes.length-1) insertNextButton(pane);
+        if (i != 0 && i != panes.length-1) insertPrevButton(pane);
+        if (i != panes.length-1) submitOnEnter(pane);
     }
 
     this.panes[0].focus();
@@ -188,10 +185,6 @@ function DonationWidget(widgetElement) {
                 nxtBtn.classList.remove("loading");
                 return;
             }
-
-            console.log(_self.panes[_self.currentSlide+1])
-
-            console.log(data)
 
             _self.panes[_self.currentSlide+1].getElementsByClassName("amount")[0].innerHTML = _self.donationAmount + "kr";
             _self.panes[_self.currentSlide+1].getElementsByClassName("KID")[0].innerHTML = data.content.KID;
