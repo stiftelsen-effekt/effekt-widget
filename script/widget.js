@@ -23,24 +23,6 @@ function DonationWidget(widgetElement) {
 
     var notDefaultPanes = ["shares"]
 
-    console.log(this.panes)
-
-    /*
-    var something = this.panes.reduce(function(acc, elem) {
-        if (notDefaultPanes.every(function(className, i, array) { 
-            console.log(elem)
-            console.log(array)
-            return elem.classList.contains(className);
-         })) return acc;
-        else return acc + 1;
-    },0);
-    */
-    /*
-    this.panes.reduce(function(acc, elem) {
-        return acc;
-    }, 0);
-    */
-
     this.defaultPanes = 90;
 
     this.slider.style.width = (this.panes.length * this.width) + "px";
