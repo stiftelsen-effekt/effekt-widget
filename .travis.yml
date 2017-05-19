@@ -9,3 +9,5 @@ script: gulp
 
 notifications:
   email: false
+  slack: effektteam:E4fggEJ9TPpFLTpgn4eNEnGy
+    on_success: never
