@@ -3,4 +3,6 @@ node_js:
   - "iojs"
   - "6"
 
-npm test
+before_script:
+  - npm install -g gulp
+script: gulp
