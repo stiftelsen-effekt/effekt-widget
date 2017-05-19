@@ -29,7 +29,7 @@ function totalModule(elem) {
         url += "pretty";
 
         http.onreadystatechange = function() {
-            if (this.readyState == 4) {
+            if (this.readyState == 4) {
                 console.log(this.readyState);
                 if (this.status = 200) {
                     console.log(this.status);
@@ -40,7 +40,7 @@ function totalModule(elem) {
                 else {
                     alert("Feilmelding");
                 }
-            } else {
+            } else {
                 
             }
         };

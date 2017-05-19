@@ -3,59 +3,82 @@
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" type="text/css" href="style/style.css">
+        <link rel="stylesheet" type="text/css" href="style/widget-mobile.css">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
     </head>
     <body>
-        <div id="donation-widget">
-            <div id="no_api_error">
-                <h3>Ingen tilkobling</h3>
-                <p>Hei! Vi når dessverre ikke serveren vår fra din maskin. Du kan forsøke igjen på et senere tidspunkt. Takk!</p>
-            </div>
-
-            <div class="slider">
-                <div class="pane">
-                    <h3>Doner her</h3>
-                    <input type="text" class="email" placeholder="email"></input>
+        <a href="javascript: showWidget()">Doner</a>
+        <div id="donation-widget-container">
+            <div id="donation-widget">
+                <div id="no_api_error">
+                    <h3>Ingen tilkobling</h3>
+                    <p>Hei! Vi når dessverre ikke serveren vår fra din maskin. Du kan forsøke igjen på et senere tidspunkt. Takk!</p>
                 </div>
-                <div class="pane amount">
-                    <h3>Velg sum</h3>
-                    <input type="text" class="amount" placeholder="sum"></input>
-                    <div class="select-split">
-                        <label for="check-select-split">Velg fordeling</label>
 
-                        <input type="checkbox" id="check-select-split" />
-                        <label class="box" for ="check-select-split"></label>
-                    </div>
-                </div>
-                <div class="pane shares">
-                    <h3>Velg fordeling</h3>
-                    <div class="share-distribution">
-                        <div class="mode-switch">
-                            <span class="absolute">123</span>
-                            <span class="percentage">%</span>
-                            <div class="selector"></div>
+                <div class="slider">
+                    <div class="pane">
+                        <div class="inner">
+                            <h3>Doner her</h3>
+                            <input type="text" class="email" placeholder="email"></input>
                         </div>
+                    </div>
+                    <div class="pane amount">
+                        <div class="inner">
+                            <h3>Velg sum</h3>
+                            <input type="text" class="amount" placeholder="sum"></input>
+                            <div class="select-split">
+                                <label for="check-select-split">Velg fordeling</label>
 
-                        <ul class="organizations">
-                        </ul>
+                                <input type="checkbox" id="check-select-split" />
+                                <label class="box" for ="check-select-split"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pane shares">
+                        <div class="inner">
+                            <h3>Velg fordeling</h3>
+                            <div class="share-distribution">
+                                <div class="mode-switch">
+                                    <span class="absolute">123</span>
+                                    <span class="percentage">%</span>
+                                    <div class="selector"></div>
+                                </div>
 
-                        <ul class="overlay-organizations"></ul>
+                                <ul class="organizations">
+                                </ul>
 
-                        <span class="total">0/100</span>
+                                <ul class="overlay-organizations"></ul>
+
+                                <span class="total">0/100</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pane result">
+                        <div class="inner">
+                            <h3>Takk!</h3>
+
+                            <img src="https://effekt.blob.core.windows.net/effekt-widget/heart.svg" class="heart" />
+
+                            <h4>Du kan nå overføre til oss.<h4>
+                                
+                            <div class="transfer-info">
+                                <div class="line">
+                                    <label>Sum</label><span class="amount"></span>
+                                </div>
+                                <div class="line">
+                                    <label>Kontonr</label><span class="account">1503.74.03269</span>
+                                </div>
+                                <div class="line">
+                                    <label>KID</label><span class="KID"></span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="pane result">
-                    <h3>Takk!</h3>
 
-                    <img src="assets/heart.svg" class="heart" />
-
-                    <h4>Du kan nå overføre til oss.<h4>
-                        
-                    <p><span class="amount"></span> til kontonr <span class="account">1503.74.03269</span><br> med KID <span class="KID"></span></p>
-                </div>
+                <div class="error"></div>
+                <div class="progress" style="width: 0%;"></div>
             </div>
-
-            <div class="error"></div>
-            <div class="progress" style="width: 0%;"></div>
         </div>
 
         <script src="script/widget.js"></script>
@@ -63,6 +86,10 @@
             var donationWidgetElement = document.getElementById("donation-widget");
 
             var widget = DonationWidget(donationWidgetElement);
+
+            function showWidget() {
+                widget.show();
+            }
             //widget.goToSlide(1)
         </script>
     </body>

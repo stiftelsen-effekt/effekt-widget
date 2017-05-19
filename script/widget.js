@@ -1,7 +1,10 @@
 function DonationWidget(widgetElement) {
     var _self = this;
 
+    this.assetsUrl = "https://effekt.blob.core.windows.net/effekt-widget/";
+
     this.element = widgetElement;
+    this.wrapper = this.element.parentElement;
     this.activeError = false;
 
     this.slider = this.element.getElementsByClassName("slider")[0];
@@ -19,24 +22,6 @@ function DonationWidget(widgetElement) {
     this.panes = this.element.getElementsByClassName("pane");
 
     var notDefaultPanes = ["shares"]
-
-    console.log(this.panes)
-
-    /*
-    var something = this.panes.reduce(function(acc, elem) {
-        if (notDefaultPanes.every(function(className, i, array) { 
-            console.log(elem)
-            console.log(array)
-            return elem.classList.contains(className);
-         })) return acc;
-        else return acc + 1;
-    },0);
-    */
-    /*
-    this.panes.reduce(function(acc, elem) {
-        return acc;
-    }, 0);
-    */
 
     this.defaultPanes = 90;
 
@@ -78,11 +63,11 @@ function DonationWidget(widgetElement) {
 
         var nxtImg = document.createElement("img");
         nxtImg.classList.add("arrowImage");
-        nxtImg.src = "assets/next.svg";
+        nxtImg.src = _self.assetsUrl + "next.svg";
 
         loadingImg = document.createElement("img");
         loadingImg.classList.add("loadingImage");
-        loadingImg.src = "assets/loading.svg";
+        loadingImg.src = _self.assetsUrl + "loading.svg";
 
         btn.appendChild(nxtImg);
         btn.appendChild(loadingImg);
@@ -102,11 +87,11 @@ function DonationWidget(widgetElement) {
 
         var nxtImg = document.createElement("img");
         nxtImg.classList.add("arrowImage");
-        nxtImg.src = "assets/next.svg";
+        nxtImg.src = _self.assetsUrl + "next.svg";
 
         loadingImg = document.createElement("img");
         loadingImg.classList.add("loadingImage");
-        loadingImg.src = "assets/loading.svg";
+        loadingImg.src = _self.assetsUrl + "loading.svg";
 
         btn.appendChild(nxtImg);
         btn.appendChild(loadingImg);
@@ -463,7 +448,7 @@ function DonationWidget(widgetElement) {
 
     function setNoApiError() {
         var noApiErrorElement = document.getElementById("no_api_error");
-
+        
         /*
         noApiErrorElement.style.zIndex = 10;
         noApiErrorElement.classList.add("active");
@@ -471,7 +456,7 @@ function DonationWidget(widgetElement) {
     }
 
     /* Network helpers */
-    var api_url = "http://localhost:3000/";
+    var api_url = "https://effektapi.azurewebsites.net/";
 
     this.request = function(endpoint, type, data, cb) {
         var http = new XMLHttpRequest();
@@ -504,13 +489,23 @@ function DonationWidget(widgetElement) {
         }
     }
 
+    //Activate UI
+    this.show = function() {
+        _self.wrapper.style.zIndex = 100000;
+
+        _self.element.classList.add("active");
+        _self.wrapper.classList.add("active");
+        _self.panes[0].focus();
+    }
+
     /* Return */
     var properties = {
         element: this.element,
         panes: this.panes,
         goToSlide: this.goToSlide,
         slider: this.slider,
-        setsplit: this.setSplitValues
+        setsplit: this.setSplitValues,
+        show: this.show
     }
     return properties;
 }
