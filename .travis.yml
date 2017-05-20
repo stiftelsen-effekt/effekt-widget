@@ -6,3 +6,10 @@ node_js:
 before_script:
   - npm install -g gulp
 script: gulp
+
+notifications:
+  email: false
+  slack:
+    on_success: never
+    rooms:
+      - effektteam:E4fggEJ9TPpFLTpgn4eNEnGy#prosjekt_automagi
