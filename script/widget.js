@@ -7,6 +7,8 @@ function DonationWidget(widgetElement) {
     this.wrapper = this.element.parentElement;
     this.activeError = false;
 
+    this.submitOnAmount = true;
+
     this.slider = this.element.getElementsByClassName("slider")[0];
     if (!this.slider) throw Error("No slider element in widget");
 
@@ -20,6 +22,10 @@ function DonationWidget(widgetElement) {
     this.currentSlide = 0;
 
     this.panes = this.element.getElementsByClassName("pane");
+    this.activePanes = 0;
+    for (var i = 1; i < this.panes.length; i++) {
+        if(!this.panes[i].classList.contains("hidden")) this.activePanes++;
+    }
 
     var notDefaultPanes = ["shares"]
 
@@ -37,6 +43,7 @@ function DonationWidget(widgetElement) {
         } else if (i == 1) {
             pane.submit = submitAmount;
             pane.focus = focusAmount;
+            setupSelectSplitCheckbox();
         } else if (i == 2) {
             pane.submit = submitDonation;
             pane.focus = focusDonation;
@@ -47,19 +54,23 @@ function DonationWidget(widgetElement) {
             throw new Error("No submit function specified for a pane");
         }
 
-        if (i != panes.length-1) insertNextButton(pane);
+        if (i != panes.length-1) insertNextButton(pane, (i == 0));
         if (i != 0 && i != panes.length-1) insertPrevButton(pane);
         if (i != panes.length-1) submitOnEnter(pane);
     }
 
     this.panes[0].focus();
 
+    setupSelectOnClick();
+
     /* Setup helpers */
-    function insertNextButton(pane) {
+    function insertNextButton(pane, lonely) {
         var btn = document.createElement("div");
 
         btn.classList.add("btn");
         btn.classList.add("frwd");
+
+        if (lonely) btn.classList.add("lonely");
 
         var nxtImg = document.createElement("img");
         nxtImg.classList.add("arrowImage");
@@ -105,7 +116,7 @@ function DonationWidget(widgetElement) {
 
     function submitOnEnter(pane) {
         var inputs = pane.getElementsByTagName("input");
-        if (inputs.length == 1) {
+        if (inputs.length > 0) {
             inputs[0].addEventListener("keydown", function(e) {
                 if (_self.activeError) hideError();
                 if (e.keyCode == 13) {
@@ -125,12 +136,13 @@ function DonationWidget(widgetElement) {
         _self.request("users", "POST", {email: email}, function(err, data) {
             if (err == 0 || err) {
                 if (err == 0) error("Når ikke server. Forsøk igjen senere.");
-                else if (err == 400) error("Ikke en gyldig email");
+                else if (err == "Malformed request") error("Ikke en gyldig email");
 
                 nxtBtn.classList.remove("loading");
                 return;
             }
             
+            _self.user = email;
             _self.nextSlide();
         });
     }
@@ -141,11 +153,19 @@ function DonationWidget(widgetElement) {
 
         _self.donationAmount = parseInt(this.getElementsByClassName("amount")[0].value);
 
-        _self.nextSlide();
+        console.log(_self.submitOnAmount)
+        if (_self.submitOnAmount) {
+            postDonation({
+                user: _self.user,
+                amount: _self.donationAmount
+            }, nxtBtn);
+        } else {
+            _self.nextSlide();
 
-        setTimeout(function() {
-            nxtBtn.classList.remove("loading");
-        }, 200);
+            setTimeout(function() {
+                nxtBtn.classList.remove("loading");
+            }, 200);
+        }        
     }
 
     function submitDonation() {
@@ -159,10 +179,16 @@ function DonationWidget(widgetElement) {
             }
         })
 
-        _self.request("donations", "POST", {
+        postDonation({
+            user: _self.user,
             amount: _self.donationAmount,
             organizations: donationSplit
-        }, function(err, data) {
+        }, nxtBtn); 
+    }
+
+    function postDonation(postData, nxtBtn) {
+        console.log(postData);
+        _self.request("donations", "POST", postData, function(err, data) {
             if (err == 0 || err) {
                 if (err == 0) error("Når ikke server. Forsøk igjen senere.");
                 else if (err == 400) error("Det er noe feil med donasjonen");
@@ -171,8 +197,10 @@ function DonationWidget(widgetElement) {
                 return;
             }
 
-            _self.panes[_self.currentSlide+1].getElementsByClassName("amount")[0].innerHTML = _self.donationAmount + "kr";
-            _self.panes[_self.currentSlide+1].getElementsByClassName("KID")[0].innerHTML = data.content.KID;
+            var resultPane = _self.element.getElementsByClassName("result")[0];
+
+            resultPane.getElementsByClassName("amount")[0].innerHTML = _self.donationAmount + "kr";
+            resultPane.getElementsByClassName("KID")[0].innerHTML = data.content.KID;
             
             _self.nextSlide();
         });
@@ -200,13 +228,30 @@ function DonationWidget(widgetElement) {
         var organizations = this.getElementsByClassName("organizations")[0];
         var pane = this;
 
-        _self.element.style.height = (_self.element.clientHeight + organizations.clientHeight - 34) + "px";
-
         _self.setSplitValues();
 
         setTimeout(function() {
             pane.getElementsByTagName("input")[0].focus();
         }, 200);
+    }
+
+    /* Setup select split checkbox */
+    function setupSelectSplitCheckbox() {
+        var checkbox = document.getElementById("check-select-split");
+
+        checkbox.addEventListener("change", function(e) {
+            if (this.checked) {
+                _self.element.getElementsByClassName("shares")[0].classList.remove("hidden");
+                _self.submitOnAmount = false;
+                _self.activePanes++;
+            }
+            else {
+                _self.element.getElementsByClassName("shares")[0].classList.add("hidden");
+                _self.submitOnAmount = true;
+                _self.activePanes--;
+            }
+            updateSliderProgress();
+        });
     }
 
     /* Setup donation split pane */
@@ -410,11 +455,26 @@ function DonationWidget(widgetElement) {
         if (slidenum < 0 || slidenum > this.panes.length - 1) throw Error("Slide under 0 or larger than set")
         _self.slider.style.transform = "translateX(-" + (slidenum * _self.width) + "px)";
 
-        _self.progress.style.width = (100 / (_self.panes.length-1)) * slidenum + "%";
+        var pane = _self.panes[slidenum];
+        
+        if (pane.classList.contains("hidden")) {
+            if (_self.currentSlide < slidenum) slidenum++;
+            else if (_self.currentSlide > slidenum) slidenum--;
+        }
+        
+        pane = _self.panes[slidenum];
 
-        _self.panes[slidenum].focus();
+        if (pane.getElementsByClassName("btn").length > 0) {
+            //If pane has button, make room for those
+            var padding = 90;
+        } else {
+            var padding = 50;
+        }
+        _self.element.style.height = (pane.getElementsByClassName("inner")[0].clientHeight + padding) + "px";
+        pane.focus();
 
         _self.currentSlide = slidenum;
+        updateSliderProgress();
     }
 
     this.nextSlide = function() {
@@ -423,6 +483,12 @@ function DonationWidget(widgetElement) {
 
     this.prevSlide = function() {
         this.goToSlide(this.currentSlide -  1);
+    }
+
+    //Progress bar
+    function updateSliderProgress() {
+        _self.progress.style.width = (100 / (_self.activePanes)) * _self.currentSlide + "%";
+        console.log((100 / (_self.activePanes)) * _self.currentSlide);
     }
 
     /* Error element */
@@ -456,7 +522,8 @@ function DonationWidget(widgetElement) {
     }
 
     /* Network helpers */
-    var api_url = "https://effektapi.azurewebsites.net/";
+    //var api_url = "https://effektapi.azurewebsites.net/"
+    var api_url = "http://localhost:3000/";
 
     this.request = function(endpoint, type, data, cb) {
         var http = new XMLHttpRequest();
@@ -486,6 +553,30 @@ function DonationWidget(widgetElement) {
         } else if (type == "GET") {
             http.open("GET", url, true);
             http.send(data);
+        }
+    }
+
+    //UI snazzyness
+    function setupSelectOnClick() {
+        var elems = _self.panes[_self.panes.length - 1].getElementsByClassName("select-on-click");
+
+        for (var i = 0; i < elems.length; i++) {
+            elems[i].addEventListener("click", selectNodeText);
+        }
+    }
+
+    function selectNodeText() {
+        var node = this;
+
+        if ( document.selection ) {
+            var range = document.body.createTextRange();
+            range.moveToElementText(node);
+            range.select();
+        } else if ( window.getSelection ) {
+            var range = document.createRange();
+            range.selectNodeContents(node);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
         }
     }
 

@@ -5,6 +5,8 @@
         <link rel="stylesheet" type="text/css" href="style/style.css">
         <link rel="stylesheet" type="text/css" href="style/widget-mobile.css">
         <meta name="viewport" content="width=device-width,initial-scale=1">
+
+        <script src="script/lib/fastclick.js"></script>
     </head>
     <body>
         <a href="javascript: showWidget()">Doner</a>
@@ -16,9 +18,10 @@
                 </div>
 
                 <div class="slider">
-                    <div class="pane">
+                    <div class="pane basic">
                         <div class="inner">
                             <h3>Doner her</h3>
+                            <input type="text" class="name" placeholder="navn"></input>
                             <input type="text" class="email" placeholder="email"></input>
                         </div>
                     </div>
@@ -34,12 +37,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="pane shares">
+                    <div class="pane shares hidden">
                         <div class="inner">
                             <h3>Velg fordeling</h3>
                             <div class="share-distribution">
                                 <div class="mode-switch">
-                                    <span class="absolute">123</span>
+                                    <span class="absolute">kr</span>
                                     <span class="percentage">%</span>
                                     <div class="selector"></div>
                                 </div>
@@ -66,10 +69,10 @@
                                     <label>Sum</label><span class="amount"></span>
                                 </div>
                                 <div class="line">
-                                    <label>Kontonr</label><span class="account">1503.74.03269</span>
+                                    <label>Kontonr</label><span class="account select-on-click">1503 74 03269</span>
                                 </div>
                                 <div class="line">
-                                    <label>KID</label><span class="KID"></span>
+                                    <label>KID</label><span class="KID select-on-click"></span>
                                 </div>
                             </div>
                         </div>
