@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+  - "iojs"
+  - "6"
+
+before_script:
+  - npm install -g gulp
+script: gulp
+
+notifications:
+  email: false
+  slack:
+    rooms:
+      - effektteam:E4fggEJ9TPpFLTpgn4eNEnGy#prosjekt_automagi
+    on_success: never
