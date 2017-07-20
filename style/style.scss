@@ -79,7 +79,7 @@ html, body {
             display: inline-block;
             vertical-align: middle;
 
-            & .inner > input[type="text"] {
+            & .inner > input[type="text"], input[type="number"] {
                 background: #eee;
                 color: #222;
 
@@ -195,7 +195,8 @@ html, body {
             }
 
             &.amount {
-                input[type="text"] {
+                input[type="number"] {
+                    margin-top: 50px;
                     margin-bottom: 10px;
                 }
 
@@ -213,10 +214,10 @@ html, body {
                     }
 
                     label.box {
-                        width: 11px;
-                        height: 11px;
+                        width: 9px;
+                        height: 9px;
                         background: white;
-                        border: 1px solid white;
+                        border: 2px solid white;
                         box-shadow: 0 0 0 1px #aaa;
                         cursor: pointer;
                         display: inline-block;
@@ -385,7 +386,7 @@ html, body {
                             span {
                                 font-size: 12px;
                                 text-align: right;
-                                width: 100px;
+                                width: 120px;
                                 margin-right: 8px;
                             }
 
@@ -515,7 +516,7 @@ html, body {
     }
 
     .error {
-        $height: 24px;
+        $height: 28px;
 
         position: absolute; 
         
@@ -536,7 +537,7 @@ html, body {
         box-sizing: border-box;
 
         &.active {
-            transform: translateY(-24px);
+            transform: translateY(-#{$height});
         }
     }
     
