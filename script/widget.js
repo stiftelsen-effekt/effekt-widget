@@ -281,7 +281,7 @@ function DonationWidget(widgetElement) {
         var checkbox = document.getElementById("check-select-split");
 
         checkbox.addEventListener("change", function(e) {
-            if (!this.checked) {
+            if (this.checked) {
                 _self.element.getElementsByClassName("shares")[0].classList.remove("hidden");
                 _self.submitOnAmount = false;
                 _self.activePanes++;
