@@ -203,9 +203,6 @@ function DonationWidget(widgetElement) {
     }
 
     function submitDonation() {
-        var nxtBtn = this.getElementsByClassName("btn")[0];
-        nxtBtn.classList.add("loading");
-
         var donationSplit = _self.organizations.map((org) => {
             return {
                 id: org.id,
@@ -213,11 +210,19 @@ function DonationWidget(widgetElement) {
             }
         })
 
-        postDonation({
-            KID: _self.KID,
-            amount: _self.donationAmount,
-            organizations: donationSplit
-        }, nxtBtn); 
+        if (donationSplit.reduce(function(acc, donationItem) { return acc + donationItem.split }, 0) == 100) {
+            var nxtBtn = this.getElementsByClassName("btn")[0];
+            nxtBtn.classList.add("loading");
+
+            postDonation({
+                KID: _self.KID,
+                amount: _self.donationAmount,
+                organizations: donationSplit
+            }, nxtBtn); 
+        }
+        else {
+            error("Du må fordele alle midlene");
+        }
     }
 
     function postDonation(postData, nxtBtn) {
@@ -344,6 +349,7 @@ function DonationWidget(widgetElement) {
 
                         var input = document.createElement("input");
                         input.setAttribute("type", "number");
+                        input.setAttribute("step", "10");
 
                         org.inputElement = input;
 
