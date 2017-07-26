@@ -20,6 +20,9 @@ function DonationWidget(widgetElement) {
     this.error = this.element.getElementsByClassName("error")[0];
     if (!this.error) throw new Error("No error element in slider");
 
+    this.closeBtn = this.element.getElementsByClassName("close-btn")[0];
+    if (!this.closeBtn) throw new Error("No close button element in widget")
+
     this.width = this.element.clientWidth;
     this.currentSlide = 0;
 
@@ -63,10 +66,17 @@ function DonationWidget(widgetElement) {
 
     this.panes[0].focus();
 
+    setupCloseBtn();
     setupSelectOnClick();
     setupSavedUser();
 
     /* Setup helpers */
+    function setupCloseBtn() {
+        _self.closeBtn.addEventListener("click", function() {
+            _self.close();
+        })
+    }
+
     function insertNextButton(pane, lonely) {
         var btn = document.createElement("div");
 
@@ -350,6 +360,7 @@ function DonationWidget(widgetElement) {
                         var input = document.createElement("input");
                         input.setAttribute("type", "number");
                         input.setAttribute("step", "10");
+                        input.setAttribute("min", "0");
 
                         org.inputElement = input;
 
@@ -631,6 +642,20 @@ function DonationWidget(widgetElement) {
         _self.element.classList.add("active");
         _self.wrapper.classList.add("active");
         _self.panes[0].focus();
+
+        //User is engaged in form, activate "are you sure you want to leave" prompt on attempt to navigate away
+        window.onbeforeunload = function() {
+            return true;
+        };
+    }
+    
+    this.close = function() {
+        _self.element.classList.remove("active");
+        _self.wrapper.classList.remove("active");
+
+        setTimeout(function() {
+            _self.wrapper.style.zIndex = -1;
+        }, 800);
     }
 
     /* Return */
@@ -641,6 +666,7 @@ function DonationWidget(widgetElement) {
         slider: this.slider,
         setsplit: this.setSplitValues,
         show: this.show,
+        close: this.close,
         _self: _self
     }
     return properties;
