@@ -102,10 +102,12 @@ html, body {
             h3 {
                 font-weight: 300;
                 text-align: center;
-                margin-top: 20px;
+                margin-top: 24px;
+                margin-bottom: 24px;
                 font-size: 24px;
                 text-transform: none;
                 letter-spacing: 0px;
+                font-family: 'Open Sans';
             }
 
             .btn {
@@ -195,10 +197,31 @@ html, body {
             }
 
             &.amount {
-                input[type="number"] {
-                    margin-top: 50px;
+                text-align: center;
+
+                .amount-wrapper {
+                    position: relative;
+                    display: inline-block;
+                    margin-top: 20px;
                     margin-bottom: 10px;
+
+                    input[type="number"] {
+                        
+                    }
+
+                    .currency {
+                        position: absolute;
+                        display: inline-block;
+                        top: 20px;
+                        right: 20px;
+
+                        font-size: 16px;
+                        font-weight: 300;
+
+                        color: #aaa;
+                    }
                 }
+                
 
                 .select-split {
                     font-size: 10px;
