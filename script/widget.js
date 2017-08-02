@@ -20,6 +20,9 @@ function DonationWidget(widgetElement) {
     this.error = this.element.getElementsByClassName("error")[0];
     if (!this.error) throw new Error("No error element in slider");
 
+    this.closeBtn = this.element.getElementsByClassName("close-btn")[0];
+    if (!this.closeBtn) throw new Error("No close button element in widget")
+
     this.width = this.element.clientWidth;
     this.currentSlide = 0;
 
@@ -63,10 +66,18 @@ function DonationWidget(widgetElement) {
 
     this.panes[0].focus();
 
+    setupCloseBtn();
     setupSelectOnClick();
+    preventNegativeInput();
     setupSavedUser();
 
     /* Setup helpers */
+    function setupCloseBtn() {
+        _self.closeBtn.addEventListener("click", function() {
+            _self.close();
+        })
+    }
+
     function insertNextButton(pane, lonely) {
         var btn = document.createElement("div");
 
@@ -145,6 +156,20 @@ function DonationWidget(widgetElement) {
         }
     }
 
+    function preventNegativeInput() {
+        var inputs = _self.element.querySelectorAll("input[type=number]");
+         
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].addEventListener("keydown", function (e) {
+                if(!((e.keyCode > 95 && e.keyCode < 106)
+                || (e.keyCode > 47 && e.keyCode < 58) 
+                || e.keyCode == 8 || e.keyCode == 13 || e.keyCode == 9)) {
+                    return false;
+                }
+            })
+        }
+    }
+
     function setupSavedUser() {
         if (_self.localStorage) {
             _self.panes[0].getElementsByClassName("name")[0].value = _self.localStorage.getItem("donation-name");
@@ -175,8 +200,13 @@ function DonationWidget(widgetElement) {
                 _self.localStorage.setItem("donation-email", email);
             }
 
+            _self.email = email;
             _self.KID = data.content.KID;
             _self.nextSlide();
+
+            setTimeout(function() {
+                nxtBtn.classList.remove("loading");
+            }, 200);
         });
     }
 
@@ -186,26 +216,28 @@ function DonationWidget(widgetElement) {
 
         _self.donationAmount = parseInt(this.getElementsByClassName("amount")[0].value);
 
-        console.log(_self.submitOnAmount)
-        if (_self.submitOnAmount) {
-            _self.panes[2].style.display = "none";
-            postDonation({
-                KID: _self.KID,
-                amount: _self.donationAmount
-            }, nxtBtn);
-        } else {
-            _self.nextSlide();
+        if (_self.donationAmount > 0) {
+            if (_self.submitOnAmount) {
+                _self.panes[2].style.display = "none";
+                postDonation({
+                    KID: _self.KID,
+                    amount: _self.donationAmount
+                }, nxtBtn);
+            } else {
+                _self.nextSlide();
 
-            setTimeout(function() {
-                nxtBtn.classList.remove("loading");
-            }, 200);
-        }        
+                setTimeout(function() {
+                    nxtBtn.classList.remove("loading");
+                }, 200);
+            }
+        }
+        else {
+            error("Du må angi en sum");
+            nxtBtn.classList.remove("loading");
+        }   
     }
 
     function submitDonation() {
-        var nxtBtn = this.getElementsByClassName("btn")[0];
-        nxtBtn.classList.add("loading");
-
         var donationSplit = _self.organizations.map((org) => {
             return {
                 id: org.id,
@@ -213,15 +245,22 @@ function DonationWidget(widgetElement) {
             }
         })
 
-        postDonation({
-            KID: _self.KID,
-            amount: _self.donationAmount,
-            organizations: donationSplit
-        }, nxtBtn); 
+        if (donationSplit.reduce(function(acc, donationItem) { return acc + donationItem.split }, 0) == 100) {
+            var nxtBtn = this.getElementsByClassName("btn")[0];
+            nxtBtn.classList.add("loading");
+
+            postDonation({
+                KID: _self.KID,
+                amount: _self.donationAmount,
+                organizations: donationSplit
+            }, nxtBtn); 
+        }
+        else {
+            error("Du må fordele alle midlene");
+        }
     }
 
     function postDonation(postData, nxtBtn) {
-        console.log(postData);
         _self.request("donations", "POST", postData, function(err, data) {
             if (err == 0 || err) {
                 if (err == 0) error("Når ikke server. Forsøk igjen senere.");
@@ -237,6 +276,7 @@ function DonationWidget(widgetElement) {
             var KIDstring = data.content.KID.toString();
             KIDstring = KIDstring.slice(0,3) + " " + KIDstring.slice(3,5) + " " + KIDstring.slice(5);
             resultPane.getElementsByClassName("KID")[0].innerHTML = KIDstring;
+            resultPane.getElementsByClassName("email")[0].innerHTML = _self.email;
             
             _self.nextSlide();
         });
@@ -276,7 +316,7 @@ function DonationWidget(widgetElement) {
         var checkbox = document.getElementById("check-select-split");
 
         checkbox.addEventListener("change", function(e) {
-            if (!this.checked) {
+            if (this.checked) {
                 _self.element.getElementsByClassName("shares")[0].classList.remove("hidden");
                 _self.submitOnAmount = false;
                 _self.activePanes++;
@@ -344,6 +384,8 @@ function DonationWidget(widgetElement) {
 
                         var input = document.createElement("input");
                         input.setAttribute("type", "number");
+                        input.setAttribute("step", "10");
+                        input.setAttribute("min", "0");
 
                         org.inputElement = input;
 
@@ -625,6 +667,22 @@ function DonationWidget(widgetElement) {
         _self.element.classList.add("active");
         _self.wrapper.classList.add("active");
         _self.panes[0].focus();
+
+        //User is engaged in form, activate "are you sure you want to leave" prompt on attempt to navigate away
+        window.onbeforeunload = function() {
+            return true;
+        };
+    }
+    
+    this.close = function() {
+        _self.element.classList.remove("active");
+        _self.wrapper.classList.remove("active");
+
+        window.onbeforeunload = null;
+
+        setTimeout(function() {
+            _self.wrapper.style.zIndex = -1;
+        }, 800);
     }
 
     /* Return */
@@ -635,6 +693,7 @@ function DonationWidget(widgetElement) {
         slider: this.slider,
         setsplit: this.setSplitValues,
         show: this.show,
+        close: this.close,
         _self: _self
     }
     return properties;

@@ -45,8 +45,6 @@ html, body {
 
     font-family: 'Open Sans', sans-serif;
 
-    overflow: hidden;
-
     transition: all 300ms;
 
     transform: scale(0.9);
@@ -57,6 +55,33 @@ html, body {
         transform: scale(1);
     }
 
+    .close-btn {
+        position: absolute;
+        top: 0;
+        right: -42px;
+        background-image: url(../assets/close-button.svg);
+        width: 14px;
+        height: 14px;
+        padding: 10px;
+        z-index: 1000000000;
+        display: block;
+        background-size: 14px 14px;
+        background-repeat: no-repeat;
+        background-position: center center;
+        cursor: pointer;
+    }
+
+    & > .inner {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+
+        overflow: hidden;
+    }
+
+    
     .slider {
         position: absolute;
         top: 0;
@@ -102,10 +127,12 @@ html, body {
             h3 {
                 font-weight: 300;
                 text-align: center;
-                margin-top: 20px;
+                margin-top: 24px;
+                margin-bottom: 24px;
                 font-size: 24px;
                 text-transform: none;
                 letter-spacing: 0px;
+                font-family: 'Open Sans';
             }
 
             .btn {
@@ -195,10 +222,31 @@ html, body {
             }
 
             &.amount {
-                input[type="number"] {
-                    margin-top: 50px;
+                text-align: center;
+
+                .amount-wrapper {
+                    position: relative;
+                    display: inline-block;
+                    margin-top: 20px;
                     margin-bottom: 10px;
+
+                    input[type="number"] {
+                        
+                    }
+
+                    .currency {
+                        position: absolute;
+                        display: inline-block;
+                        top: 20px;
+                        right: 20px;
+
+                        font-size: 16px;
+                        font-weight: 300;
+
+                        color: #aaa;
+                    }
                 }
+                
 
                 .select-split {
                     font-size: 10px;
@@ -510,6 +558,17 @@ html, body {
                         padding: 5px;
                         margin: 4px 0;
                     }
+                }
+
+                .email-text {
+                    margin-top: 10px;
+                    display: block;
+                    width: 100%;
+                    padding: 18px;
+                    font-weight: normal;
+                    box-sizing: border-box;
+                    white-space: normal;
+                    padding-bottom: 10px;
                 }
             }
         }

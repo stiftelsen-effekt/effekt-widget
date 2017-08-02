@@ -12,75 +12,84 @@
         <a href="javascript: showWidget()">Doner</a>
         <div id="donation-widget-container">
             <div id="donation-widget">
-                <div id="no_api_error">
-                    <h3>Ingen tilkobling</h3>
-                    <p>Hei! Vi når dessverre ikke serveren vår fra din maskin. Du kan forsøke igjen på et senere tidspunkt. Takk!</p>
+                <div class="close-btn"></div>
+
+                <div class="inner">
+                    <div id="no_api_error">
+                        <h3>Ingen tilkobling</h3>
+                        <p>Hei! Vi når dessverre ikke serveren vår fra din maskin. Du kan forsøke igjen på et senere tidspunkt. Takk!</p>
+                    </div>
+
+                    <div class="slider">
+                        <div class="pane basic">
+                            <div class="inner">
+                                <h3>Doner her</h3>
+                                <input type="text" class="name" placeholder="navn"></input>
+                                <input type="text" class="email" placeholder="email"></input>
+                            </div>
+                        </div>
+                        <div class="pane amount">
+                            <div class="inner">
+                                <h3>Angi sum</h3>
+                                <div class="amount-wrapper">
+                                    <input type="number" class="amount" placeholder="sum" step="10" min="0"></input>
+                                    <span class="currency">kr</span>
+                                </div>
+                                <div class="select-split">
+                                    <label for="check-select-split">Jeg vil velge fordeling selv</label>
+
+                                    <input type="checkbox" id="check-select-split" />
+                                    <label class="box" for ="check-select-split"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pane shares hidden">
+                            <div class="inner">
+                                <h3>Velg fordeling</h3>
+                                <div class="share-distribution">
+                                    <div class="mode-switch">
+                                        <span class="absolute">kr</span>
+                                        <span class="percentage">%</span>
+                                        <div class="selector"></div>
+                                    </div>
+
+                                    <ul class="organizations">
+                                    </ul>
+
+                                    <ul class="overlay-organizations"></ul>
+
+                                    <span class="total">0/100</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pane result">
+                            <div class="inner">
+                                <h3>Takk!</h3>
+
+                                <img src="https://effekt.blob.core.windows.net/effekt-widget/heart.svg" class="heart" />
+
+                                <h4>Du kan nå overføre til oss.</h4>
+                                    
+                                <div class="transfer-info">
+                                    <div class="line">
+                                        <label>Sum</label><span class="amount"></span>
+                                    </div>
+                                    <div class="line">
+                                        <label>Kontonr</label><span class="account select-on-click">1503 74 03269</span>
+                                    </div>
+                                    <div class="line">
+                                        <label>KID</label><span class="KID select-on-click"></span>
+                                    </div>
+                                </div>
+
+                                <span class="email-text">Vi har også sendt en mail til <font class="email"></font> med informasjon om din donasjon</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="error"></div>
+                    <div class="progress" style="width: 0%;"></div>
                 </div>
-
-                <div class="slider">
-                    <div class="pane basic">
-                        <div class="inner">
-                            <h3>Doner her</h3>
-                            <input type="text" class="name" placeholder="navn"></input>
-                            <input type="text" class="email" placeholder="email"></input>
-                        </div>
-                    </div>
-                    <div class="pane amount">
-                        <div class="inner">
-                            <h3>Velg sum</h3>
-                            <input type="number" class="amount" placeholder="sum"></input>
-                            <div class="select-split">
-                                <label for="check-select-split">Bruk anbefalt fordeling</label>
-
-                                <input type="checkbox" id="check-select-split" checked />
-                                <label class="box" for ="check-select-split"></label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="pane shares hidden">
-                        <div class="inner">
-                            <h3>Velg fordeling</h3>
-                            <div class="share-distribution">
-                                <div class="mode-switch">
-                                    <span class="absolute">kr</span>
-                                    <span class="percentage">%</span>
-                                    <div class="selector"></div>
-                                </div>
-
-                                <ul class="organizations">
-                                </ul>
-
-                                <ul class="overlay-organizations"></ul>
-
-                                <span class="total">0/100</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="pane result">
-                        <div class="inner">
-                            <h3>Takk!</h3>
-
-                            <img src="https://effekt.blob.core.windows.net/effekt-widget/heart.svg" class="heart" />
-
-                            <h4>Du kan nå overføre til oss.<h4>
-                                
-                            <div class="transfer-info">
-                                <div class="line">
-                                    <label>Sum</label><span class="amount"></span>
-                                </div>
-                                <div class="line">
-                                    <label>Kontonr</label><span class="account select-on-click">1503 74 03269</span>
-                                </div>
-                                <div class="line">
-                                    <label>KID</label><span class="KID select-on-click"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="error"></div>
-                <div class="progress" style="width: 0%;"></div>
             </div>
         </div>
 
@@ -97,3 +106,6 @@
         </script>
     </body>
 </html>
+
+<!-- Remember attributions on main page -->
+<!-- <div>Icons made by <a href="https://www.flaticon.com/authors/google" title="Google">Google</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
