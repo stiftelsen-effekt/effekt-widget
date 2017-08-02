@@ -561,7 +561,7 @@ function DonationWidget(widgetElement) {
 
     /* Network helpers */
     //var api_url = "https://effektapi.azurewebsites.net/"
-    var api_url = "http://localhost:3000/";
+    var api_url = "http://effekt.harnes.me:3000/";
 
     this.request = function(endpoint, type, data, cb) {
         var http = new XMLHttpRequest();
