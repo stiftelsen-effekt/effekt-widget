@@ -233,6 +233,7 @@ function DonationWidget(widgetElement) {
         }
         else {
             error("Du må angi en sum");
+            nxtBtn.classList.remove("loading");
         }   
     }
 
@@ -676,6 +677,8 @@ function DonationWidget(widgetElement) {
     this.close = function() {
         _self.element.classList.remove("active");
         _self.wrapper.classList.remove("active");
+
+        window.onbeforeunload = null;
 
         setTimeout(function() {
             _self.wrapper.style.zIndex = -1;
