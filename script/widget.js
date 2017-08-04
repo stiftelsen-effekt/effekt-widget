@@ -357,7 +357,7 @@ function DonationWidget(widgetElement) {
                     }
 
                     function createListItem(org) {
-                        //console.log(org);
+                        console.log(org);
 
                         var li = document.createElement("li");
                         //li.setAttribute("data-id", org._id);
@@ -369,11 +369,7 @@ function DonationWidget(widgetElement) {
 
                         var info = document.createElement("div");
                         info.classList.add("info");
-
-
-                        info.addEventListener("click", function(e) {
-                            showOrganizationInfo(org);
-                        });
+                        info.onclick = function() { window.open(org.infoUrl, "_blank"); }
 
                         li.appendChild(info);
 
@@ -437,14 +433,8 @@ function DonationWidget(widgetElement) {
         }, 10) 
     }
 
-    function showOrganizationInfo(org) {
-        //Will allways be split share slide
-        var overlay = _self.panes[_self.currentSlide].elem.getElementsByClassName("overlay-organizations")[0];
-
-        overlay.classList.add("visible");
-    }
-
     this.setSplitValues = function() {
+        console.log("Setsplit")
         for (var i = 0; i < _self.organizations.length; i++) {
             var org = _self.organizations[i];
 
@@ -603,7 +593,7 @@ function DonationWidget(widgetElement) {
 
     /* Network helpers */
     //var api_url = "https://effektapi.azurewebsites.net/"
-    var api_url = "http://localhost:3000/";
+    var api_url = "http://effekt.harnes.me:3000/";
 
     this.request = function(endpoint, type, data, cb) {
         var http = new XMLHttpRequest();
