@@ -1,3 +1,5 @@
+var rounding = require('./lib/rounding.js')
+
 function DonationWidget(widgetElement) {
     var _self = this;
 
@@ -369,7 +371,8 @@ function DonationWidget(widgetElement) {
 
                         var info = document.createElement("div");
                         info.classList.add("info");
-                        info.onclick = function() { window.open(org.infoUrl, "_blank"); }
+                        console.log(org.infoUrl)
+                        info.onclick = function() { console.log(org.infoUrl); window.open(org.infoUrl, "_blank"); }
 
                         li.appendChild(info);
 
@@ -422,8 +425,6 @@ function DonationWidget(widgetElement) {
 
                         content.appendChild(contentParagraph);
 
-
-
                         return li;
                     }
 
@@ -449,27 +450,31 @@ function DonationWidget(widgetElement) {
     }
 
     function organizationValuesToPercent() {
+        var input = _self.organizations.map((org) => org.setValue);
+        var converted = rounding.toPercent(input,1);
         for (var i = 0; i < _self.organizations.length; i++) {
             var org = _self.organizations[i];
 
-            org.setValue = parseFloat(((org.setValue / _self.donationAmount) * 100).toFixed(1));
+            org.setValue = converted[i];
             org.inputElement.value = org.setValue;
         }
         updateTotalShares();
     }
 
     function organizationValuesToAmount() {
+        var input = _self.organizations.map((org) => org.setValue);
+        var converted = rounding.toAbsolute(_self.donationAmount, input);
         for (var i = 0; i < _self.organizations.length; i++) {
             var org = _self.organizations[i];
 
-            org.setValue = Math.round((org.setValue / 100) * _self.donationAmount);
+            org.setValue = converted[i];
             org.inputElement.value = org.setValue;
         }
         updateTotalShares();
     }
 
     function updateTotalShares() {
-        var total = _self.organizations.reduce(function(acc, elem) { return acc + elem.setValue; }, 0);
+        var total = rounding.sumWithPrecision(organizations.map((org) => org.setValue));
         if (!isNaN(total)) {
             if (_self.sharesType == "decimal") {
                 if (total == _self.donationAmount) setDonationSplitValidAmount();
@@ -593,7 +598,7 @@ function DonationWidget(widgetElement) {
 
     /* Network helpers */
     //var api_url = "https://effektapi.azurewebsites.net/"
-    var api_url = "http://effekt.harnes.me:3000/";
+    var api_url = "https://api.gieffektivt.no/";
 
     this.request = function(endpoint, type, data, cb) {
         var http = new XMLHttpRequest();
@@ -672,6 +677,7 @@ function DonationWidget(widgetElement) {
 
         setTimeout(function() {
             _self.wrapper.style.zIndex = -1;
+            if (_self.currentSlide == _self.panes.length-1) _self.goToSlide(0);
         }, 800);
     }
 
@@ -688,3 +694,11 @@ function DonationWidget(widgetElement) {
     }
     return properties;
 }
+
+var donationWidgetElement = document.getElementById("donation-widget");
+var widget = DonationWidget(donationWidgetElement);
+
+document.getElementById("donationBtn").addEventListener("click", function(e) {
+console.log("Show widget");
+    widget.show();
+});
