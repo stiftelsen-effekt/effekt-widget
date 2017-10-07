@@ -3,7 +3,7 @@ var rounding = require('./lib/rounding.js')
 function DonationWidget(widgetElement) {
     var _self = this;
 
-    this.assetsUrl = "https://effekt.blob.core.windows.net/effekt-widget/";
+    this.assetsUrl = "https://api.gieffektivt.no/static/";
 
     this.localStorage = window.localStorage;
 
@@ -240,14 +240,15 @@ function DonationWidget(widgetElement) {
     }
 
     function submitDonation() {
-        var donationSplit = _self.organizations.map((org) => {
+        var donationSplit = _self.organizations.map(function(org) {
             return {
                 id: org.id,
                 split: (_self.sharesType == "decimal" ? (org.setValue / _self.donationAmount) * 100 : org.setValue)
             }
         })
 
-        if (donationSplit.reduce(function(acc, donationItem) { return acc + donationItem.split }, 0) == 100) {
+        console.log(rounding.sumWithPrecision(donationSplit.map(function(item) {return item.split})));
+        if (rounding.sumWithPrecision(donationSplit.map(function(item) {return item.split})) === '100') {
             var nxtBtn = this.getElementsByClassName("btn")[0];
             nxtBtn.classList.add("loading");
 
@@ -390,8 +391,8 @@ function DonationWidget(widgetElement) {
 
                         input.addEventListener("input", function(e) {
                             var val;
-                            if (this.value.length > 0) val = parseFloat(this.value);
-                            else val = 0;
+                            if (this.value.length > 0) val = this.value;
+                            else val = "0";
                             
                             org.setValue = val;
                             updateTotalShares();
@@ -450,8 +451,8 @@ function DonationWidget(widgetElement) {
     }
 
     function organizationValuesToPercent() {
-        var input = _self.organizations.map((org) => org.setValue);
-        var converted = rounding.toPercent(input,1);
+        var input = _self.organizations.map(function(org) {return org.setValue} );
+        var converted = rounding.toPercent(input, _self.donationAmount, 2);
         for (var i = 0; i < _self.organizations.length; i++) {
             var org = _self.organizations[i];
 
@@ -462,7 +463,7 @@ function DonationWidget(widgetElement) {
     }
 
     function organizationValuesToAmount() {
-        var input = _self.organizations.map((org) => org.setValue);
+        var input = _self.organizations.map(function(org) {return org.setValue});
         var converted = rounding.toAbsolute(_self.donationAmount, input);
         for (var i = 0; i < _self.organizations.length; i++) {
             var org = _self.organizations[i];
@@ -474,7 +475,7 @@ function DonationWidget(widgetElement) {
     }
 
     function updateTotalShares() {
-        var total = rounding.sumWithPrecision(organizations.map((org) => org.setValue));
+        var total = rounding.sumWithPrecision(organizations.map(function(org) {return org.setValue}));
         if (!isNaN(total)) {
             if (_self.sharesType == "decimal") {
                 if (total == _self.donationAmount) setDonationSplitValidAmount();
@@ -599,6 +600,7 @@ function DonationWidget(widgetElement) {
     /* Network helpers */
     //var api_url = "https://effektapi.azurewebsites.net/"
     var api_url = "https://api.gieffektivt.no/";
+    //var api_url = "http://localhost:3000/";
 
     this.request = function(endpoint, type, data, cb) {
         var http = new XMLHttpRequest();
@@ -695,10 +697,4 @@ function DonationWidget(widgetElement) {
     return properties;
 }
 
-var donationWidgetElement = document.getElementById("donation-widget");
-var widget = DonationWidget(donationWidgetElement);
-
-document.getElementById("donationBtn").addEventListener("click", function(e) {
-console.log("Show widget");
-    widget.show();
-});
+window.DonationWidget = DonationWidget;

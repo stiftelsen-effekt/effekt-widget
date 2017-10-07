@@ -9,7 +9,7 @@
         <script src="script/lib/fastclick.js"></script>
     </head>
     <body>
-        <a href="javascript: showWidget()">Doner</a>
+        <button id="donationBtn">Doner</button>
         <div id="donation-widget-container">
             <div id="donation-widget">
                 <div class="close-btn"></div>
@@ -66,7 +66,7 @@
                             <div class="inner">
                                 <h3>Takk!</h3>
 
-                                <img src="https://effekt.blob.core.windows.net/effekt-widget/heart.svg" class="heart" />
+                                <img src="https://api.gieffektivt.no/static/heart.svg" class="heart" />
 
                                 <h4>Du kan nå overføre til oss.</h4>
                                     
@@ -95,8 +95,15 @@
 
         <script src="bundle.js"></script>
         <script>
-            
-            //widget.goToSlide(1)
+        console.log("internal setup");
+
+        var donationWidgetElement = document.getElementById("donation-widget");
+        var widget = DonationWidget(donationWidgetElement);
+        
+        document.getElementById("donationBtn").addEventListener("click", function(e) {
+            console.log("Show widget");
+            widget.show();
+        });
         </script>
     </body>
 </html>
