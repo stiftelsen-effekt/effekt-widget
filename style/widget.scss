@@ -505,7 +505,7 @@ html, body {
                         opacity: 1;
                         transition: opacity 200ms;
 
-                        &.hidden {
+                        &.total-hidden {
                             opacity: 0;
                         }
                     }

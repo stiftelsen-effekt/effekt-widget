@@ -502,12 +502,12 @@ function DonationWidget(widgetElement) {
     }
 
     function setDonationSplitValidAmount() {
-        _self.splitSharesTotal.classList.add("hidden");
+        _self.splitSharesTotal.classList.add("total-hidden");
         _self.panes[_self.currentSlide].getElementsByClassName("btn")[0].classList.remove("inactive");
     }
 
     function setDonationSplitInvalidAmount() {
-        _self.splitSharesTotal.classList.remove("hidden");
+        _self.splitSharesTotal.classList.remove("total-hidden");
         _self.panes[_self.currentSlide].getElementsByClassName("btn")[0].classList.add("inactive");
     }
 
@@ -550,12 +550,15 @@ function DonationWidget(widgetElement) {
 
         if (pane.getElementsByClassName("btn").length > 0) {
             //If pane has button, make room for those
+            console.log("Has button");
             var padding = 90;
         } else {
+            console.log("Does not have button");
             var padding = 50;
         }
 
         var height = pane.getElementsByClassName("inner")[0].clientHeight + padding;
+        console.log("Height: " + height);
         if (height < 300) height = 300;
         _self.element.style.height = height + "px";
         pane.focus();
