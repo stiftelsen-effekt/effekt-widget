@@ -5027,6 +5027,10 @@ function DonationWidget(widgetElement) {
                 if (i == inputs.length-1) {
                     inputs[i].addEventListener("keydown", function(e) {
                         if (_self.activeError) hideError();
+                        if (e.keyCode == 109) {
+                            e.preventDefault(); 
+                            e.stopPropagation();
+                        }
                         if (e.keyCode == 13) {
                             pane.submit();
                         }
@@ -5035,8 +5039,11 @@ function DonationWidget(widgetElement) {
                     (function() {
                         var next = inputs[i+1];
                         inputs[i].addEventListener("keydown", function(e) {
-                            console.log("Keydown")
                             if (_self.activeError) hideError();
+                            if (e.keyCode == 109) {
+                                e.preventDefault(); 
+                                e.stopPropagation();
+                            }
                             if (e.keyCode == 13) {
                                 next.focus();
                             }
@@ -5162,6 +5169,7 @@ function DonationWidget(widgetElement) {
                 nxtBtn.classList.remove("loading");
                 return;
             }
+            nxtBtn.classList.remove("loading");
 
             var resultPane = _self.element.getElementsByClassName("result")[0];
 
@@ -5436,7 +5444,10 @@ function DonationWidget(widgetElement) {
         } else {
             var padding = 50;
         }
-        _self.element.style.height = (pane.getElementsByClassName("inner")[0].clientHeight + padding) + "px";
+
+        var height = pane.getElementsByClassName("inner")[0].clientHeight + padding;
+        if (height < 300) height = 300;
+        _self.element.style.height = height + "px";
         pane.focus();
 
         _self.currentSlide = slidenum;
@@ -5488,7 +5499,6 @@ function DonationWidget(widgetElement) {
     }
 
     /* Network helpers */
-    //var api_url = "https://effektapi.azurewebsites.net/"
     var api_url = "https://api.gieffektivt.no/";
     //var api_url = "http://localhost:3000/";
 
@@ -5570,6 +5580,8 @@ function DonationWidget(widgetElement) {
         setTimeout(function() {
             _self.wrapper.style.zIndex = -1;
             if (_self.currentSlide == _self.panes.length-1) _self.goToSlide(0);
+            _self.panes[2].classList.remove("hidden");
+            _self.panes[2].style.display = "inline-block";
         }, 800);
     }
 

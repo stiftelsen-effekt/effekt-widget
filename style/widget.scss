@@ -59,7 +59,7 @@ html, body {
         position: absolute;
         top: 0;
         right: -42px;
-        background-image: url(../assets/close-button.svg);
+        background-image: url(#{$cdn-url}/close-button.svg);
         width: 14px;
         height: 14px;
         padding: 10px;
@@ -176,8 +176,6 @@ html, body {
                     opacity: .2;
                 }
 
-                
-
                 &:hover {
                     padding-left: 10px;
                 }
@@ -219,6 +217,10 @@ html, body {
                 input.name {
                     margin-bottom: 10px;
                 }
+
+                input.email {
+                    margin-bottom: 20px;
+                }
             }
 
             &.amount {
@@ -229,10 +231,6 @@ html, body {
                     display: inline-block;
                     margin-top: 20px;
                     margin-bottom: 10px;
-
-                    input[type="number"] {
-                        
-                    }
 
                     .currency {
                         position: absolute;
@@ -458,7 +456,7 @@ html, body {
                                     content: 'kr';
                                     position: absolute;
                                     right: -20px;
-                                    top: 10px;
+                                    top: 5px;
                                     color: #aaa;
                                     font-size: 12px;
                                     font-family: 'Open Sans';
@@ -471,7 +469,7 @@ html, body {
                                     content: '%';
                                     position: absolute;
                                     right: 0;
-                                    top: 10px;
+                                    top: 5px;
                                     color: #aaa;
                                     font-size: 12px;
                                     font-family: 'Open Sans';
