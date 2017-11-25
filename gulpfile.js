@@ -32,5 +32,5 @@ gulp.task('script', function() {
 
 gulp.task('watch', function() {
     gulp.watch('style/**/*.scss', ['style'])
-    gulp.watch('script/widget.js', ['script'])
+    gulp.watch('script/**/*.js', ['script'])
 })

@@ -156,7 +156,8 @@
         console.log("internal setup");
 
         var donationWidgetElement = document.getElementById("donation-widget");
-        var widget = DonationWidget(donationWidgetElement);
+        var widget = new DonationWidget();
+        widget.setup(widget, donationWidgetElement);
         
         document.getElementById("donationBtn").addEventListener("click", function(e) {
             console.log("Show widget");

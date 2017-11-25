@@ -1,9 +1,21 @@
-module.exports = {
-  submit: submitAmount,
-  focus: focusAmount
+module.exports = function(widget, pane) { 
+    this.widget = widget;
+    this.pane = pane;
+
+    setupSelectSplitCheckbox();
+
+    return {
+        submit: submitAmount,
+        focus: focusAmount,
+        widget: widget,
+        pane: pane
+    } 
 }
 
-function submitAmount(widget, pane) {
+function submitAmount() {
+    var widget = this.widget;
+    var pane = this.pane;
+
     var nxtBtn = pane.getElementsByClassName("btn")[0];
     nxtBtn.classList.add("loading");
 
@@ -11,9 +23,12 @@ function submitAmount(widget, pane) {
 
     if (widget.donationAmount > 0) {
         if (widget.submitOnAmount) {
-            widget.panes[2].style.display = "none";
-            postDonation({
-                KID: widget.KID,
+            widget.panes[2].classList.add("hidden");
+            widget.postDonation({
+                donor: {
+                    name: widget.name,
+                    email: widget.email
+                },
                 amount: widget.donationAmount
             }, nxtBtn);
         } else {
@@ -25,12 +40,15 @@ function submitAmount(widget, pane) {
         }
     }
     else {
-        error("Du må angi en sum");
+        widget.error("Du må angi en sum");
         nxtBtn.classList.remove("loading");
     }
 }
 
-function focusAmount(widget, pane) {
+function focusAmount() {
+    var widget = this.widget;
+    var pane = this.pane;
+
     var input = pane.getElementsByClassName("amount")[0];
 
     widget.element.style.height = "";
@@ -38,4 +56,26 @@ function focusAmount(widget, pane) {
     setTimeout(function () {
         input.focus();
     }, 200);
+}
+
+/* Setup select split checkbox */
+function setupSelectSplitCheckbox() {
+    var widget = this.widget;
+
+    var selectSplit = document.getElementById("check-select-split");
+    var selectRecommended = document.getElementById("check-select-recommended");
+
+    selectSplit.addEventListener("change", function(e) {
+        widget.element.getElementsByClassName("shares")[0].classList.remove("hidden");
+        widget.submitOnAmount = false;
+        widget.activePanes++;
+        widget.updateSliderProgress();
+    });
+
+    selectRecommended.addEventListener("change", function(e) {
+        widget.element.getElementsByClassName("shares")[0].classList.add("hidden");
+        widget.submitOnAmount = true;
+        widget.activePanes--;
+        widget.updateSliderProgress();
+    })
 }

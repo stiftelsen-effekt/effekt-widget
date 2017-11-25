@@ -1,42 +1,66 @@
-module.exports = {
-  submit: submitUser,
-  focus: focusUser
+var emailvalidation = require('email-validation');
+
+module.exports = function(widget, pane) {
+    this.widget = widget;
+    this.pane = pane;
+
+    if (window.localStorage) {
+        pane.getElementsByClassName("name")[0].value = window.localStorage.getItem("donation-name");
+        pane.getElementsByClassName("email")[0].value = window.localStorage.getItem("donation-email");
+    }
+
+    return {
+        submit: submitUser,
+        focus: focusUser,
+        pane: pane,
+        widget: widget
+    }
 }
 
-function submitUser(widget, pane) {
+function submitUser() {
+    console.log(this)
+
+    var pane = this.pane;
+    var widget = this.widget;
+
     var nxtBtn = pane.getElementsByClassName("btn")[0];
     nxtBtn.classList.add("loading");
 
-    var email = pane.getElementsByClassName("email")[0].value;
-    var name = pane.getElementsByClassName("name")[0].value;
+    var email = pane.getElementsByClassName("email")[0].value.trim();
+    var name = pane.getElementsByClassName("name")[0].value.trim();
 
-    widget.request("users", "POST", {email: email, name: name}, function(err, data) {
-        if (err == 0 || err) {
-            if (err == 0) error("Når ikke server. Forsøk igjen senere.");
-            else if (err == "Malformed request") error("Ikke en gyldig email");
- 
-            nxtBtn.classList.remove("loading");
-            return;
-        }
+    //Validate input
+    if (name.length < 2 || name.length > 32) { //Invalid name
+        widget.error("Ikke et gyldig navn");
+        return;
+    } 
 
-        if (widget.localStorage) {
-            console.log("set")
-            widget.localStorage.setItem("donation-name", name);
-            widget.localStorage.setItem("donation-email", email);
-        }
+    if (!emailvalidation.valid(email)) { //Invalid email
+        console.log(widget)
 
-        widget.email = email;
-        widget.KID = data.content.KID;
-        widget.nextSlide();
+        widget.error("Ikke en gyldig mail");
+        return;
+    }
 
-        setTimeout(function() {
-            nxtBtn.classList.remove("loading");
-        }, 200);
-    });
+    widget.name = name;
+    widget.email = email;
+
+    if (window.localStorage) {
+        window.localStorage.setItem("donation-name", name);
+        window.localStorage.setItem("donation-email", email);
+    }
+
+    widget.nextSlide();
+    
+    setTimeout(function() {
+        nxtBtn.classList.remove("loading");
+    }, 200);
 }
 
-function focusUser(widget, pane) {
-    var input = pane.getElementsByClassName("name")[0];
+function focusUser() {
+    console.log(this);
+
+    var input = this.pane.getElementsByClassName("name")[0];
     setTimeout(function () {
         input.focus();
     }, 200);
