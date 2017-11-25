@@ -1,5 +1,9 @@
 var rounding = require('./lib/rounding.js')
 
+var donorPane = require('./panes/donor.js')
+var amountPane = require('./panes/amount.js')
+var donationPane = require('./panes/donation.js')
+
 function DonationWidget(widgetElement) {
     var _self = this;
 
@@ -45,15 +49,15 @@ function DonationWidget(widgetElement) {
         pane.style.width = this.width + "px";
 
         if (i == 0) {
-            pane.submit = submitUser;
-            pane.focus = focusUser;
+            pane.submit = function() { donorPane.submit(_self, this) };
+            pane.focus = function() { donorPane.submit(_self, this) };
         } else if (i == 1) {
-            pane.submit = submitAmount;
-            pane.focus = focusAmount;
+            pane.submit = function() { amountPane.submit(_self, this) };
+            pane.focus = function() { amountPane.submit(_self, this) };
             setupSelectSplitCheckbox();
         } else if (i == 2) {
-            pane.submit = submitDonation;
-            pane.focus = focusDonation;
+            pane.submit = function() { donationPane.submit(_self, this) };
+            pane.focus = function() { donationPane.submit(_self, this) };
             setupDonationSplitPane(pane);
         } else if (i == this.panes.length-1) {
              //No submit function needed on last pane
@@ -138,7 +142,7 @@ function DonationWidget(widgetElement) {
                     inputs[i].addEventListener("keydown", function(e) {
                         if (_self.activeError) hideError();
                         if (e.keyCode == 109) {
-                            e.preventDefault(); 
+                            e.preventDefault();
                             e.stopPropagation();
                         }
                         if (e.keyCode == 13) {
@@ -151,7 +155,7 @@ function DonationWidget(widgetElement) {
                         inputs[i].addEventListener("keydown", function(e) {
                             if (_self.activeError) hideError();
                             if (e.keyCode == 109) {
-                                e.preventDefault(); 
+                                e.preventDefault();
                                 e.stopPropagation();
                             }
                             if (e.keyCode == 13) {
@@ -161,17 +165,17 @@ function DonationWidget(widgetElement) {
                     }());
                 }
             }
-            
+
         }
     }
 
     function preventNegativeInput() {
         var inputs = _self.element.querySelectorAll("input[type=number]");
-         
+
         for (var i = 0; i < inputs.length; i++) {
             inputs[i].addEventListener("keydown", function (e) {
                 if(!((e.keyCode > 95 && e.keyCode < 106)
-                || (e.keyCode > 47 && e.keyCode < 58) 
+                || (e.keyCode > 47 && e.keyCode < 58)
                 || e.keyCode == 8 || e.keyCode == 13 || e.keyCode == 9)) {
                     return false;
                 }
@@ -183,90 +187,6 @@ function DonationWidget(widgetElement) {
         if (_self.localStorage) {
             _self.panes[0].getElementsByClassName("name")[0].value = _self.localStorage.getItem("donation-name");
             _self.panes[0].getElementsByClassName("email")[0].value = _self.localStorage.getItem("donation-email");
-        }
-    }
-
-    /* Submission functions */
-    function submitUser() {
-        var nxtBtn = this.getElementsByClassName("btn")[0];
-        nxtBtn.classList.add("loading");
-
-        var email = this.getElementsByClassName("email")[0].value;
-        var name = this.getElementsByClassName("name")[0].value;
-
-        _self.request("users", "POST", {email: email, name: name}, function(err, data) {
-            if (err == 0 || err) {
-                if (err == 0) error("Når ikke server. Forsøk igjen senere.");
-                else if (err == "Malformed request") error("Ikke en gyldig email");
-
-                nxtBtn.classList.remove("loading");
-                return;
-            }
-
-            if (_self.localStorage) {
-                console.log("set")
-                _self.localStorage.setItem("donation-name", name);
-                _self.localStorage.setItem("donation-email", email);
-            }
-
-            _self.email = email;
-            _self.KID = data.content.KID;
-            _self.nextSlide();
-
-            setTimeout(function() {
-                nxtBtn.classList.remove("loading");
-            }, 200);
-        });
-    }
-
-    function submitAmount() {
-        var nxtBtn = this.getElementsByClassName("btn")[0];
-        nxtBtn.classList.add("loading");
-
-        _self.donationAmount = parseInt(this.getElementsByClassName("amount")[0].value);
-
-        if (_self.donationAmount > 0) {
-            if (_self.submitOnAmount) {
-                _self.panes[2].style.display = "none";
-                postDonation({
-                    KID: _self.KID,
-                    amount: _self.donationAmount
-                }, nxtBtn);
-            } else {
-                _self.nextSlide();
-
-                setTimeout(function() {
-                    nxtBtn.classList.remove("loading");
-                }, 200);
-            }
-        }
-        else {
-            error("Du må angi en sum");
-            nxtBtn.classList.remove("loading");
-        }   
-    }
-
-    function submitDonation() {
-        var donationSplit = _self.organizations.map(function(org) {
-            return {
-                id: org.id,
-                split: (_self.sharesType == "decimal" ? (org.setValue / _self.donationAmount) * 100 : org.setValue)
-            }
-        })
-
-        console.log(rounding.sumWithPrecision(donationSplit.map(function(item) {return item.split})));
-        if (rounding.sumWithPrecision(donationSplit.map(function(item) {return item.split})) === '100') {
-            var nxtBtn = this.getElementsByClassName("btn")[0];
-            nxtBtn.classList.add("loading");
-
-            postDonation({
-                KID: _self.KID,
-                amount: _self.donationAmount,
-                organizations: donationSplit
-            }, nxtBtn); 
-        }
-        else {
-            error("Du må fordele alle midlene");
         }
     }
 
@@ -288,38 +208,9 @@ function DonationWidget(widgetElement) {
             KIDstring = KIDstring.slice(0,3) + " " + KIDstring.slice(3,5) + " " + KIDstring.slice(5);
             resultPane.getElementsByClassName("KID")[0].innerHTML = KIDstring;
             resultPane.getElementsByClassName("email")[0].innerHTML = _self.email;
-            
+
             _self.nextSlide();
         });
-    }
-
-    /* Focusing functions */
-    function focusUser() {
-        var input = this.getElementsByClassName("name")[0];
-        setTimeout(function () {
-            input.focus();
-        }, 200);
-    }
-
-    function focusAmount() {
-        var input = this.getElementsByClassName("amount")[0];
-
-        _self.element.style.height = "";
-
-        setTimeout(function () {
-            input.focus();
-        }, 200);
-    }
-
-    function focusDonation() {        
-        var organizations = this.getElementsByClassName("organizations")[0];
-        var pane = this;
-
-        _self.setSplitValues();
-
-        setTimeout(function() {
-            pane.getElementsByTagName("input")[0].focus();
-        }, 200);
     }
 
     /* Setup select split checkbox */
@@ -401,7 +292,7 @@ function DonationWidget(widgetElement) {
                             var val;
                             if (this.value.length > 0) val = this.value;
                             else val = "0";
-                            
+
                             org.setValue = val;
                             updateTotalShares();
                         });
@@ -413,7 +304,7 @@ function DonationWidget(widgetElement) {
 
                     function createInfoListItem(org) {
                         var li = document.createElement("li");
-                        
+
                         var header = document.createElement("div");
                         header.classList.add("header");
 
@@ -440,7 +331,7 @@ function DonationWidget(widgetElement) {
                     submitOnEnter(pane);
                 }
             });
-        }, 10) 
+        }, 10)
     }
 
     this.setSplitValues = function() {
@@ -494,7 +385,7 @@ function DonationWidget(widgetElement) {
             } else if (_self.sharesType == "percentage") {
                 if (total == 100) setDonationSplitValidAmount();
                 else {
-                    _self.splitSharesTotal.innerHTML = total + " / 100"; 
+                    _self.splitSharesTotal.innerHTML = total + " / 100";
                     setDonationSplitInvalidAmount();
                 }
             }
@@ -540,12 +431,13 @@ function DonationWidget(widgetElement) {
         _self.slider.style.transform = "translateX(-" + (slidenum * _self.width) + "px)";
 
         var pane = _self.panes[slidenum];
-        
+
         if (pane.classList.contains("hidden")) {
+
             if (_self.currentSlide < slidenum) slidenum++;
             else if (_self.currentSlide > slidenum) slidenum--;
         }
-        
+
         pane = _self.panes[slidenum];
 
         if (pane.getElementsByClassName("btn").length > 0) {
@@ -568,11 +460,11 @@ function DonationWidget(widgetElement) {
     }
 
     this.nextSlide = function() {
-        this.goToSlide(this.currentSlide + 1);
+        this.goToSlide(_self.currentSlide + 1);
     }
 
     this.prevSlide = function() {
-        this.goToSlide(this.currentSlide -  1);
+        this.goToSlide(_self.currentSlide -  1);
     }
 
     //Progress bar
@@ -604,7 +496,7 @@ function DonationWidget(widgetElement) {
 
     function setNoApiError() {
         var noApiErrorElement = document.getElementById("no_api_error");
-        
+
         /*
         noApiErrorElement.style.zIndex = 10;
         noApiErrorElement.classList.add("active");
@@ -612,8 +504,8 @@ function DonationWidget(widgetElement) {
     }
 
     /* Network helpers */
-    var api_url = "https://api.gieffektivt.no/";
-    //var api_url = "http://localhost:3000/";
+    //var api_url = "https://api.gieffektivt.no/";
+    var api_url = "http://localhost:3000/";
 
     this.request = function(endpoint, type, data, cb) {
         var http = new XMLHttpRequest();
@@ -631,7 +523,7 @@ function DonationWidget(widgetElement) {
                         cb(response.content, null);
                     }
                 } else {
-                    cb(this.status, null); 
+                    cb(this.status, null);
                 }
             }
         };
@@ -683,7 +575,7 @@ function DonationWidget(widgetElement) {
             return true;
         };
     }
-    
+
     this.close = function() {
         _self.element.classList.remove("active");
         _self.wrapper.classList.remove("active");
@@ -703,6 +595,7 @@ function DonationWidget(widgetElement) {
         element: this.element,
         panes: this.panes,
         goToSlide: this.goToSlide,
+        nextSlide: this.nextSlide,
         slider: this.slider,
         setsplit: this.setSplitValues,
         show: this.show,
