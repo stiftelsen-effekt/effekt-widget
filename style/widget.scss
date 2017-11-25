@@ -2,18 +2,6 @@
 
 $cdn-url: "https://api.gieffektivt.no/static/";
 
-html, body {
-    margin: 0;
-    padding: 0;
-
-    display: flex;
-    width: 100vw;
-    height: 100vh;
-    justify-content: center;
-    align-content: center;
-    align-items: center;
-}
-
 #donation-widget-container {
     position: fixed;
     top: 0;
@@ -28,7 +16,7 @@ html, body {
     align-content: center;
     align-items: center;
 
-    transition: all 200ms;
+    transition: all 200ms; 
     background: transparent;
 
     &.active {
@@ -59,7 +47,7 @@ html, body {
         position: absolute;
         top: 0;
         right: -42px;
-        background-image: url(#{$cdn-url}/close-button.svg);
+        background-image: url(#{$cdn-url}close-button.svg);
         width: 14px;
         height: 14px;
         padding: 10px;
@@ -247,12 +235,16 @@ html, body {
                 
 
                 .select-split {
-                    font-size: 10px;
+                    font-size: 12px;
                     text-align: center;
-                    padding-top: 8px;
-                    color: #aaa;
+                    padding-top: 6px;
+                    color: #777;
 
                     user-select: none;
+
+                    &:nth-child(2n) {
+                        padding-top: 0;
+                    }
 
                     & > * {
                         vertical-align: middle;
@@ -267,6 +259,7 @@ html, body {
                         box-shadow: 0 0 0 1px #aaa;
                         cursor: pointer;
                         display: inline-block;
+                        border-radius: 50%;
 
                         cursor: pointer;
 
@@ -421,7 +414,7 @@ html, body {
                                 cursor: pointer;
                                 width: 14px;
                                 height: 14px;
-                                background-image: url(#{$cdn-url}/help.svg); 
+                                background-image: url(#{$cdn-url}help.svg); 
                                 background-size: cover;
                                 background-repeat: no-repeat;
                                 background-position: center center;
@@ -434,6 +427,8 @@ html, body {
                                 text-align: right;
                                 width: 120px;
                                 margin-right: 8px;
+                                white-space: normal;
+                                line-height: 120%;
                             }
 
                             .input-wrapper {
@@ -498,9 +493,9 @@ html, body {
                     .total {
                         display: block;
                         font-size: 12px;
-                        margin: 2px auto;
+                        margin: 4px auto;
                         text-align: center;
-                        color: #aaa;
+                        color: #777;
 
                         opacity: 1;
                         transition: opacity 200ms;

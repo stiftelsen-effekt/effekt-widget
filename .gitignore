@@ -1,2 +1,4 @@
 node_modules
 */**/*.css
+bundle.js
+bundle.min.js

@@ -1,5 +1,6 @@
-var rounding = require('./lib/rounding.js')
-
+var rounding = require('./lib/rounding.js');
+var emailvalidation = require('email-validation');
+ 
 function DonationWidget(widgetElement) {
     var _self = this;
 
@@ -66,11 +67,8 @@ function DonationWidget(widgetElement) {
         if (i != panes.length-1) submitOnEnter(pane); //Do not submit on enter on last pane
     }
 
-    this.panes[0].focus();
-
     setupCloseBtn();
     setupSelectOnClick();
-    preventNegativeInput();
     setupSavedUser();
 
     /* Setup helpers */
@@ -136,6 +134,12 @@ function DonationWidget(widgetElement) {
             for (var i = 0; i < inputs.length; i++) {
                 if (i == inputs.length-1) {
                     inputs[i].addEventListener("keydown", function(e) {
+                        var valid = true;
+                        console.log(this.type);
+                        if (this.type == "number") {
+                            valid = numberInputWhitelistCheck(e);
+                        }
+
                         if (_self.activeError) hideError();
                         if (e.keyCode == 109) {
                             e.preventDefault(); 
@@ -144,11 +148,18 @@ function DonationWidget(widgetElement) {
                         if (e.keyCode == 13) {
                             pane.submit();
                         }
+                        return valid;
                     });
                 } else {
                     (function() {
                         var next = inputs[i+1];
                         inputs[i].addEventListener("keydown", function(e) {
+                            var valid = true;
+                            console.log(this.type);
+                            if (this.type == "number") {
+                                valid = numberInputWhitelistCheck(e);
+                            }
+
                             if (_self.activeError) hideError();
                             if (e.keyCode == 109) {
                                 e.preventDefault(); 
@@ -157,6 +168,8 @@ function DonationWidget(widgetElement) {
                             if (e.keyCode == 13) {
                                 next.focus();
                             }
+
+                            return valid;
                         });
                     }());
                 }
@@ -165,18 +178,20 @@ function DonationWidget(widgetElement) {
         }
     }
 
-    function preventNegativeInput() {
-        var inputs = _self.element.querySelectorAll("input[type=number]");
-         
-        for (var i = 0; i < inputs.length; i++) {
-            inputs[i].addEventListener("keydown", function (e) {
-                if(!((e.keyCode > 95 && e.keyCode < 106)
-                || (e.keyCode > 47 && e.keyCode < 58) 
-                || e.keyCode == 8 || e.keyCode == 13 || e.keyCode == 9)) {
-                    return false;
-                }
-            })
+    function numberInputWhitelistCheck(e) {
+        console.log(e)
+        var valid = (e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105) || e.keyCode == 13 || e.keyCode == 8 || e.keyCode == 39 || e.keyCode == 37 || e.keyCode == 9 || e.keyCode == 46 || e.keyCode == 38 || e.keyCode == 40;
+
+        if (e.path[0].getAttribute("nocomma") != "true" && !valid) {
+            valid = e.keyCode == 188 || e.keyCode == 190
         }
+        
+        if (!valid) {
+            e.preventDefault();
+            e.stopPropagation(); 
+        }
+
+        return valid;
     }
 
     function setupSavedUser() {
@@ -188,35 +203,40 @@ function DonationWidget(widgetElement) {
 
     /* Submission functions */
     function submitUser() {
+        //Mobile-test
+        _self.panes[_self.currentSlide+1].focus();
+
         var nxtBtn = this.getElementsByClassName("btn")[0];
         nxtBtn.classList.add("loading");
 
-        var email = this.getElementsByClassName("email")[0].value;
-        var name = this.getElementsByClassName("name")[0].value;
+        var email = this.getElementsByClassName("email")[0].value.trim();
+        var name = this.getElementsByClassName("name")[0].value.trim();
 
-        _self.request("users", "POST", {email: email, name: name}, function(err, data) {
-            if (err == 0 || err) {
-                if (err == 0) error("Når ikke server. Forsøk igjen senere.");
-                else if (err == "Malformed request") error("Ikke en gyldig email");
+        //Validate input
+        if (name.length < 2 || name.length > 32) { //Invalid name
+            error("Ikke et gyldig navn")
+            return
+        }
+ 
+        if (!emailvalidation.valid(email)) { //Invalid email
+            error("Ikke en gyldig mail")
+            return
+        }
 
-                nxtBtn.classList.remove("loading");
-                return;
-            }
+        _self.name = name;
+        _self.email = email;
 
-            if (_self.localStorage) {
-                console.log("set")
-                _self.localStorage.setItem("donation-name", name);
-                _self.localStorage.setItem("donation-email", email);
-            }
+        if (_self.localStorage) {
+            console.log("set")
+            _self.localStorage.setItem("donation-name", name);
+            _self.localStorage.setItem("donation-email", email);
+        }
 
-            _self.email = email;
-            _self.KID = data.content.KID;
-            _self.nextSlide();
-
-            setTimeout(function() {
-                nxtBtn.classList.remove("loading");
-            }, 200);
-        });
+        _self.nextSlide();
+        
+        setTimeout(function() {
+            nxtBtn.classList.remove("loading");
+        }, 200);
     }
 
     function submitAmount() {
@@ -228,8 +248,11 @@ function DonationWidget(widgetElement) {
         if (_self.donationAmount > 0) {
             if (_self.submitOnAmount) {
                 _self.panes[2].style.display = "none";
-                postDonation({
-                    KID: _self.KID,
+                postDonation({  
+                    donor: {
+                        name: _self.name,
+                        email: _self.email
+                    }, 
                     amount: _self.donationAmount
                 }, nxtBtn);
             } else {
@@ -254,19 +277,26 @@ function DonationWidget(widgetElement) {
             }
         })
 
-        console.log(rounding.sumWithPrecision(donationSplit.map(function(item) {return item.split})));
-        if (rounding.sumWithPrecision(donationSplit.map(function(item) {return item.split})) === '100') {
+        var splitSum = rounding.sumWithPrecision(donationSplit.map(function(item) {return item.split}));
+        if (splitSum === '100') {
             var nxtBtn = this.getElementsByClassName("btn")[0];
             nxtBtn.classList.add("loading");
 
             postDonation({
-                KID: _self.KID,
+                donor: {
+                    name: _self.name,
+                    email: _self.email
+                },
                 amount: _self.donationAmount,
                 organizations: donationSplit
             }, nxtBtn); 
         }
         else {
-            error("Du må fordele alle midlene");
+            if (parseFloat(splitSum) > 100) {
+                error("Du har fordelt mer enn du har oppgitt");
+            } else {
+                error("Du må fordele alle midlene");
+            }
         }
     }
 
@@ -324,21 +354,22 @@ function DonationWidget(widgetElement) {
 
     /* Setup select split checkbox */
     function setupSelectSplitCheckbox() {
-        var checkbox = document.getElementById("check-select-split");
+        var selectSplit = document.getElementById("check-select-split");
+        var selectRecommended = document.getElementById("check-select-recommended");
 
-        checkbox.addEventListener("change", function(e) {
-            if (this.checked) {
-                _self.element.getElementsByClassName("shares")[0].classList.remove("hidden");
-                _self.submitOnAmount = false;
-                _self.activePanes++;
-            }
-            else {
-                _self.element.getElementsByClassName("shares")[0].classList.add("hidden");
-                _self.submitOnAmount = true;
-                _self.activePanes--;
-            }
+        selectSplit.addEventListener("change", function(e) {
+            _self.element.getElementsByClassName("shares")[0].classList.remove("hidden");
+            _self.submitOnAmount = false;
+            _self.activePanes++;
             updateSliderProgress();
         });
+
+        selectRecommended.addEventListener("change", function(e) {
+            _self.element.getElementsByClassName("shares")[0].classList.add("hidden");
+            _self.submitOnAmount = true;
+            _self.activePanes--;
+            updateSliderProgress();
+        })
     }
 
     /* Setup donation split pane */
@@ -488,13 +519,13 @@ function DonationWidget(widgetElement) {
             if (_self.sharesType == "decimal") {
                 if (total == _self.donationAmount) setDonationSplitValidAmount();
                 else {
-                    _self.splitSharesTotal.innerHTML = total + " / " + _self.donationAmount;
+                    _self.splitSharesTotal.innerHTML = "Du har fordelt " + total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " av " + _self.donationAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + "kr";
                     setDonationSplitInvalidAmount();
                 }
             } else if (_self.sharesType == "percentage") {
                 if (total == 100) setDonationSplitValidAmount();
                 else {
-                    _self.splitSharesTotal.innerHTML = total + " / 100"; 
+                    _self.splitSharesTotal.innerHTML = "Du har fordelt " + total.toString().toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " av 100%"; 
                     setDonationSplitInvalidAmount();
                 }
             }
@@ -503,12 +534,14 @@ function DonationWidget(widgetElement) {
 
     function setDonationSplitValidAmount() {
         _self.splitSharesTotal.classList.add("total-hidden");
-        _self.panes[_self.currentSlide].getElementsByClassName("btn")[0].classList.remove("inactive");
+        //Hardcoded slide 2, update later
+        _self.panes[2].getElementsByClassName("btn")[0].classList.remove("inactive");
     }
 
     function setDonationSplitInvalidAmount() {
         _self.splitSharesTotal.classList.remove("total-hidden");
-        _self.panes[_self.currentSlide].getElementsByClassName("btn")[0].classList.add("inactive");
+        //Hardcoded slide 2, update later
+        _self.panes[2].getElementsByClassName("btn")[0].classList.add("inactive");
     }
 
     function setupModeButton(pane) {
@@ -587,6 +620,7 @@ function DonationWidget(widgetElement) {
         _self.activeError = true;
         _self.error.innerHTML = msg;
         _self.error.classList.add("active");
+        _self.panes[_self.currentSlide].getElementsByClassName("loading")[0].classList.remove("loading");
 
         errorTimeout = setTimeout(function() {
             hideError();
@@ -672,11 +706,12 @@ function DonationWidget(widgetElement) {
 
     //Activate UI
     this.show = function() {
+        document.body.classList.add("widget-active");
         _self.wrapper.style.zIndex = 100000;
 
         _self.element.classList.add("active");
         _self.wrapper.classList.add("active");
-        _self.panes[0].focus();
+        _self.panes[_self.currentSlide].focus();
 
         //User is engaged in form, activate "are you sure you want to leave" prompt on attempt to navigate away
         window.onbeforeunload = function() {
@@ -685,6 +720,7 @@ function DonationWidget(widgetElement) {
     }
     
     this.close = function() {
+        document.body.classList.remove("widget-active");
         _self.element.classList.remove("active");
         _self.wrapper.classList.remove("active");
 
@@ -696,7 +732,7 @@ function DonationWidget(widgetElement) {
             _self.panes[2].classList.remove("hidden");
             _self.panes[2].style.display = "inline-block";
         }, 800);
-    }
+    } 
 
     /* Return */
     var properties = {

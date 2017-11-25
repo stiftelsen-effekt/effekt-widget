@@ -2,14 +2,66 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <link rel="stylesheet" type="text/css" href="style/style.css">
+        <link rel="stylesheet" type="text/css" href="style/widget.css">
         <link rel="stylesheet" type="text/css" href="style/widget-mobile.css">
         <meta name="viewport" content="width=device-width,initial-scale=1">
 
         <script src="script/lib/fastclick.js"></script>
     </head>
     <body>
+        <ul>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+        </ul>
         <button id="donationBtn">Doner</button>
+        <ul>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+        </ul>
         <div id="donation-widget-container">
             <div id="donation-widget">
                 <div class="close-btn"></div>
@@ -32,13 +84,19 @@
                             <div class="inner">
                                 <h3>Angi sum</h3>
                                 <div class="amount-wrapper">
-                                    <input type="number" class="amount" placeholder="sum" step="10" min="0"></input>
+                                    <input type="number" class="amount" placeholder="sum" step="10" min="0" nocomma="true"></input>
                                     <span class="currency">kr</span>
                                 </div>
                                 <div class="select-split">
+                                    <label for="check-select-recommended">Bruk vår anbefalte fordeling</label>
+                                    <input type="radio" name="split-selection" id="check-select-recommended" checked="true" />
+                                    <label class="box" for ="check-select-recommended"></label>
+                                </div>
+                          
+                                <div class="select-split">
                                     <label for="check-select-split">Jeg vil velge fordeling selv</label>
 
-                                    <input type="checkbox" id="check-select-split" />
+                                    <input type="radio" name="split-selection" id="check-select-split" />
                                     <label class="box" for ="check-select-split"></label>
                                 </div>
                             </div>
