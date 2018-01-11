@@ -9,6 +9,8 @@ module.exports = function(widget, pane) {
         pane.getElementsByClassName("email")[0].value = window.localStorage.getItem("donation-email");
     }
 
+    pane.dispatchEvent(new CustomEvent('ready', pane));
+
     return {
         submit: submitUser,
         focus: focusUser,
@@ -18,8 +20,6 @@ module.exports = function(widget, pane) {
 }
 
 function submitUser() {
-    console.log(this)
-
     var pane = this.pane;
     var widget = this.widget;
 
@@ -36,8 +36,6 @@ function submitUser() {
     } 
 
     if (!emailvalidation.valid(email)) { //Invalid email
-        console.log(widget)
-
         widget.error("Ikke en gyldig mail");
         return;
     }
@@ -58,8 +56,6 @@ function submitUser() {
 }
 
 function focusUser() {
-    console.log(this);
-
     var input = this.pane.getElementsByClassName("name")[0];
     setTimeout(function () {
         input.focus();

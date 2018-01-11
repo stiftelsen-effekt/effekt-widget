@@ -92,7 +92,7 @@ $cdn-url: "https://api.gieffektivt.no/static/";
             display: inline-block;
             vertical-align: middle;
 
-            & .inner > input[type="text"], input[type="number"] {
+            & .inner input[type="text"], input[type="number"], input[type="tel"] {
                 background: #eee;
                 color: #222;
 
@@ -659,6 +659,16 @@ $cdn-url: "https://api.gieffektivt.no/static/";
     input[type="number"] {
         -moz-appearance: textfield;
     }
+}
+
+.select-on-click::selection {
+    color: #000;
+    background: #ffffff;
+}
+
+.select-on-click::-moz-selection {
+    color: #ffffff;
+    background: #ffffff;
 }
 
 /* Animations */

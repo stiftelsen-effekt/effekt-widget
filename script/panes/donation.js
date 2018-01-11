@@ -18,12 +18,33 @@ function submitDonation() {
     var widget = this.widget;
     var pane = this.pane;
 
-    var donationSplit = widget.organizations.map(function(org) {
-        return {
-            id: org.id,
-            split: (widget.sharesType == "decimal" ? (org.setValue / widget.donationAmount) * 100 : org.setValue)
-        }
-    })
+    if (widget.sharesType == "decimal") {
+        var percentSplit = rounding.toPercent(widget.organizations.map(function(org) { return org.setValue; }), widget.donationAmount, 3);
+
+        var donationSplit = widget.organizations.map(function(org, i) {
+            if (org.setValue != "0") {
+                return {
+                    id: org.id,
+                    split: percentSplit[i]
+                } 
+            } else {
+                return false;
+            }
+        }).filter(function(item) { return item })
+    } 
+    else {
+        var donationSplit = widget.organizations.map(function(org) {
+            if (org.setValue != "0") {
+                return {
+                    id: org.id,
+                    split: org.setValue
+                }
+            } else {
+                return false;
+            }
+        }).filter(function(item) { return item })
+    }
+    
 
     if (rounding.sumWithPrecision(donationSplit.map(function(item) {return item.split})) === '100') {
         var nxtBtn = pane.getElementsByClassName("btn")[0];
@@ -62,7 +83,7 @@ function setup(pane) {
     setupDonationList(pane);
 }
 
-function setupDonationList(pane) {
+function setupDonationList(pane) { 
     var widget = this.widget;
 
     setTimeout(function() {
@@ -85,7 +106,6 @@ function setupDonationList(pane) {
                 }
 
                 function createListItem(org) {
-                    console.log(org);
 
                     var li = document.createElement("li");
                     //li.setAttribute("data-id", org._id);
@@ -97,8 +117,7 @@ function setupDonationList(pane) {
 
                     var info = document.createElement("div");
                     info.classList.add("info");
-                    console.log(org.infoUrl)
-                    info.onclick = function() { console.log(org.infoUrl); window.open(org.infoUrl, "_blank"); }
+                    info.onclick = function() { window.open(org.infoUrl, "_blank"); }
 
                     li.appendChild(info);
 
@@ -108,13 +127,13 @@ function setupDonationList(pane) {
                     li.appendChild(inputWrapper);
 
                     var input = document.createElement("input");
-                    input.setAttribute("type", "number");
-                    input.setAttribute("step", "10");
-                    input.setAttribute("min", "0");
+                    input.setAttribute("type", "tel");
+                    input.setAttribute("inputmode", "numeric");
+                    input.setAttribute("nocomma", "true");
 
                     org.inputElement = input;
 
-                    input.addEventListener("input", function(e) {
+                    input.addEventListener("keyup", function(e) {
                         var val;
                         if (this.value.length > 0) val = this.value;
                         else val = "0";
@@ -122,6 +141,14 @@ function setupDonationList(pane) {
                         org.setValue = val;
                         updateTotalShares();
                     });
+
+                    input.addEventListener("focus", function(e) {
+                        if (e.target.value == "0") e.target.value = "";
+                    })
+
+                    input.addEventListener("blur", function(e) {
+                        if (e.target.value.length == 0) e.target.value = "0";
+                    })
 
                     inputWrapper.appendChild(input);
 
@@ -154,6 +181,8 @@ function setupDonationList(pane) {
                     return li;
                 }
             }
+
+            pane.dispatchEvent(new CustomEvent('ready', pane));
         });
     }, 10)
 }
@@ -184,8 +213,9 @@ function organizationValuesToPercent() {
 
         org.setValue = converted[i];
         org.inputElement.value = org.setValue;
+        org.inputElement.setAttribute("nocomma",  "false");
     }
-    updateTotalShares();
+    updateTotalShares(); 
 }
 
 function organizationValuesToAmount() {
@@ -198,6 +228,7 @@ function organizationValuesToAmount() {
 
         org.setValue = converted[i];
         org.inputElement.value = org.setValue;
+        org.inputElement.setAttribute("nocomma",  "true");
     }
     updateTotalShares();
 }

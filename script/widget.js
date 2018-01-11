@@ -3,7 +3,6 @@ function DonationWidget() {
 
     this.setup = function (self, widgetElement) {
         _self = self;
-        console.log(_self);
 
         this.assetsUrl = "https://api.gieffektivt.no/static/";
         
@@ -45,12 +44,16 @@ function DonationWidget() {
         for (var i = 0; i < this.panes.length; i++) {
             var pane = this.panes[i];
             pane.style.width = this.width + "px";
+
+            pane.addEventListener("ready", function(pane) {
+                submitOnEnter(pane);
+            }); 
     
             if (i == 0) {
                 var donorPane = require('./panes/donor.js')(_self, _self.panes[0])
 
                 pane.submit = function() {
-                    donorPane.submit() 
+                    donorPane.submit();
                 };
                 pane.focus = function() {
                     universalPaneFocus(self, donorPane.pane);
@@ -60,32 +63,34 @@ function DonationWidget() {
                 var amountPane = require('./panes/amount.js')(_self, _self.panes[1])
                 
                 pane.submit = function() { 
-                    amountPane.submit(_self, this) 
+                    amountPane.submit(_self, this);
                 };
                 pane.focus = function() { 
-                    amountPane.focus(_self, this) 
+                    universalPaneFocus(self, amountPane.pane);
+                    amountPane.focus(_self, this);
                 };
             } else if (i == 2) {
                 var donationPane = require('./panes/donation.js')(_self, _self.panes[2])
 
                 pane.submit = function() { 
-                    donationPane.submit(_self, this) 
+                    donationPane.submit(_self, this);
                 };
-                pane.focus = function() { 
-                    donationPane.focus(_self, this) 
+                pane.focus = function() {
+                    universalPaneFocus(self, donationPane.pane); 
+                    donationPane.focus(_self, this);
                 };
             } else if (i == this.panes.length-1) {
-                    //No submit function needed on last pane
+                //No submit function needed on last pane
             } else {
                 throw new Error("No submit function specified for a pane");
             }
     
             if (i != this.panes.length-1) insertNextButton(pane, (i == 0)); //No next button on last pane
             if (i != 0 && i != this.panes.length-1) insertPrevButton(pane); //No prev button on first and last pane
-            if (i != this.panes.length-1) submitOnEnter(pane); //Do not submit on enter on last pane
         }
 
         setupCloseBtn();
+        setupHasBtnClasses();
         setupSelectOnClick();
     }
 
@@ -106,6 +111,14 @@ function DonationWidget() {
         _self.closeBtn.addEventListener("click", function() {
             _self.close();
         })
+    }
+
+    function setupHasBtnClasses() {
+        for (var i = 0; i < _self.panes.length; i++) {
+            var pane = _self.panes[i];
+
+            if (pane.getElementsByClassName("btn").length > 0) pane.classList.add("has-buttons");
+        }
     }
 
     function insertNextButton(pane, lonely) {
@@ -154,50 +167,58 @@ function DonationWidget() {
         pane.appendChild(btn);
 
         btn.addEventListener("click", function(e) {
-            prevSlide();
+            _self.prevSlide();
         })
     }
 
-    function submitOnEnter(pane) {
-        var inputs = pane.querySelectorAll("input[type=text], input[type=number]");
+    function submitOnEnter(e) {
+        var pane = e.target;
+
+        var inputs = pane.querySelectorAll("input[type=text], input[type=tel]");
         if (inputs.length > 0) {
             for (var i = 0; i < inputs.length; i++) {
                 if (i == inputs.length-1) {
-                    inputs[i].addEventListener("keydown", function(e) {
+                    inputs[i].addEventListener("input", function(e) {
                         var valid = true;
-                        if (this.type == "number") {
+                        if (this.getAttribute("inputmode") == "numeric") {
                             valid = numberInputWhitelistCheck(e);
                         }
 
-                        if (_self.activeError) hideError();
-                        if (e.keyCode == 109) {
-                            e.preventDefault();
-                            e.stopPropagation();
-                        }
+                        if (_self.activeError) _self.hideError();
+
                         if (e.keyCode == 13) {
+                            this.blur();
                             pane.submit(_self, pane);
                         }
                         return valid;
                     });
+
+                    inputs[i].addEventListener("keydown", function(e) {
+                        if (_self.activeError) _self.hideError();
+                        
+                        if (e.keyCode == 13) {
+                            this.blur();
+                            pane.submit(_self, pane);
+                        }
+                    });
                 } else {
                     (function() {
                         var next = inputs[i+1];
-                        inputs[i].addEventListener("keydown", function(e) {
+                        inputs[i].addEventListener("input", function(e) {
                             var valid = true;
-                            if (this.type == "number") {
+                            if (this.getAttribute("inputmode") == "numeric") {
                                 valid = numberInputWhitelistCheck(e);
                             }
 
-                            if (_self.activeError) hideError();
-                            if (e.keyCode == 109) {
-                                e.preventDefault();
-                                e.stopPropagation();
-                            }
-                            if (e.keyCode == 13) {
+                            return valid;
+                        });
+
+                        inputs[i].addEventListener("keydown", function(e) {
+                            if (_self.activeError) _self.hideError();
+                            
+                            if (e.keyCode == 13) { //enter
                                 next.focus();
                             }
-
-                            return valid;
                         });
                     }());
                 }
@@ -207,15 +228,33 @@ function DonationWidget() {
     }
 
     function numberInputWhitelistCheck(e) {
-        var valid = (e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105) || e.keyCode == 13 || e.keyCode == 8 || e.keyCode == 39 || e.keyCode == 37 || e.keyCode == 9 || e.keyCode == 46 || e.keyCode == 38 || e.keyCode == 40;
+        //e.preventDefault(); 
 
-        if (e.path[0].getAttribute("nocomma") != "true" && !valid) {
-            valid = e.keyCode == 188 || e.keyCode == 190
+        var valid = true;
+
+        var carrotPosition = e.target.selectionStart;
+        var value = e.target.value.replace(new RegExp(",", "g"), ".");
+
+        if (e.target.getAttribute("nocomma") == "true" && (value.indexOf(".") != -1)) valid = false;
+        if (valid && value.indexOf(" ") != -1) valid = false;
+
+        if (valid) {
+            var numDecimals = value.split(".");
+            numDecimals = (numDecimals.length  > 1 ? numDecimals[1].length : 0);
+            valid = ((~~value > 0 && numDecimals < 3) || value == "0");
         }
-        
+ 
         if (!valid) {
-            e.preventDefault();
-            e.stopPropagation(); 
+            e.target.value = e.target.value.slice(0,carrotPosition-1) + e.target.value.slice(carrotPosition);
+
+            e.target.setSelectionRange(carrotPosition-1, carrotPosition-1);
+            //timeout needed for mobile android
+            setTimeout(function() {
+                e.target.setSelectionRange(carrotPosition-1, carrotPosition-1);
+            }, 0);
+            
+        } else {
+            e.target.value = value;
         }
 
         return valid;
@@ -247,7 +286,7 @@ function DonationWidget() {
 
     /* Slider control */
     this.goToSlide = function(slidenum) {
-        if (slidenum < 0 || slidenum > this.panes.length - 1) throw Error("Slide under 0 or larger than set")
+        if (slidenum < 0 || slidenum > _self.panes.length - 1) throw Error("Slide under 0 or larger than set")
         _self.slider.style.transform = "translateX(-" + (slidenum * _self.width) + "px)";
 
         var pane = _self.panes[slidenum];
@@ -257,24 +296,32 @@ function DonationWidget() {
             else if (_self.currentSlide > slidenum) slidenum--;
         }
 
-        console.log("Going to pane:")
-        console.log(pane)
         pane = _self.panes[slidenum];
 
         if (pane.getElementsByClassName("btn").length > 0) {
             //If pane has button, make room for those
-            console.log("Has button");
             var padding = 90;
         } else {
-            console.log("Does not have button");
             var padding = 50;
         }
 
         var height = pane.getElementsByClassName("inner")[0].clientHeight + padding;
-        console.log("Height: " + height);
+
+        if (slidenum == _self.panes.length-1) _self.element.style.maxHeight = "3000px";
+
         if (height < 300) height = 300;
         _self.element.style.height = height + "px";
-        pane.focus(_self, pane);
+        if (_self.active) pane.focus(_self, pane);
+ 
+        setTimeout(function() {
+            _self.element.style.overflow = "hidden";
+            _self.element.getElementsByClassName("inner")[0].style.position = "static";
+
+            setTimeout(function() {
+                _self.element.getElementsByClassName("inner")[0].style.position = "";
+                _self.element.style.overflow = "";
+            }, 5);
+        }, 500);
 
         _self.currentSlide = slidenum;
         updateSliderProgress();
@@ -310,6 +357,7 @@ function DonationWidget() {
         _self.errorElement.classList.remove("active");
         _self.activeError = false;
     }
+    this.hideError = hideError;
 
     function setNoApiError() {
         var noApiErrorElement = document.getElementById("no_api_error");
@@ -321,8 +369,6 @@ function DonationWidget() {
     /* Network helpers */
     var api_url = "https://api.gieffektivt.no/";
     //var api_url = "http://localhost:3000/";
-
-    console.log(this)
 
     this.request = function(endpoint, type, data, cb) {
         var http = new XMLHttpRequest();
@@ -364,7 +410,10 @@ function DonationWidget() {
         }
     }
 
-    function selectNodeText() {
+    function selectNodeText(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
         var node = this;
  
         if ( document.selection ) {
@@ -391,6 +440,8 @@ function DonationWidget() {
         var activePane = _self.panes[_self.currentSlide];
         activePane.focus(_self, activePane);
 
+        _self.active = true;
+
         //User is engaged in form, activate "are you sure you want to leave" prompt on attempt to navigate away
         window.onbeforeunload = function() {
             return true;
@@ -401,8 +452,11 @@ function DonationWidget() {
         document.body.classList.remove("widget-active");
         _self.element.classList.remove("active");
         _self.wrapper.classList.remove("active");
+        _self.element.style.maxHeight = "";
 
         window.onbeforeunload = null;
+
+        _self.active = false;
 
         setTimeout(function() {
             _self.wrapper.style.zIndex = -1;
@@ -411,8 +465,8 @@ function DonationWidget() {
                 _self.panes[2].classList.remove("hidden");
                 document.getElementById("check-select-recommended").click();
             }
-        }, 800);
-    } 
+        }, 500);
+    }  
 
     /* Return */
     var properties = {
@@ -428,6 +482,8 @@ function DonationWidget() {
         request: this.request,
         updateSliderProgress: this.updateSliderProgress,
         postDonation: this.postDonation,
+        prevSlide: this.prevSlide,
+        hideError: this.hideError,
         setup: this.setup
     }
     return properties;

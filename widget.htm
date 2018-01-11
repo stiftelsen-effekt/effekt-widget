@@ -84,7 +84,7 @@
                             <div class="inner">
                                 <h3>Angi sum</h3>
                                 <div class="amount-wrapper">
-                                    <input type="number" class="amount" placeholder="sum" step="10" min="0" nocomma="true"></input>
+                                    <input type="text" class="amount" placeholder="sum" pattern="[0-9]*" inputmode="numeric" nocomma="true"></input>
                                     <span class="currency">kr</span>
                                 </div>
                                 <div class="select-split">
@@ -101,7 +101,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="pane shares hidden">
+                        <div class="pane shares hidden scrollable">
                             <div class="inner">
                                 <h3>Velg fordeling</h3>
                                 <div class="share-distribution">
@@ -133,10 +133,10 @@
                                         <label>Sum</label><span class="amount"></span>
                                     </div>
                                     <div class="line">
-                                        <label>Kontonr</label><span class="account select-on-click">1503 74 03269</span>
+                                        <label>Kontonr</label><span class="account select-on-click" x-ms-format-detection="none">1503 74 03269</span>
                                     </div>
                                     <div class="line">
-                                        <label>KID</label><span class="KID select-on-click"></span>
+                                        <label>KID</label><span class="KID select-on-click" x-ms-format-detection="none"></span>
                                     </div>
                                 </div>
 

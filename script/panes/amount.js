@@ -4,6 +4,8 @@ module.exports = function(widget, pane) {
 
     setupSelectSplitCheckbox();
 
+    pane.dispatchEvent(new CustomEvent('ready', pane));
+
     return {
         submit: submitAmount,
         focus: focusAmount,
