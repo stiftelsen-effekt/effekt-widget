@@ -6,7 +6,7 @@ function DonationWidget() {
 
         this.assetsUrl = "https://api.gieffektivt.no/static/";
         
-        this.localStorage = window.localStorage;
+        this.localStorage = window.localStorage; 
     
         this.element = widgetElement;
         this.wrapper = this.element.parentElement;
@@ -14,33 +14,18 @@ function DonationWidget() {
     
         this.submitOnAmount = true;
     
-        this.slider = this.element.getElementsByClassName("slider")[0];
-        if (!this.slider) throw Error("No slider element in widget");
-    
-        this.progress = this.element.getElementsByClassName("progress")[0];
-        if (!this.progress) throw new Error("No progress element in slider");
-    
-        this.errorElement = this.element.getElementsByClassName("error")[0];
-        if (!this.error) throw new Error("No error element in slider");
-    
-        this.closeBtn = this.element.getElementsByClassName("close-btn")[0];
-        if (!this.closeBtn) throw new Error("No close button element in widget")
-    
         this.width = this.element.clientWidth;
         this.currentSlide = 0;
     
-        this.panes = this.element.getElementsByClassName("pane");
-        this.activePanes = 0;
-        for (var i = 1; i < this.panes.length; i++) {
-            if(!this.panes[i].classList.contains("hidden")) this.activePanes++;
-        }
+        this.panes = [];
+        var paneElements = this.element.getElementsByClassName("pane");
     
-        var notDefaultPanes = ["shares"]
+        this.slider.style.width = (this.paneElements.length * this.width) + "px";
+
+        this.panes[0] = require('./panes/donor.js')(_self, paneElements[0]);
+        this.panes[1] = require('./panes/amount.js')(_self, paneElements[1]);
     
-        this.defaultPanes = 90;
-    
-        this.slider.style.width = (this.panes.length * this.width) + "px";
-    
+        /*
         for (var i = 0; i < this.panes.length; i++) {
             var pane = this.panes[i];
             pane.style.width = this.width + "px";
@@ -79,7 +64,19 @@ function DonationWidget() {
                     universalPaneFocus(self, donationPane.pane); 
                     donationPane.focus(_self, this);
                 };
-            } else if (i == this.panes.length-1) {
+            }
+            else if (i == 3) {
+                var paymentMethodPane = require('./panes/paymentMethod.js')(_self, _self.panes[3])
+
+                pane.submit = function() { 
+                    paymentMethodPane.submit(_self, this);
+                };
+                pane.focus = function() {
+                    universalPaneFocus(self, paymentMethodPane.pane); 
+                    paymentMethodPane.focus(_self, this); 
+                };
+            }
+            else if (i == this.panes.length-1) {
                 //No submit function needed on last pane
             } else {
                 throw new Error("No submit function specified for a pane");
@@ -89,6 +86,9 @@ function DonationWidget() {
             if (i != 0 && i != this.panes.length-1) insertPrevButton(pane); //No prev button on first and last pane
         }
 
+        */
+
+        //General setup helpers
         setupCloseBtn();
         setupHasBtnClasses();
         setupSelectOnClick();
@@ -273,6 +273,8 @@ function DonationWidget() {
 
             var resultPane = _self.element.getElementsByClassName("result")[0];
 
+            _self.KID = data.content.KID;
+
             resultPane.getElementsByClassName("amount")[0].innerHTML = _self.donationAmount + "kr";
             var KIDstring = data.content.KID.toString();
             KIDstring = KIDstring.slice(0,3) + " " + KIDstring.slice(3,5) + " " + KIDstring.slice(5);
@@ -287,14 +289,19 @@ function DonationWidget() {
     /* Slider control */
     this.goToSlide = function(slidenum) {
         if (slidenum < 0 || slidenum > _self.panes.length - 1) throw Error("Slide under 0 or larger than set")
-        _self.slider.style.transform = "translateX(-" + (slidenum * _self.width) + "px)";
+
+        var visiblePanesInFront = _self.panes.reduce(function(acc, pane) { 
+            if (pane.visible) {
+                return acc++;
+            }
+            else {
+                return acc;
+            }
+        }, 0)
+
+        _self.slider.style.transform = "translateX(-" + (visiblePanesInFront * _self.width) + "px)";
 
         var pane = _self.panes[slidenum];
-
-        if (pane.classList.contains("hidden")) {
-            if (_self.currentSlide < slidenum) slidenum++;
-            else if (_self.currentSlide > slidenum) slidenum--;
-        }
 
         pane = _self.panes[slidenum];
 
@@ -311,6 +318,8 @@ function DonationWidget() {
 
         if (height < 300) height = 300;
         _self.element.style.height = height + "px";
+        console.log("Focus:" );
+        console.log(pane); 
         if (_self.active) pane.focus(_self, pane);
  
         setTimeout(function() {

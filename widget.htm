@@ -120,6 +120,50 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="pane payment-method">
+                            <div class="inner">
+                                <h3>Betalingsmåte</h3>
+
+                                <div class="selection">
+                                    <span>Kostnadene angitt under dekkes av Effekt. <br>100% av din donasjon kommer frem.</span>
+
+                                    <div class="payment-methods">
+                                        <div class="method bank">
+                                            <div class="transaction-costs">1.5kr</div>
+                                        </div>
+
+                                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="payPalForm" target="_blank" style="display: inline-block;">
+                                            <input type="hidden" name="cmd" value="_donations">
+                                            <input type="hidden" name="charset" value="UTF-8">
+                                            <input type="hidden" name="currency_code" value="NOK">
+                                            <input type="hidden" name="amount" value="500">
+                                            <input type="hidden" name="business" value="stiftelseneffekt@gmail.com">
+                                            <input type="hidden" name="item_name" value="Donasjon">
+                                            <input type="hidden" name="notify_url" value="https://api.gieffektivt.no/paypal/ipn">
+                                            <input type="hidden" name="custom" value="blank">
+
+                                            <input type="submit" style="display: none;" id="submitPaypal" />
+                                            <div class="method paypal" onclick="document.getElementById('submitPaypal').click()">
+                                                <div class="transaction-costs">1.9% + 2.8kr</div>
+                                            </div>
+                                        </form>
+
+                                        <div class="method vipps">
+                                            <div class="transaction-costs">1.7%</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="awaiting-confirmation">
+                                        <div>
+                                            <strong>Venter på bekreftelse på innbetaling fra tredjepart</strong>
+                                            <img src="https://api.gieffektivt.no/static/loading.svg" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="pane result">
                             <div class="inner">
                                 <h3>Takk!</h3>

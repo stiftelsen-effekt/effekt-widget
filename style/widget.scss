@@ -507,6 +507,98 @@ $cdn-url: "https://api.gieffektivt.no/static/";
                 }
             }
 
+            &.payment-method {
+                font-size: 12px;
+                white-space: normal;
+                text-align: center;
+
+                h3 {
+                    margin-bottom: 14px;
+                }
+
+                span {
+                    display: inline-block;
+                    color: rgb(37, 37, 37);
+                    font-size: 11px;
+                    width: 80%;
+                    margin-bottom: 10px;
+                }
+
+                .selection {
+                    position: relative;
+
+                    .payment-methods {
+                        width: 80%;
+                        text-align: center;
+                        margin: 0 auto;
+
+                        .method {
+                            width: 100px;
+                            height: 46px;
+                            border: 1px solid #4b4b4b;
+                            margin: 5px;
+                            display: inline-block;
+
+                            background-size: 70%;
+                            background-position: center 8px;
+                            background-repeat: no-repeat;
+
+                            position: relative;
+
+                            cursor: pointer;
+
+                            .transaction-costs {
+                                font-size: 10px;
+                                color: rgb(143, 142, 142);
+                                position: absolute;
+                                bottom: 2px;
+                                width: 100%;
+                                text-align: center;
+                            }
+
+                            &.vipps {
+                                background-image: url('../assets/logos/vipps.png');
+                            }
+
+                            &.paypal {
+                                background-image: url('../assets/logos/PayPal.png');
+                            }
+
+                            &.bank {
+                                background-image: url('../assets/logos/bank.png');
+                                background-position: center 0;
+                            }
+                        }
+                    }
+
+                    .awaiting-confirmation {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+
+                        height: 100%;
+                        width: 100%;
+
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        background: white;
+
+                        strong {
+                            display: block;
+                            width: 220px;
+                        }
+
+                        img {
+                            width: 48px;
+                            height: 48px;
+                            margin-top: 25px;
+                            animation: spin 2000ms infinite linear;
+                        }
+                    }
+                }
+            }
+
             &.result {
                 font-size: 12px;
                 text-align: center;

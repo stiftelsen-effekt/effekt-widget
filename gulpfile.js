@@ -24,10 +24,10 @@ gulp.task('script', function() {
     }))
     .pipe(rename("bundle.js"))
     .pipe(gulp.dest("./"))
-    .pipe(buffer())
+    /*.pipe(buffer())
     .pipe(uglify())
     .pipe(rename("bundle.min.js"))
-    .pipe(gulp.dest('./'));
+    .pipe(gulp.dest('./'));*/
 })
 
 gulp.task('watch', function() {
