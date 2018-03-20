@@ -144,7 +144,7 @@
                                             <input type="hidden" name="custom" value="blank">
 
                                             <input type="submit" style="display: none;" id="submitPaypal" />
-                                            <div class="method paypal" onclick="document.getElementById('submitPaypal').click()">
+                                            <div class="method paypal">
                                                 <div class="transaction-costs">1.9% + 2.8kr</div>
                                             </div>
                                         </form>
@@ -170,21 +170,31 @@
 
                                 <img src="https://api.gieffektivt.no/static/heart.svg" class="heart" />
 
-                                <h4>Du kan nå overføre til oss.</h4>
-                                    
-                                <div class="transfer-info">
-                                    <div class="line">
-                                        <label>Sum</label><span class="amount"></span>
+                                <div class="result-type bank-pending">
+                                    <h4>Du kan nå overføre til oss.</h4>
+                                        
+                                    <div class="transfer-info">
+                                        <div class="line">
+                                            <label>Sum</label><span class="amount"></span>
+                                        </div>
+                                        <div class="line">
+                                            <label>Kontonr</label><span class="account select-on-click" x-ms-format-detection="none">1503 74 03269</span>
+                                        </div>
+                                        <div class="line">
+                                            <label>KID</label><span class="KID select-on-click" x-ms-format-detection="none"></span>
+                                        </div>
                                     </div>
-                                    <div class="line">
-                                        <label>Kontonr</label><span class="account select-on-click" x-ms-format-detection="none">1503 74 03269</span>
-                                    </div>
-                                    <div class="line">
-                                        <label>KID</label><span class="KID select-on-click" x-ms-format-detection="none"></span>
-                                    </div>
+
+                                    <span class="email-text">Vi har også sendt en mail til <font class="email"></font> med informasjon om din donasjon</span>
                                 </div>
 
-                                <span class="email-text">Vi har også sendt en mail til <font class="email"></font> med informasjon om din donasjon</span>
+                                <div class="result-type vipps-pending">
+                                    <p>Vi bruker vanligvis noen dager på å bekrefte vipps donasjoner. Du vil få en mail når vi har bekreftet din donasjon.</p>
+                                </div>
+
+                                <div class="result-type donation-confirmed">
+                                    <p>Vi har nå mottatt din donasjon! Vi har også sendt en kvittering til <font class="email"></font> med mer informasjon.</p>
+                                </div>
                             </div>
                         </div>
                     </div>

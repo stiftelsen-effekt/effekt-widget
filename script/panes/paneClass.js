@@ -1,30 +1,111 @@
-module.exports = class Pane {
-    constructor(widget, pane) {
-        this.widget = widget;
-        this.pane = pane;
+var inputHelper = require('../helpers/input.js');
 
-        (this.pane.classList.contains("hidden") ? this.visibile = false : this.visibile = true);
+module.exports = class Pane {
+    constructor(config) {
+        this.widget = config.widget;
+        this.paneElement = config.paneElement;
+
+        this.paneElement.controllerClass = this;
+
+        if (config.hasPrevBtn) { this.insertPrevButton(); this.hasButton = true; }
+        if (config.hasNextBtn) { this.insertNextButton(); this.hasButton = true; }
+
+        inputHelper.setupInput(this);
+
+        (this.paneElement.classList.contains("hidden") ? this.visible = false : this.visible = true);
+        this.paneElement.style.width = this.widget.width + "px";
     }
 
-    toggleVisibility() {
-        if (this.pane.classList.contains("hidden")) {
-            this.pane.classList.remove("hidden");
-            this.visibile = true;
-        } else {
-            this.pane.classList.add("hidden");
-            this.visibile = false;
+    show() {
+        this.paneElement.classList.remove("hidden");
+        this.visible = true;
+    }
+
+    hide() {
+        this.paneElement.classList.add("hidden");
+        this.visible = false;
+    }
+
+    setCustomfocus(subclass) {
+        this.focus = function() {
+            subclass.customFocus();
+            this.universalPaneFocus(subclass.pane);
         }
     }
 
-    universalPaneFocus() {
+    universalPaneFocus(paneElement) {
         var allInputs = this.widget.element.getElementsByTagName("input");
         for (var i = 0; i < allInputs.length; i++) {
             allInputs[i].setAttribute("tabindex", "-1");
         }
 
-        var paneInputs = this.pane.getElementsByTagName("input");
+        var paneInputs = this.paneElement.getElementsByTagName("input");
         for (var i = 0; i < paneInputs.length; i++) {
             paneInputs[i].setAttribute("tabindex", i+1);
         }
     }
+
+    //Create prev and next buttons on pane
+    insertNextButton() {
+        if (this.paneElement.getElementsByClassName("btn-container").length == 0) {
+            var btnContainerElement = document.createElement("div");
+            btnContainerElement.classList.add("btn-container");
+            this.paneElement.appendChild(btnContainerElement);
+        }
+
+        var btn = document.createElement("div");
+
+        btn.classList.add("btn");
+        btn.classList.add("frwd");
+
+        var nxtImg = document.createElement("img");
+        nxtImg.classList.add("arrowImage");
+        nxtImg.src = this.widget.assetsUrl + "next.svg";
+
+        var loadingImg = document.createElement("img");
+        loadingImg.classList.add("loadingImage");
+        loadingImg.src = this.widget.assetsUrl + "loading.svg";
+
+        btn.appendChild(nxtImg);
+        btn.appendChild(loadingImg);
+
+        this.paneElement.getElementsByClassName("btn-container")[0].appendChild(btn);
+
+        var pane = this;
+        btn.addEventListener("click", function(e) {
+            pane.submit();
+        })
+    }
+
+    insertPrevButton() {
+        if (this.paneElement.getElementsByClassName("btn-container").length == 0) {
+            var btnContainerElement = document.createElement("div");
+            btnContainerElement.classList.add("btn-container");
+            this.paneElement.appendChild(btnContainerElement);
+        }
+
+        var btn = document.createElement("div");
+
+        btn.classList.add("btn");
+        btn.classList.add("back");
+
+        var nxtImg = document.createElement("img");
+        nxtImg.classList.add("arrowImage");
+        nxtImg.src = this.widget.assetsUrl + "next.svg";
+
+        var loadingImg = document.createElement("img");
+        loadingImg.classList.add("loadingImage");
+        loadingImg.src = this.widget.assetsUrl + "loading.svg";
+
+        btn.appendChild(nxtImg);
+        btn.appendChild(loadingImg);
+
+        this.paneElement.getElementsByClassName("btn-container")[0].appendChild(btn);
+
+        var widget = this.widget;
+        btn.addEventListener("click", function(e) {
+            widget.prevSlide();
+        })
+    }
 }
+

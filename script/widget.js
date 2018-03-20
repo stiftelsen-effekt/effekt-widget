@@ -11,8 +11,12 @@ function DonationWidget() {
         this.element = widgetElement;
         this.wrapper = this.element.parentElement;
         this.activeError = false;
+        this.errorElement = widgetElement.getElementsByClassName("error")[0];
     
         this.submitOnAmount = true;
+        this.closeBtn = widgetElement.getElementsByClassName("close-btn")[0];
+
+        this.progress = widgetElement.getElementsByClassName("progress")[0];
     
         this.width = this.element.clientWidth;
         this.currentSlide = 0;
@@ -20,90 +24,55 @@ function DonationWidget() {
         this.panes = [];
         var paneElements = this.element.getElementsByClassName("pane");
     
-        this.slider.style.width = (this.paneElements.length * this.width) + "px";
+        this.slider = this.element.getElementsByClassName("slider")[0];
+        this.slider.style.width = (paneElements.length * this.width) + "px";
+  
+        var DonorPane = require('./panes/donor.js');
+        this.panes[0] = new DonorPane({
+            widget: _self, 
+            paneElement: paneElements[0],
+            hasPrevBtn: false,
+            hasNextBtn: true
+        });
 
-        this.panes[0] = require('./panes/donor.js')(_self, paneElements[0]);
-        this.panes[1] = require('./panes/amount.js')(_self, paneElements[1]);
-    
-        /*
-        for (var i = 0; i < this.panes.length; i++) {
-            var pane = this.panes[i];
-            pane.style.width = this.width + "px";
+        var AmountPane = require('./panes/amount.js');
+        this.panes[1] = new AmountPane({
+            widget: _self, 
+            paneElement: paneElements[1],
+            hasPrevBtn: true,
+            hasNextBtn: true
+        });
 
-            pane.addEventListener("ready", function(pane) {
-                submitOnEnter(pane);
-            }); 
-    
-            if (i == 0) {
-                var donorPane = require('./panes/donor.js')(_self, _self.panes[0])
+        var DonationPane = require('./panes/donation.js');
+        this.panes[2] = new DonationPane({
+            widget: _self, 
+            paneElement: paneElements[2],
+            hasPrevBtn: true,
+            hasNextBtn: true
+        });
 
-                pane.submit = function() {
-                    donorPane.submit();
-                };
-                pane.focus = function() {
-                    universalPaneFocus(self, donorPane.pane);
-                    donorPane.focus();
-                };
-            } else if (i == 1) {
-                var amountPane = require('./panes/amount.js')(_self, _self.panes[1])
-                
-                pane.submit = function() { 
-                    amountPane.submit(_self, this);
-                };
-                pane.focus = function() { 
-                    universalPaneFocus(self, amountPane.pane);
-                    amountPane.focus(_self, this);
-                };
-            } else if (i == 2) {
-                var donationPane = require('./panes/donation.js')(_self, _self.panes[2])
+        var PaymentMethodPane = require('./panes/paymentMethod.js');
+        this.panes[3] = new PaymentMethodPane({
+            widget: _self, 
+            paneElement: paneElements[3],
+            hasPrevBtn: true,
+            hasNextBtn: false
+        });
 
-                pane.submit = function() { 
-                    donationPane.submit(_self, this);
-                };
-                pane.focus = function() {
-                    universalPaneFocus(self, donationPane.pane); 
-                    donationPane.focus(_self, this);
-                };
-            }
-            else if (i == 3) {
-                var paymentMethodPane = require('./panes/paymentMethod.js')(_self, _self.panes[3])
+        var ResultPane = require('./panes/result.js');
+        this.panes[4] = new ResultPane({
+            widget: _self,
+            paneElement: paneElements[4],
+            hasPrevBtn: false,
+            hasNextBtn: false
+        });
 
-                pane.submit = function() { 
-                    paymentMethodPane.submit(_self, this);
-                };
-                pane.focus = function() {
-                    universalPaneFocus(self, paymentMethodPane.pane); 
-                    paymentMethodPane.focus(_self, this); 
-                };
-            }
-            else if (i == this.panes.length-1) {
-                //No submit function needed on last pane
-            } else {
-                throw new Error("No submit function specified for a pane");
-            }
-    
-            if (i != this.panes.length-1) insertNextButton(pane, (i == 0)); //No next button on last pane
-            if (i != 0 && i != this.panes.length-1) insertPrevButton(pane); //No prev button on first and last pane
-        }
+        if (this.panes.length != paneElements.length) throw new Error("Missing Javascript object for some HTML panes");
 
-        */
 
         //General setup helpers
         setupCloseBtn();
-        setupHasBtnClasses();
         setupSelectOnClick();
-    }
-
-    function universalPaneFocus(widget, pane) {
-        var allInputs = widget.element.getElementsByTagName("input");
-        for (var i = 0; i < allInputs.length; i++) {
-            allInputs[i].setAttribute("tabindex", "-1");
-        }
-
-        var paneInputs = pane.getElementsByTagName("input");
-        for (var i = 0; i < paneInputs.length; i++) {
-            paneInputs[i].setAttribute("tabindex", i+1);
-        }
     }
 
     /* Setup helpers */
@@ -113,155 +82,8 @@ function DonationWidget() {
         })
     }
 
-    function setupHasBtnClasses() {
-        for (var i = 0; i < _self.panes.length; i++) {
-            var pane = _self.panes[i];
-
-            if (pane.getElementsByClassName("btn").length > 0) pane.classList.add("has-buttons");
-        }
-    }
-
-    function insertNextButton(pane, lonely) {
-        var btn = document.createElement("div");
-
-        btn.classList.add("btn");
-        btn.classList.add("frwd");
-
-        if (lonely) btn.classList.add("lonely");
-
-        var nxtImg = document.createElement("img");
-        nxtImg.classList.add("arrowImage");
-        nxtImg.src = _self.assetsUrl + "next.svg";
-
-        loadingImg = document.createElement("img");
-        loadingImg.classList.add("loadingImage");
-        loadingImg.src = _self.assetsUrl + "loading.svg";
-
-        btn.appendChild(nxtImg);
-        btn.appendChild(loadingImg);
-
-        pane.appendChild(btn);
-
-        btn.addEventListener("click", function(e) {
-            pane.submit(_self, pane)
-        })
-    }
-
-    function insertPrevButton(pane) {
-        var btn = document.createElement("div");
-
-        btn.classList.add("btn");
-        btn.classList.add("back");
-
-        var nxtImg = document.createElement("img");
-        nxtImg.classList.add("arrowImage");
-        nxtImg.src = _self.assetsUrl + "next.svg";
-
-        loadingImg = document.createElement("img");
-        loadingImg.classList.add("loadingImage");
-        loadingImg.src = _self.assetsUrl + "loading.svg";
-
-        btn.appendChild(nxtImg);
-        btn.appendChild(loadingImg);
-
-        pane.appendChild(btn);
-
-        btn.addEventListener("click", function(e) {
-            _self.prevSlide();
-        })
-    }
-
-    function submitOnEnter(e) {
-        var pane = e.target;
-
-        var inputs = pane.querySelectorAll("input[type=text], input[type=tel]");
-        if (inputs.length > 0) {
-            for (var i = 0; i < inputs.length; i++) {
-                if (i == inputs.length-1) {
-                    inputs[i].addEventListener("input", function(e) {
-                        var valid = true;
-                        if (this.getAttribute("inputmode") == "numeric") {
-                            valid = numberInputWhitelistCheck(e);
-                        }
-
-                        if (_self.activeError) _self.hideError();
-
-                        if (e.keyCode == 13) {
-                            this.blur();
-                            pane.submit(_self, pane);
-                        }
-                        return valid;
-                    });
-
-                    inputs[i].addEventListener("keydown", function(e) {
-                        if (_self.activeError) _self.hideError();
-                        
-                        if (e.keyCode == 13) {
-                            this.blur();
-                            pane.submit(_self, pane);
-                        }
-                    });
-                } else {
-                    (function() {
-                        var next = inputs[i+1];
-                        inputs[i].addEventListener("input", function(e) {
-                            var valid = true;
-                            if (this.getAttribute("inputmode") == "numeric") {
-                                valid = numberInputWhitelistCheck(e);
-                            }
-
-                            return valid;
-                        });
-
-                        inputs[i].addEventListener("keydown", function(e) {
-                            if (_self.activeError) _self.hideError();
-                            
-                            if (e.keyCode == 13) { //enter
-                                next.focus();
-                            }
-                        });
-                    }());
-                }
-            }
-
-        }
-    }
-
-    function numberInputWhitelistCheck(e) {
-        //e.preventDefault(); 
-
-        var valid = true;
-
-        var carrotPosition = e.target.selectionStart;
-        var value = e.target.value.replace(new RegExp(",", "g"), ".");
-
-        if (e.target.getAttribute("nocomma") == "true" && (value.indexOf(".") != -1)) valid = false;
-        if (valid && value.indexOf(" ") != -1) valid = false;
-
-        if (valid) {
-            var numDecimals = value.split(".");
-            numDecimals = (numDecimals.length  > 1 ? numDecimals[1].length : 0);
-            valid = ((~~value > 0 && numDecimals < 3) || value == "0");
-        }
- 
-        if (!valid) {
-            e.target.value = e.target.value.slice(0,carrotPosition-1) + e.target.value.slice(carrotPosition);
-
-            e.target.setSelectionRange(carrotPosition-1, carrotPosition-1);
-            //timeout needed for mobile android
-            setTimeout(function() {
-                e.target.setSelectionRange(carrotPosition-1, carrotPosition-1);
-            }, 0);
-            
-        } else {
-            e.target.value = value;
-        }
-
-        return valid;
-    }
-
-    function postDonation(postData, nxtBtn) {
-        _self.request("donations", "POST", postData, function(err, data) {
+    this.registerDonation = function(postData, nxtBtn) {
+        _self.request("donations/register", "POST", postData, function(err, data) {
             if (err == 0 || err) {
                 if (err == 0) _self.error("Når ikke server. Forsøk igjen senere.");
                 else if (err == 500) _self.error("Det er noe feil med donasjonen");
@@ -271,57 +93,50 @@ function DonationWidget() {
             }
             nxtBtn.classList.remove("loading");
 
+            /* move to result pane initialization */
+            /*
             var resultPane = _self.element.getElementsByClassName("result")[0];
-
-            _self.KID = data.content.KID;
-
-            resultPane.getElementsByClassName("amount")[0].innerHTML = _self.donationAmount + "kr";
             var KIDstring = data.content.KID.toString();
             KIDstring = KIDstring.slice(0,3) + " " + KIDstring.slice(3,5) + " " + KIDstring.slice(5);
-            resultPane.getElementsByClassName("KID")[0].innerHTML = KIDstring;
-            resultPane.getElementsByClassName("email")[0].innerHTML = _self.email;
-
+            resultpane.pane.getElementsByClassName("KID")[0].innerHTML = KIDstring;
+            resultpane.pane.getElementsByClassName("email")[0].innerHTML = _self.email;
+            resultPane.pane.getElementsByClassName("amount")[0].innerHTML = _self.donationAmount + "kr";
+            */
+            
+            _self.KID = data.content.KID;
             _self.nextSlide();
         });
     }
-    this.postDonation = postDonation;
 
     /* Slider control */
     this.goToSlide = function(slidenum) {
+        console.log("Going to slide number: " + slidenum);
+
         if (slidenum < 0 || slidenum > _self.panes.length - 1) throw Error("Slide under 0 or larger than set")
 
-        var visiblePanesInFront = _self.panes.reduce(function(acc, pane) { 
-            if (pane.visible) {
-                return acc++;
-            }
-            else {
-                return acc;
-            }
-        }, 0)
+        var visiblePanesInFront = getVisiblePanesInFront(slidenum);
+        //console.log("Visible in front: " + visiblePanesInFront);
 
         _self.slider.style.transform = "translateX(-" + (visiblePanesInFront * _self.width) + "px)";
 
+        _self.currentSlide = slidenum;
+        this.updateSliderProgress();
+
         var pane = _self.panes[slidenum];
 
-        pane = _self.panes[slidenum];
+        if (pane.hasButton) var padding = 90;
+        else var padding = 50;
 
-        if (pane.getElementsByClassName("btn").length > 0) {
-            //If pane has button, make room for those
-            var padding = 90;
-        } else {
-            var padding = 50;
-        }
+        //Height is size of the inner content of pane + padding
+        var height = pane.paneElement.getElementsByClassName("inner")[0].clientHeight + padding;
 
-        var height = pane.getElementsByClassName("inner")[0].clientHeight + padding;
-
+        //What?
         if (slidenum == _self.panes.length-1) _self.element.style.maxHeight = "3000px";
 
         if (height < 300) height = 300;
         _self.element.style.height = height + "px";
-        console.log("Focus:" );
-        console.log(pane); 
-        if (_self.active) pane.focus(_self, pane);
- 
+
+        //Fix for occational render bug
         setTimeout(function() {
             _self.element.style.overflow = "hidden";
             _self.element.getElementsByClassName("inner")[0].style.position = "static";
@@ -332,8 +147,7 @@ function DonationWidget() {
             }, 5);
         }, 500);
 
-        _self.currentSlide = slidenum;
-        updateSliderProgress();
+        pane.focus();
     }
 
     this.nextSlide = function() {
@@ -344,11 +158,21 @@ function DonationWidget() {
         this.goToSlide(_self.currentSlide -  1);
     }
 
-    //Progress bar
-    function updateSliderProgress() {
-        _self.progress.style.width = (100 / (_self.activePanes)) * _self.currentSlide + "%";
+    function getVisiblePanesInFront(slidenum) {
+        return _self.panes.slice(0,slidenum).reduce(function(acc, pane) { 
+            if (pane.visible) return acc+1;
+            else return acc;
+        }, 0);
     }
-    this.updateSliderProgress = updateSliderProgress;
+
+    //Progress bar
+    this.updateSliderProgress = function() {
+        var totalVisiblePanes = _self.panes.reduce(function(acc, pane) {  
+            if (pane.visible) return acc+1;
+            else return acc;
+        }, 0);
+        _self.progress.style.width = (100 / (totalVisiblePanes)) * (getVisiblePanesInFront(_self.currentSlide)+1) + "%";
+    }
 
     /* Error element */
     this.error = function(msg) {
@@ -376,43 +200,11 @@ function DonationWidget() {
     }
 
     /* Network helpers */
-    var api_url = "https://api.gieffektivt.no/";
-    //var api_url = "http://localhost:3000/";
-
-    this.request = function(endpoint, type, data, cb) {
-        var http = new XMLHttpRequest();
-        var url = api_url + endpoint;
-
-        http.onreadystatechange = function() {
-            if (this.readyState == 4) {
-                if (this.status == 200 ) {
-                    var response = JSON.parse(this.responseText);
-
-                    if (response.status == 200) {
-                        cb(null, response);
-                    }
-                    else if (response.status == 400) {
-                        cb(response.content, null);
-                    }
-                } else {
-                    cb(this.status, null);
-                }
-            }
-        };
-
-        if (type == "POST") {
-            http.open("POST", url, true);
-            http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            http.send("data=" + encodeURIComponent(JSON.stringify(data)));
-        } else if (type == "GET") {
-            http.open("GET", url, true);
-            http.send(data);
-        }
-    }
+    this.request = require('./helpers/network.js').request;
 
     //UI snazzyness
     function setupSelectOnClick() {
-        var elems = _self.panes[_self.panes.length - 1].getElementsByClassName("select-on-click");
+        var elems = _self.panes[_self.panes.length - 1].paneElement.getElementsByClassName("select-on-click");
 
         for (var i = 0; i < elems.length; i++) {
             elems[i].addEventListener("click", selectNodeText);
@@ -471,7 +263,7 @@ function DonationWidget() {
             _self.wrapper.style.zIndex = -1;
             if (_self.currentSlide == _self.panes.length-1) { 
                 _self.goToSlide(0);
-                _self.panes[2].classList.remove("hidden");
+                _self.panes[2].hide();
                 document.getElementById("check-select-recommended").click();
             }
         }, 500);

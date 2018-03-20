@@ -123,80 +123,79 @@ $cdn-url: "https://api.gieffektivt.no/static/";
                 font-family: 'Open Sans';
             }
 
-            .btn {
-                $size: 30px;
-                position: absolute; 
+            .btn-container {
+                width: 100%;
+                position: absolute;
                 bottom: 30px;
-                
+                height: 30px;
+                text-align: center;
 
-                width: $size;
-                height: $size;
+                .btn {
+                    $size: 30px;
+                    display: inline-block;
+                    position: relative;
 
-                border: 2px solid #2196F3;
-
-                border-radius: 50%;
-
-                cursor: pointer;
-                padding: 7px;
-                box-sizing: border-box;
-
-                opacity: 1;
-
-                transition: all 200ms;
-
-                &.back {
-                    left: calc(50% - #{$size} - 4px); 
-
-                    .arrowImage {
-                        transform: rotate(180deg);
+                    width: $size;
+                    height: $size;
+    
+                    border: 2px solid #2196F3;
+    
+                    border-radius: 50%;
+    
+                    cursor: pointer;
+                    padding: 7px;
+                    margin: 0 3px;
+                    box-sizing: border-box;
+    
+                    opacity: 1;
+    
+                    transition: all 200ms;
+    
+                    &.back {
+                        .arrowImage {
+                            transform: rotate(180deg);
+                        }
                     }
-                }
-
-                &.frwd {
-                    right: calc(50% - #{$size} - 4px);
-                }
-
-                &.lonely {
-                    right: calc(50% - #{$size/2} - 2px);
-                }
-
-                &.inactive {
-                    opacity: .2;
-                }
-
-                &:hover {
-                    padding-left: 10px;
-                }
-
-                img.arrowImage {
-                    width: 12px;
-                    height: 12px;
-                }
-
-                img.loadingImage {
-                    width: 18px;
-                    height: 18px;
-
-                    position: absolute;
-                    top: 4px;
-                    left: 4px;
-
-                    display: none;
-
-                    animation: spin 300ms infinite linear;
-                }
-
-                &.loading {
+    
+                    &.inactive {
+                        opacity: .2;
+                    }
+    
+                    &:hover {
+                        padding-left: 10px;
+                    }
+    
                     img.arrowImage {
-                        display: none;
+                        width: 12px;
+                        height: 12px;
                     }
-
+    
                     img.loadingImage {
-                        display: inline-block;
+                        width: 18px;
+                        height: 18px;
+    
+                        position: absolute;
+                        top: 4px;
+                        left: 4px;
+    
+                        display: none;
+    
+                        animation: spin 300ms infinite linear;
+                    }
+    
+                    &.loading {
+                        img.arrowImage {
+                            display: none;
+                        }
+    
+                        img.loadingImage {
+                            display: inline-block;
+                        }
                     }
                 }
             }
 
+            //Pane styles
             &.hidden {
                 display: none;
             }
@@ -572,7 +571,7 @@ $cdn-url: "https://api.gieffektivt.no/static/";
                     }
 
                     .awaiting-confirmation {
-                        display: flex;
+                        display: none;
                         justify-content: center;
                         align-items: center;
 
@@ -603,6 +602,10 @@ $cdn-url: "https://api.gieffektivt.no/static/";
                 font-size: 12px;
                 text-align: center;
 
+                .heart {
+                    width: 48px;
+                }
+
                 h4 {
                     margin-top: 5px;
                 }
@@ -611,49 +614,81 @@ $cdn-url: "https://api.gieffektivt.no/static/";
                     margin-bottom: 16px;
                 }
 
-                .heart {
-                    width: 48px;
+                p {
+                    white-space: normal;
                 }
 
-                .transfer-info {
-                    white-space: normal;
-                    font-weight: normal;
-                    line-height: 200%;
+                .result-type {
+                    display: none;
+                }
 
-                    background: #222;
-                    color: white;
+                &.vipps {
+                    .result-type.vipps-pending {
+                        display: block;
 
-                    label {
-                        display: inline-block;
-                        font-weight: 700;
-                        width: 120px;
-                        text-align: right;
-                        vertical-align: middle;
-                    }
-
-                    span {
-                        display: inline-block;
-                        vertical-align: middle;
-
-                        letter-spacing: 1px;
-
-                        width: 120px;
-                        text-align: left; 
-
-                        padding: 5px;
-                        margin: 4px 0;
+                        p {
+                            font-size: 14px;
+                            padding: 0 30px;
+                        }
                     }
                 }
 
-                .email-text {
-                    margin-top: 10px;
-                    display: block;
-                    width: 100%;
-                    padding: 18px;
-                    font-weight: normal;
-                    box-sizing: border-box;
-                    white-space: normal;
-                    padding-bottom: 10px;
+                &.bank {
+                    .result-type.bank-pending {
+                        display: block;
+        
+                        .transfer-info {
+                            white-space: normal;
+                            font-weight: normal;
+                            line-height: 200%;
+        
+                            background: #222;
+                            color: white;
+        
+                            label {
+                                display: inline-block;
+                                font-weight: 700;
+                                width: 120px;
+                                text-align: right;
+                                vertical-align: middle;
+                            }
+        
+                            span {
+                                display: inline-block;
+                                vertical-align: middle;
+        
+                                letter-spacing: 1px;
+        
+                                width: 120px;
+                                text-align: left; 
+        
+                                padding: 5px;
+                                margin: 4px 0;
+                            }
+                        }
+        
+                        .email-text {
+                            margin-top: 10px;
+                            display: block;
+                            width: 100%;
+                            padding: 18px;
+                            font-weight: normal;
+                            box-sizing: border-box;
+                            white-space: normal;
+                            padding-bottom: 10px;
+                        }
+                    }
+                }
+
+                &.confirmed {
+                    .result-type.donation-confirmed {
+                        display: block;
+
+                        p {
+                            font-size: 16px;
+                            padding: 0 30px;
+                        }
+                    }
                 }
             }
         }

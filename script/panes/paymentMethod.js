@@ -1,58 +1,70 @@
-module.exports = function(widget, pane) { 
-    this.widget = widget;
-    this.pane = pane;
+var Pane = require('./paneClass.js')
+var DonationPane = require('./result.js')
 
-    return {
-        submit: submit,
-        focus: focus,
-        widget: widget,
-        pane: pane
-    } 
-}
+module.exports = class PaymentMethodPane extends Pane {
+    constructor(config) {
+        super(config);
+        super.setCustomfocus(this);
 
-function submit() {
-    return true;
-}
+        this.setupButtons();
+    }
 
-function focus() {
-    console.log("Focus");
-    updatePayPalForm();
-    setupWebSocket();
-} 
-
-function updatePayPalForm() {
-    let payPalForm = document.getElementById("payPalForm");
-  
-    payPalForm.amount.setAttribute("value", widget.donationAmount);
-}
-
-function setupWebSocket() {
-    var socket = new WebSocket("ws://api.gieffektivt.no:8080");
-
-    socket.addEventListener("message", onSocketMessage)
-}
-
-function setupButtons() {
-
-}
-
-function showWaitingScreen() {
-    pane.getElementsByClassName("awaiting-confirmation")[0].style.display = "block";
-}
-
-var clientWsID
-function onSocketMessage(msg) {
-    console.log(msg.data)
-    if (!clientWsID) {
-        clientWsID = msg.data
-        payPalForm.custom.setAttribute("value", widget.KID + "|" + clientWsID);
-    } 
-    else {
-        if (msg.data == "PAYPAL_VERIFIED") {
-            widget.nextSlide();
+    submit(state) {
+        var resultPane = widget.panes.find(function (pane) { return pane instanceof DonationPane; })
+        
+        if (state == "DONATION_RECIEVED") {
+            resultPane.setResultState("DONATION_RECIEVED");
+        } else if (state == "BANK_PENDING") {
+            resultPane.setResultState("BANK_PENDING");
+        } else if (state == "VIPPS_PENDING") {
+            resultPane.setResultState("VIPPS_PENDING");
         }
-        else if (msg.data == "PAYPAL_ERROR") {
-            widget.error("Feil i PayPal");
+    }
+    
+    customFocus() {
+        this.updatePayPalForm();
+        this.setupWebSocket();
+    } 
+    
+    updatePayPalForm() {
+        this.payPalForm = document.getElementById("payPalForm");
+        this.payPalForm.amount.setAttribute("value", this.widget.donationAmount);
+    }
+    
+    setupWebSocket() {
+        var socket = new WebSocket("ws://api.gieffektivt.no:8080");
+        var _self = this;
+        socket.addEventListener("message", (msg) => { _self.onSocketMessage(msg); });
+    }
+    
+    setupButtons() {
+        var _self = this;
+        this.payPalBtn = this.paneElement.getElementsByClassName("paypal")[0];
+        this.payPalBtn.addEventListener("click", () => {_self.payPalButtonClicked(); });
+    }
+
+    payPalButtonClicked() {
+        document.getElementById('submitPaypal').click();
+        this.showWaitingScreen();
+    }
+    
+    showWaitingScreen() {
+        this.paneElement.getElementsByClassName("awaiting-confirmation")[0].style.display = "flex";
+    }
+
+    onSocketMessage(msg) {
+        console.log(msg.data)
+        if (!this.clientWsID) {
+            this.clientWsID = msg.data;
+            this.payPalForm.custom.setAttribute("value", this.widget.KID + "|" + this.clientWsID);
+        } 
+        else {
+            if (msg.data == "PAYPAL_VERIFIED") {
+                this.submit("DONATION_RECIEVED");
+            }
+            else if (msg.data == "PAYPAL_ERROR") {
+                this.widget.error("Feil i PayPal");
+            }
         }
     }
 }
