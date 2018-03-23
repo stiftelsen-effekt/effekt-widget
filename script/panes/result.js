@@ -16,12 +16,19 @@ module.exports = class ResultPane extends Pane {
     }
     
     setResultState(state) {
+        var emailFields = this.paneElement.getElementsByClassName("email")
+        for (var i = 0; i < emailFields.length; i++) {
+            emailFields[i].innerHTML = this.widget.email;
+        }
+
         if (state == "DONATION_RECIEVED") {
             this.paneElement.classList.add("confirmed");
         } else if (state == "VIPPS_PENDING") {
             this.paneElement.classList.add("vipps");
         } else if (state == "BANK_PENDING") {
             this.paneElement.classList.add("bank");
+
+            this.paneElement.classList.add
         }
     }
 }

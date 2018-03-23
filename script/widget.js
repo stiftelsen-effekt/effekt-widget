@@ -92,16 +92,6 @@ function DonationWidget() {
                 return;
             }
             nxtBtn.classList.remove("loading");
-
-            /* move to result pane initialization */
-            /*
-            var resultPane = _self.element.getElementsByClassName("result")[0];
-            var KIDstring = data.content.KID.toString();
-            KIDstring = KIDstring.slice(0,3) + " " + KIDstring.slice(3,5) + " " + KIDstring.slice(5);
-            resultpane.pane.getElementsByClassName("KID")[0].innerHTML = KIDstring;
-            resultpane.pane.getElementsByClassName("email")[0].innerHTML = _self.email;
-            resultPane.pane.getElementsByClassName("amount")[0].innerHTML = _self.donationAmount + "kr";
-            */
             
             _self.KID = data.content.KID;
             _self.nextSlide();
@@ -282,7 +272,7 @@ function DonationWidget() {
         error: this.error,
         request: this.request,
         updateSliderProgress: this.updateSliderProgress,
-        postDonation: this.postDonation,
+        registerDonation : this.registerDonation ,
         prevSlide: this.prevSlide,
         hideError: this.hideError,
         setup: this.setup

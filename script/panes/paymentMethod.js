@@ -67,4 +67,28 @@ module.exports = class PaymentMethodPane extends Pane {
             }
         }
     }
+
+    setupVippsGuide() {
+        let vippsGuide = this.paneElement.getElementsByClassName("vipps-guide")[0]
+    
+        this.vippsGuideScreens = vippsGuide.getElementsByClassName("screen")
+    
+        this.vippsGuideProgress = 0
+        for (var i = 0; i < this.vippsGuideScreens.length; i++) {
+            //Prev/next
+            if (i == 0) {
+                
+            } else if (i == this.vippsGuideScreens.length-1) {
+
+            } else {
+
+            }
+        }
+    }
+
+    goToVippsScreen(screenNumber) {
+        for (var i = 0; i < this.vippsGuideScreens; i++) {
+
+        }
+    }
 }
