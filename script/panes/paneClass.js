@@ -26,6 +26,24 @@ module.exports = class Pane {
         this.visible = false;
     }
 
+    resizeWidgetToFit() {
+        console.log("Resize widget to fit pane content");
+
+        if (this.hasButton) var padding = 90;
+        else var padding = 50;
+
+        console.log(this.hasButton)
+
+        //Height is size of the inner content of pane + padding
+        var height = this.paneElement.getElementsByClassName("inner")[0].clientHeight + padding;
+
+        //What?
+        //if (slidenum == _self.panes.length-1) _self.element.style.maxHeight = "3000px";
+
+        if (height < 300) height = 300;
+        this.widget.element.style.height = height + "px";
+    }
+
     setCustomfocus(subclass) {
         this.focus = function() {
             subclass.customFocus();

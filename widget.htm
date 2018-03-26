@@ -123,9 +123,9 @@
 
                         <div class="pane payment-method">
                             <div class="inner">
-                                <h3>Betalingsmåte</h3>
+                                <div class="selection active">
+                                    <h3>Betalingsmåte</h3>
 
-                                <div class="selection">
                                     <span>Kostnadene angitt under dekkes av Effekt. <br>100% av din donasjon kommer frem.</span>
 
                                     <div class="payment-methods">
@@ -163,23 +163,18 @@
                                 </div>
 
                                 <div class="vipps-guide">
-                                    <div class="screen">
-                                        <div class="message">Velg betal i Vipps-appen</div>
-                                    </div>
-                                    <div class="screen">
-                                        <div class="message">Søk etter og velg Stiftelsen Effekt eller #311367</div>
-                                    </div>
-                                    <div class="screen">
-                                        <div class="message">Før inn beløp <font class="vipps-amount"></font> og KID: <font class="vipps-KID"></font> i meldingsfeltet. Trykk så send.</div>
-                                    </div>
-                                    <div class="screen">
-                                        <div class="message">Bekreft din donasjon</div>
-                                    </div>
-                                    <div class="screen">
-                                        <div class="message">Søk etter og velg Stiftelsen Effekt eller #311367</div>
-                                    </div>
-                                    <div class="screen">
-                                        <div class="message">Søk etter og velg Stiftelsen Effekt eller #311367</div>
+                                    <h3>Vipps betaling</h3>
+                                    <ul>
+                                        <li><div class="list-point">1</div><div class="text">Velg BETAL i Vipps-appen</div></li>
+                                        <li><div class="list-point">2</div><div class="text">Søk etter og velg Stiftelsen Effekt eller #311367</div></li>
+                                        <li><div class="list-point">3</div><div class="text">Før inn beløp <font id="vipps-donation-amount"></font> og KID: <font id="vipps-donation-kid"></font> i meldingsfeltet</div></li>
+                                        <li><div class="list-point">4</div><div class="text">Bekreft donasjon</div></li>
+                                        <li><div class="list-point">5</div><div class="text">Kvittering</div></li>
+                                    </ul>
+
+                                    <div class="actions">
+                                        <div id="vipps-cancel">Avbryt</div>
+                                        <div id="vipps-finished">Ferdig</div>
                                     </div>
                                 </div>
                             </div>
@@ -210,7 +205,7 @@
                                 </div>
 
                                 <div class="result-type vipps-pending">
-                                    <p>Vi bruker vanligvis noen dager på å bekrefte vipps donasjoner. Du vil få en mail når vi har bekreftet din donasjon.</p>
+                                    <p>Vi bruker vanligvis noen dager på å bekrefte vipps donasjoner. Du vil få en mail til <font class="email"></font> når vi har bekreftet din donasjon.</p>
                                 </div>
 
                                 <div class="result-type donation-confirmed">

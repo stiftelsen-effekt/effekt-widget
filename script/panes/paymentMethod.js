@@ -19,6 +19,8 @@ module.exports = class PaymentMethodPane extends Pane {
         } else if (state == "VIPPS_PENDING") {
             resultPane.setResultState("VIPPS_PENDING");
         }
+
+        this.widget.nextSlide();
     }
     
     customFocus() {
@@ -40,7 +42,15 @@ module.exports = class PaymentMethodPane extends Pane {
     setupButtons() {
         var _self = this;
         this.payPalBtn = this.paneElement.getElementsByClassName("paypal")[0];
-        this.payPalBtn.addEventListener("click", () => {_self.payPalButtonClicked(); });
+        this.payPalBtn.addEventListener("click", () => {
+            _self.payPalButtonClicked(); 
+        });
+
+        this.vippsBtn = this.paneElement.getElementsByClassName("vipps")[0];
+        this.vippsBtn.addEventListener("click", () => {
+            _self.setupVippsGuide();
+            //show vipps guide
+        });
     }
 
     payPalButtonClicked() {
@@ -69,26 +79,26 @@ module.exports = class PaymentMethodPane extends Pane {
     }
 
     setupVippsGuide() {
-        let vippsGuide = this.paneElement.getElementsByClassName("vipps-guide")[0]
-    
-        this.vippsGuideScreens = vippsGuide.getElementsByClassName("screen")
-    
-        this.vippsGuideProgress = 0
-        for (var i = 0; i < this.vippsGuideScreens.length; i++) {
-            //Prev/next
-            if (i == 0) {
-                
-            } else if (i == this.vippsGuideScreens.length-1) {
+        var _self = this;
+        
+        //Add KID and amount to info text
+        document.getElementById("vipps-donation-amount").innerHTML = this.widget.donationAmount + "kr";
+        document.getElementById("vipps-donation-kid").innerHTML = this.widget.KID;
 
-            } else {
+        this.paneElement.getElementsByClassName("vipps-guide")[0].classList.add("active");
+        this.paneElement.getElementsByClassName("selection")[0].classList.remove("active");
 
-            }
-        }
-    }
+        var finishedBtn = document.getElementById("vipps-finished");
+        finishedBtn.addEventListener("click", function() {
+            _self.submit("VIPPS_PENDING");
+        });
+        var cancelBtn = document.getElementById("vipps-cancel");
+        cancelBtn.addEventListener("click", function() {
+            _self.paneElement.getElementsByClassName("vipps-guide")[0].classList.remove("active");
+            _self.paneElement.getElementsByClassName("selection")[0].classList.add("active");
+            _self.resizeWidgetToFit();
+        });
 
-    goToVippsScreen(screenNumber) {
-        for (var i = 0; i < this.vippsGuideScreens; i++) {
-
-        }
+        this.resizeWidgetToFit();
     }
 }

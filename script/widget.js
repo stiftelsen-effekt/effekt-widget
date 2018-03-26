@@ -105,7 +105,7 @@ function DonationWidget() {
         if (slidenum < 0 || slidenum > _self.panes.length - 1) throw Error("Slide under 0 or larger than set")
 
         var visiblePanesInFront = getVisiblePanesInFront(slidenum);
-        //console.log("Visible in front: " + visiblePanesInFront);
+        console.log("Visible in front: " + visiblePanesInFront);
 
         _self.slider.style.transform = "translateX(-" + (visiblePanesInFront * _self.width) + "px)";
 
@@ -113,18 +113,7 @@ function DonationWidget() {
         this.updateSliderProgress();
 
         var pane = _self.panes[slidenum];
-
-        if (pane.hasButton) var padding = 90;
-        else var padding = 50;
-
-        //Height is size of the inner content of pane + padding
-        var height = pane.paneElement.getElementsByClassName("inner")[0].clientHeight + padding;
-
-        //What?
-        if (slidenum == _self.panes.length-1) _self.element.style.maxHeight = "3000px";
-
-        if (height < 300) height = 300;
-        _self.element.style.height = height + "px";
+        pane.resizeWidgetToFit();
 
         //Fix for occational render bug
         setTimeout(function() {
@@ -150,6 +139,7 @@ function DonationWidget() {
 
     function getVisiblePanesInFront(slidenum) {
         return _self.panes.slice(0,slidenum).reduce(function(acc, pane) { 
+            console.log(pane);
             if (pane.visible) return acc+1;
             else return acc;
         }, 0);
