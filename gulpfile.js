@@ -30,6 +30,8 @@ gulp.task('script', function() {
     .pipe(gulp.dest('./'));*/
 })
 
+gulp.task('default', ['style', 'script'])
+
 gulp.task('watch', function() {
     gulp.watch('style/**/*.scss', ['style'])
     gulp.watch('script/**/*.js', ['script'])

@@ -13,13 +13,13 @@ Install NPM packages
 npm install
 ```
 
-Compile sass files to css files
+Compile sass-files to css-files and bundle JS-files
 
 ```
 gulp
 ``` 
 
-Watch sass files for changes, and compile them to css when changed
+Watch JS-files and sass-files for changes, and bundle or compile them to css when changed
 
 ```
 gulp watch
