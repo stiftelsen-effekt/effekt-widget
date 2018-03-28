@@ -7,6 +7,7 @@ module.exports = class PaymentMethodPane extends Pane {
         super.setCustomfocus(this);
 
         this.setupButtons();
+        this.setupVippsGuide();
     }
 
     submit(state) {
@@ -48,7 +49,7 @@ module.exports = class PaymentMethodPane extends Pane {
 
         this.vippsBtn = this.paneElement.getElementsByClassName("vipps")[0];
         this.vippsBtn.addEventListener("click", () => {
-            _self.setupVippsGuide();
+            _self.openVippsGuide();
             //show vipps guide
         });
     }
@@ -80,13 +81,6 @@ module.exports = class PaymentMethodPane extends Pane {
 
     setupVippsGuide() {
         var _self = this;
-        
-        //Add KID and amount to info text
-        document.getElementById("vipps-donation-amount").innerHTML = this.widget.donationAmount + "kr";
-        document.getElementById("vipps-donation-kid").innerHTML = this.widget.KID;
-
-        this.paneElement.getElementsByClassName("vipps-guide")[0].classList.add("active");
-        this.paneElement.getElementsByClassName("selection")[0].classList.remove("active");
 
         var finishedBtn = document.getElementById("vipps-finished");
         finishedBtn.addEventListener("click", function() {
@@ -96,9 +90,28 @@ module.exports = class PaymentMethodPane extends Pane {
         cancelBtn.addEventListener("click", function() {
             _self.paneElement.getElementsByClassName("vipps-guide")[0].classList.remove("active");
             _self.paneElement.getElementsByClassName("selection")[0].classList.add("active");
+            _self.hasButton = true;
             _self.resizeWidgetToFit();
         });
 
-        this.resizeWidgetToFit();
+        //Setup helper buttons
+        var explanatoryButtons = this.paneElement.getElementsByClassName("explanatory-image");
+        for (var i = 0; i < explanatoryButtons.length; i++) {
+            console.log(explanatoryButtons[i]);
+            explanatoryButtons[i].addEventListener("click", function() { alert("Hei!"); });
+        }
+    }
+
+    openVippsGuide() {
+        this.hasButton = false;
+        this.paneElement.getElementsByClassName("vipps-guide")[0].classList.add("active");
+        this.paneElement.getElementsByClassName("selection")[0].classList.remove("active");
+
+        //Add KID and amount to info text
+        document.getElementById("vipps-donation-amount").innerHTML = this.widget.donationAmount + " kr";
+        document.getElementById("vipps-donation-kid").innerHTML = this.widget.KID;
+
+        var _self = this;
+        _self.resizeWidgetToFit();
     }
 }

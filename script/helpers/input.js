@@ -12,7 +12,7 @@ module.exports = {
                             valid = numberInputWhitelistCheck(e);
                         }
     
-                        if (pane.widget.activeError) _self.hideError();
+                        if (pane.widget.activeError) pane.widget.hideError();
     
                         if (e.keyCode == 13) {
                             this.blur();
@@ -22,7 +22,7 @@ module.exports = {
                     });
     
                     inputs[i].addEventListener("keydown", function(e) {
-                        if (pane.widget.activeError) _self.hideError();
+                        if (pane.widget.activeError) pane.widget.hideError();
                         
                         if (e.keyCode == 13) {
                             this.blur();
