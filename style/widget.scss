@@ -133,6 +133,7 @@ $cdn-url: "https://api.gieffektivt.no/static/";
                 .btn {
                     $size: 30px;
                     display: inline-block;
+                    vertical-align: top;
                     position: relative;
 
                     width: $size;
@@ -515,17 +516,17 @@ $cdn-url: "https://api.gieffektivt.no/static/";
                     margin-bottom: 14px;
                 }
 
-                span {
-                    display: inline-block;
-                    color: rgb(37, 37, 37);
-                    font-size: 11px;
-                    width: 80%;
-                    margin-bottom: 10px;
-                }
-
                 .selection {
                     position: relative;
                     display: none;
+                    
+                    span {
+                        display: inline-block;
+                        color: rgb(37, 37, 37);
+                        font-size: 11px;
+                        width: 80%;
+                        margin-bottom: 36px;
+                    }
 
                     &.active {
                         display: block;
@@ -611,6 +612,12 @@ $cdn-url: "https://api.gieffektivt.no/static/";
                     background: white;
                     z-index: 10;
 
+                    .header {
+                        height: 32px;
+                        padding-top: 34px;
+                        padding-bottom: 6px;
+                    }
+
                     &.active {
                         display: block;
                     }
@@ -624,11 +631,25 @@ $cdn-url: "https://api.gieffektivt.no/static/";
                         margin: 0;
 
                         li {
-                            margin: 8px 0;
+                            margin: 20px 0;
                             .text {
-                                width: 268px;
+                                width: 238px;
                                 display: inline-block;
                                 vertical-align: top;
+                            }
+
+                            .explanatory-image {
+                                display: inline-block;
+                                width: 16px;
+                                height: 16px;
+                                background-image: url(#{$cdn-url}help.svg);
+                                background-size: cover;
+                                background-repeat: no-repeat;
+                                background-position: center center;
+                                vertical-align: top;
+                                margin-top: 2px;
+                                opacity: .4;
+                                cursor: pointer;
                             }
 
                             .list-point {
@@ -652,7 +673,7 @@ $cdn-url: "https://api.gieffektivt.no/static/";
                         text-align: center;
                         padding: 5px 0;
                         position: absolute;
-                        bottom: -56px;
+                        bottom: -50px;
                         background: white;
 
                         & > div {
@@ -666,6 +687,25 @@ $cdn-url: "https://api.gieffektivt.no/static/";
                             margin: 0 5px;
                             user-select: none;
                             cursor: pointer;
+                        }
+                    }
+
+                    .helper-images {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+
+                        .explanation-image {
+                            width: 100%;
+                            height: 100%;
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            background-position: top center;
+                            background-size: cover;
+                            background-repeat: no-repeat;
                         }
                     }
                 }

@@ -76,27 +76,27 @@
                         <div class="pane basic">
                             <div class="inner">
                                 <h3>Doner her</h3>
-                                <input type="text" class="name" placeholder="navn"></input>
-                                <input type="text" class="email" placeholder="email"></input>
+                                <input type="text" class="name" placeholder="navn" autocomplete="off"></input>
+                                <input type="text" class="email" placeholder="email" autocomplete="off"></input>
                             </div>
                         </div>
                         <div class="pane amount">
                             <div class="inner">
                                 <h3>Angi sum</h3>
                                 <div class="amount-wrapper">
-                                    <input type="text" class="amount" placeholder="sum" pattern="[0-9]*" inputmode="numeric" nocomma="true"></input>
+                                    <input type="text" class="amount" placeholder="sum" pattern="[0-9]*" inputmode="numeric" nocomma="true" autocomplete="off"></input>
                                     <span class="currency">kr</span>
                                 </div>
                                 <div class="select-split">
                                     <label for="check-select-recommended">Bruk vår anbefalte fordeling</label>
-                                    <input type="radio" name="split-selection" id="check-select-recommended" checked="true" />
+                                    <input type="radio" name="split-selection" id="check-select-recommended" checked="true" autocomplete="off" />
                                     <label class="box" for ="check-select-recommended"></label>
                                 </div>
                           
                                 <div class="select-split">
                                     <label for="check-select-split">Jeg vil velge fordeling selv</label>
 
-                                    <input type="radio" name="split-selection" id="check-select-split" />
+                                    <input type="radio" name="split-selection" id="check-select-split" autocomplete="off" />
                                     <label class="box" for ="check-select-split"></label>
                                 </div>
                             </div>
@@ -129,9 +129,9 @@
                                     <span>Kostnadene angitt under dekkes av Effekt. <br>100% av din donasjon kommer frem.</span>
 
                                     <div class="payment-methods">
-                                        <div class="method bank">
+                                        <!--<div class="method bank">
                                             <div class="transaction-costs">1.5kr</div>
-                                        </div>
+                                        </div>-->
 
                                         <form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="payPalForm" target="_blank" style="display: inline-block;">
                                             <input type="hidden" name="cmd" value="_donations">
@@ -163,18 +163,44 @@
                                 </div>
 
                                 <div class="vipps-guide">
-                                    <h3>Vipps betaling</h3>
+                                    <img src="assets/logos/vipps.png" class="header"/>
                                     <ul>
-                                        <li><div class="list-point">1</div><div class="text">Velg BETAL i Vipps-appen</div></li>
-                                        <li><div class="list-point">2</div><div class="text">Søk etter og velg Stiftelsen Effekt eller #311367</div></li>
-                                        <li><div class="list-point">3</div><div class="text">Før inn beløp <font id="vipps-donation-amount"></font> og KID: <font id="vipps-donation-kid"></font> i meldingsfeltet</div></li>
-                                        <li><div class="list-point">4</div><div class="text">Bekreft donasjon</div></li>
-                                        <li><div class="list-point">5</div><div class="text">Kvittering</div></li>
+                                        <li>
+                                            <div class="list-point">1</div>
+                                            <div class="text">Velg betal i Vipps-appen</div>
+                                            <div class="explanatory-image" data-url="https://api.gieffektivt.no/static/vipps_guide_1.png"></div>
+                                        </li>
+                                        <li>
+                                            <div class="list-point">2</div>
+                                            <div class="text">Søk etter og velg Stiftelsen Effekt eller #311367</div>
+                                            <div class="explanatory-image" data-url="https://api.gieffektivt.no/static/vipps_guide_2.png"></div>
+                                        </li>
+                                        <li>
+                                            <div class="list-point">3</div>
+                                            <div class="text">Før inn beløp <font id="vipps-donation-amount"></font> og KID: <font id="vipps-donation-kid"></font> i meldingsfeltet</div>
+                                            <div class="explanatory-image" data-url="https://api.gieffektivt.no/static/vipps_guide_3.png"></div>
+                                        </li>
+                                        <!--
+                                        <li>
+                                            <div class="list-point">4</div>
+                                            <div class="text">Bekreft donasjon </div>
+                                            <div class="explanatory-image" data-url="https://api.gieffektivt.no/static/vipps_guide_4.png"></div></li>
+                                        <li>
+                                            <div class="list-point">5</div>
+                                            <div class="text">Kvittering</div>
+                                            <div class="explanatory-image" data-url="https://api.gieffektivt.no/static/vipps_guide_5.png"></div>
+                                        </li>-->
                                     </ul>
 
                                     <div class="actions">
                                         <div id="vipps-cancel">Avbryt</div>
                                         <div id="vipps-finished">Ferdig</div>
+                                    </div>
+
+                                    <div class="helper-images">
+                                        <div class="explanation-image" style="background-image: url('https://api.gieffektivt.no/static/vipps_guide_1.png');"></div>
+                                        <div class="explanation-image" style="background-image: url('https://api.gieffektivt.no/static/vipps_guide_2.png');"></div>
+                                        <div class="explanation-image" style="background-image: url('https://api.gieffektivt.no/static/vipps_guide_3.png');"></div>
                                     </div>
                                 </div>
                             </div>

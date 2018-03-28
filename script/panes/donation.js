@@ -44,8 +44,8 @@ module.exports = class DonationPane extends Pane {
         
         console.log("Split: "+ rounding.sumWithPrecision(donationSplit.map(function(item) {return item.split})))
         if (rounding.sumWithPrecision(donationSplit.map(function(item) {return item.split})) === '100') {
-            var nxtBtn = pane.getElementsByClassName("btn")[0];
-            nxtBtn.classList.add("loading");
+            var nxtBtn = pane.getElementsByClassName("btn")[1];
+            nxtBtn.classList.add("loading"); 
     
             widget.registerDonation({
                 donor: {
@@ -88,9 +88,7 @@ module.exports = class DonationPane extends Pane {
         for (var i = 0; i < widget.organizations.length; i++) {
             var org = widget.organizations[i];
     
-            if (typeof org.setValue === "undefined") {
-                org.setValue = Math.round(widget.donationAmount * (org.standardShare / 100));
-            }
+            org.setValue = Math.round(widget.donationAmount * (org.standardShare / 100));
     
             org.inputElement.value = org.setValue;
         }

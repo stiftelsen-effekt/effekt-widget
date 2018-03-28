@@ -102,6 +102,15 @@ function DonationWidget() {
     this.goToSlide = function(slidenum) {
         console.log("Going to slide number: " + slidenum);
 
+        //Recursively walk farward until visible pane found
+        function walkToVisibleSlideAndReturnIndex(slidenum) {
+            if (_self.panes[slidenum].visible) return slidenum;
+            //If moving forward, traverse forwards, if moving backwards, traverse backwards
+            else return walkToVisibleSlideAndReturnIndex((_self.currentSlide < slidenum) ? slidenum+1 : slidenum-1);
+        }
+        slidenum = walkToVisibleSlideAndReturnIndex(slidenum);
+        console.log("Slide number after traversing: " + slidenum);
+        
         if (slidenum < 0 || slidenum > _self.panes.length - 1) throw Error("Slide under 0 or larger than set")
 
         var visiblePanesInFront = getVisiblePanesInFront(slidenum);
@@ -139,7 +148,6 @@ function DonationWidget() {
 
     function getVisiblePanesInFront(slidenum) {
         return _self.panes.slice(0,slidenum).reduce(function(acc, pane) { 
-            console.log(pane);
             if (pane.visible) return acc+1;
             else return acc;
         }, 0);
@@ -159,7 +167,7 @@ function DonationWidget() {
         _self.activeError = true;
         _self.errorElement.innerHTML = msg;
         _self.errorElement.classList.add("active");
-        _self.panes[_self.currentSlide].getElementsByClassName("loading")[0].classList.remove("loading");
+        _self.panes[_self.currentSlide].paneElement.getElementsByClassName("loading")[0].classList.remove("loading");
 
         setTimeout(function() {
             hideError();
