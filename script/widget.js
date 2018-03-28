@@ -4,7 +4,7 @@ function DonationWidget() {
     this.setup = function (self, widgetElement) {
         _self = self;
 
-        this.assetsUrl = "https://api.gieffektivt.no/static/";
+        this.assetsUrl = "http://api.gieffektivt.no/static/";
         
         this.localStorage = window.localStorage; 
     

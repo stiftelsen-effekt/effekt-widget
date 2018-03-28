@@ -84,13 +84,29 @@ module.exports = class DonationPane extends Pane {
 
     setSplitValues() {
         var widget = this.widget;
-    
-        for (var i = 0; i < widget.organizations.length; i++) {
-            var org = widget.organizations[i];
-    
-            org.setValue = Math.round(widget.donationAmount * (org.standardShare / 100));
-    
-            org.inputElement.value = org.setValue;
+
+        if (this.sharesType == "decimal") {
+            var absoluteSplit = rounding.toAbsolute(
+                widget.donationAmount,
+                widget.organizations.map(function (org) {return org.standardShare})                
+            );
+        
+            for (var i = 0; i < widget.organizations.length; i++) {
+                var org = widget.organizations[i];
+                
+                org.setValue = absoluteSplit[i];
+        
+                org.inputElement.value = org.setValue;
+            }
+        } else {
+        
+            for (var i = 0; i < widget.organizations.length; i++) {
+                var org = widget.organizations[i];
+                
+                org.setValue = org.standardShare;
+        
+                org.inputElement.value = org.setValue;
+            }
         }
     
         this.updateTotalShares();
