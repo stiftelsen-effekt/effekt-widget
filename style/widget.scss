@@ -562,15 +562,15 @@ $cdn-url: "https://api.gieffektivt.no/static/";
                             }
 
                             &.vipps {
-                                background-image: url('../assets/logos/vipps.png');
+                                background-image: url(#{$cdn-url}logos/vipps.png);
                             }
 
                             &.paypal {
-                                background-image: url('../assets/logos/PayPal.png');
+                                background-image: url(#{$cdn-url}logos/PayPal.png);
                             }
 
                             &.bank {
-                                background-image: url('../assets/logos/bank.png');
+                                background-image: url(#{$cdn-url}logos/bank.png);
                                 background-position: center 0;
                             }
                         }
