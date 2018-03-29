@@ -57,6 +57,8 @@ module.exports = class DonationPane extends Pane {
             }, nxtBtn);
         }
         else {
+            var nxtBtn = pane.getElementsByClassName("btn")[1];
+            nxtBtn.classList.add("loading");
             widget.error("Du må fordele alle midlene");
         }
     }
