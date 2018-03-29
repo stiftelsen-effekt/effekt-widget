@@ -4,7 +4,7 @@
   "description": "Effekt frontend donation widget",
   "main": "widget.htm",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node_modules\\.bin\\wdio wdio.conf.js"
   },
   "repository": {
     "type": "git",
@@ -24,7 +24,10 @@
     "gulp-tap": "^1.0.1",
     "gulp-uglify": "^3.0.0",
     "gulp-util": "^3.0.8",
-    "gulp-watch": "^4.3.11"
+    "gulp-watch": "^4.3.11",
+    "wdio-mocha-framework": "^0.5.13",
+    "wdio-sauce-service": "^0.4.8",
+    "webdriverio": "^4.12.0"
   },
   "dependencies": {
     "decimal.js": "^7.3.0",

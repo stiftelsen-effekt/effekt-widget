@@ -3,3 +3,5 @@ style/**/*.css
 bundle.js
 bundle.min.js
 .idea/
+sc.log
+errorShots/
