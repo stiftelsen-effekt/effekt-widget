@@ -41,6 +41,19 @@ var WidgetPage = Object.create(Page, {
     vippsGuideElement: { get: function() { return browser.element('.pane.payment-method .inner .vipps-guide'); } },
     vippsDoneButton: { get: function() { return browser.element('#vipps-finished'); } },
     vippsCancelButton: { get: function() { return browser.element('#vipps-cancel'); } },
+    vippsCloseScreenshotButton: { get: function() { return browser.element('#donation-widget > div.inner > div.slider > div.pane.payment-method > div.inner > div.vipps-guide.active > div.helper-images > div.close-btn'); } },
+
+    vippsHelp1: { get: function() { return browser.element('#donation-widget > div.inner > div.slider > div.pane.payment-method > div.inner > div.vipps-guide.active > ul > li:nth-child(1) > div.explanatory-image'); } },
+    vippsHelp2: { get: function() { return browser.element('#donation-widget > div.inner > div.slider > div.pane.payment-method > div.inner > div.vipps-guide.active > ul > li:nth-child(2) > div.explanatory-image'); } },
+    vippsHelp3: { get: function() { return browser.element('#donation-widget > div.inner > div.slider > div.pane.payment-method > div.inner > div.vipps-guide.active > ul > li:nth-child(3) > div.explanatory-image'); } },
+    vippsHelp4: { get: function() { return browser.element('#donation-widget > div.inner > div.slider > div.pane.payment-method > div.inner > div.vipps-guide.active > ul > li:nth-child(4) > div.explanatory-image'); } },
+    vippsHelp5: { get: function() { return browser.element('#donation-widget > div.inner > div.slider > div.pane.payment-method > div.inner > div.vipps-guide.active > ul > li:nth-child(5) > div.explanatory-image'); } },
+
+    vippsPicture1: { get: function() { return browser.element('#donation-widget > div.inner > div.slider > div.pane.payment-method > div.inner > div.vipps-guide.active > div.helper-images > div:nth-child(2)'); } },
+    vippsPicture1: { get: function() { return browser.element('#donation-widget > div.inner > div.slider > div.pane.payment-method > div.inner > div.vipps-guide.active > div.helper-images > div:nth-child(3)'); } },
+    vippsPicture1: { get: function() { return browser.element('#donation-widget > div.inner > div.slider > div.pane.payment-method > div.inner > div.vipps-guide.active > div.helper-images > div:nth-child(4)'); } },
+    vippsPicture1: { get: function() { return browser.element('#donation-widget > div.inner > div.slider > div.pane.payment-method > div.inner > div.vipps-guide.active > div.helper-images > div:nth-child(5)'); } },
+    vippsPicture1: { get: function() { return browser.element('#donation-widget > div.inner > div.slider > div.pane.payment-method > div.inner > div.vipps-guide.active > div.helper-images > div:nth-child(6)'); } },
 
     // Paypal
     paypalPrevButton: { get: function() { return this.methodPrevButton; } },
