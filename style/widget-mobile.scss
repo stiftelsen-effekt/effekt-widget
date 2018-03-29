@@ -15,7 +15,7 @@ $cdn-url: "https://api.gieffektivt.no/static/";
                 top: 0;
             }
     
-            .close-btn {
+            & > .close-btn {
                 right: 6px;
                 top: 6px;
                 background-color: black;

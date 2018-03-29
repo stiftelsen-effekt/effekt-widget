@@ -5,7 +5,7 @@ $cdn-url: "https://api.gieffektivt.no/static/";
 #donation-widget-container {
     position: fixed;
     top: 0;
-    left: 0;
+    left: 0; 
 
     z-index: -1;
 
@@ -43,7 +43,7 @@ $cdn-url: "https://api.gieffektivt.no/static/";
         transform: scale(1);
     }
 
-    .close-btn {
+    & > .close-btn {
         position: absolute;
         top: 0;
         right: -42px;
@@ -695,7 +695,21 @@ $cdn-url: "https://api.gieffektivt.no/static/";
                         top: 0;
                         left: 0;
                         width: 100%;
-                        height: 100%;
+                        height: calc(100% + 50px);
+
+                        .close-btn {
+                            position: absolute;
+                            bottom: 16px;
+                            width: 136px;
+                            padding: 12px;
+                            box-sizing: border-box;
+                            background: black;
+                            color: white;
+                            text-align: center;
+                            left: calc(50% - 60px);
+                            z-index: 100;
+                            cursor: pointer;
+                        }
 
                         .explanation-image {
                             width: 100%;

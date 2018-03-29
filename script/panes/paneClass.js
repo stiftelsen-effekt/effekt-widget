@@ -37,8 +37,9 @@ module.exports = class Pane {
         //Height is size of the inner content of pane + padding
         var height = this.paneElement.getElementsByClassName("inner")[0].clientHeight + padding;
 
-        //What?
-        //if (slidenum == _self.panes.length-1) _self.element.style.maxHeight = "3000px";
+        //What? Has something to do with mobile, but unclear what
+        if (this.resizableOnMobile) this.widget.element.style.maxHeight = "3000px";
+        else this.widget.element.style.maxHeight = "";
 
         if (height < 300) height = 300;
         this.widget.element.style.height = height + "px";

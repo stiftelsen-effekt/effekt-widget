@@ -6,7 +6,6 @@ module.exports = {
         var http = new XMLHttpRequest();
         var url = api_url + endpoint;
 
-
         http.onreadystatechange = function() {
             if (this.readyState == 4) {
                 if (this.status == 200 ) {

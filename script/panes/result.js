@@ -3,6 +3,9 @@ var Pane = require('./paneClass.js')
 module.exports = class ResultPane extends Pane {
     constructor(config) {
         super(config);
+
+        this.resizableOnMobile = true;
+
         super.setCustomfocus(this);
     }
 
