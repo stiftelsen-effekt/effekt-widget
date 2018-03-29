@@ -6,8 +6,9 @@ module.exports = class PaymentMethodPane extends Pane {
         super(config);
         super.setCustomfocus(this);
 
+        this.resizableOnMobile = true;
+
         this.setupButtons();
-        this.setupVippsGuide();
     }
 
     submit(state) {
@@ -27,6 +28,7 @@ module.exports = class PaymentMethodPane extends Pane {
     customFocus() {
         this.updatePayPalForm();
         this.setupWebSocket();
+        this.setupVippsGuide();
     } 
     
     updatePayPalForm() {
@@ -94,18 +96,49 @@ module.exports = class PaymentMethodPane extends Pane {
             _self.resizeWidgetToFit();
         });
 
+        let vippsGuide = _self.paneElement.getElementsByClassName("vipps-guide")[0];
+        let helperImages = vippsGuide.getElementsByClassName("helper-images")[0];
         //Setup helper buttons
         var explanatoryButtons = this.paneElement.getElementsByClassName("explanatory-image");
         for (var i = 0; i < explanatoryButtons.length; i++) {
-            console.log(explanatoryButtons[i]);
-            explanatoryButtons[i].addEventListener("click", function() { alert("Hei!"); });
+            explanatoryButtons[i].addEventListener("click", function(e) {
+                let index = parseInt(this.getAttribute("data-index"));
+                let helperImage = helperImages.getElementsByClassName("explanation-image")[index];
+                _self.widget.closeBtn.style.display = "none";
+
+                helperImages.style.display = "block";
+                helperImage.style.display = "block";
+            });
         }
+
+        let explanationImages = helperImages.getElementsByClassName("explanation-image");
+
+        var closeButton = helperImages.getElementsByClassName("close-btn")[0];
+        closeButton.addEventListener("click", function() {
+            let explanationImages = helperImages.getElementsByClassName("explanation-image");
+
+            for (var i = 0; i < explanationImages.length; i++) {
+                explanationImages[i].style.display = "none";
+            }
+
+            helperImages.style.display = "none";
+            _self.widget.closeBtn.style.display = "block";
+        });
     }
 
     openVippsGuide() {
         this.hasButton = false;
-        this.paneElement.getElementsByClassName("vipps-guide")[0].classList.add("active");
+        let vippsGuide = this.paneElement.getElementsByClassName("vipps-guide")[0];
+        vippsGuide.classList.add("active");
         this.paneElement.getElementsByClassName("selection")[0].classList.remove("active");
+
+        //Hide explanation images
+        let helperImages = vippsGuide.getElementsByClassName("helper-images")[0];
+        let explanationImages = helperImages.getElementsByClassName("explanation-image");
+        for (var i = 0; i < explanationImages.length; i++) {
+            explanationImages[i].style.display = "none";
+        }
+        helperImages.style.display = "none";
 
         //Add KID and amount to info text
         document.getElementById("vipps-donation-amount").innerHTML = this.widget.donationAmount + " kr";
