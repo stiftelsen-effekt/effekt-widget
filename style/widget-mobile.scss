@@ -23,7 +23,7 @@ $cdn-url: "https://api.gieffektivt.no/static/";
     
             .pane {    
                 .inner {
-                    max-height: 300px;
+                    /* max-height: 300px; */
                 }
 
                 &.has-buttons .inner { 
@@ -33,6 +33,7 @@ $cdn-url: "https://api.gieffektivt.no/static/";
                 &.scrollable {
                     .inner {
                         overflow-y: scroll;
+                        height: calc(100% - 80px); 
                     }
                 }
 
