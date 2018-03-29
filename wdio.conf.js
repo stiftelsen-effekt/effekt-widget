@@ -66,9 +66,9 @@ exports.config = {
         {
             browserName: 'chrome'
         },
-        {
-            browserName: 'internet explorer'
-        },
+        // {
+        //     browserName: 'internet explorer'
+        // },
     ],
     //
     // ===================

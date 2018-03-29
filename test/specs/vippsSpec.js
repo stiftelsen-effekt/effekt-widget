@@ -60,6 +60,44 @@ describe('Vippsdonasjon', function() {
 
     // Tester av hjelpebildene her!
 
+    it('Trykk på spørsmålstegn nr. 1 og sjekk at riktig bilde har display: block', function() {
+        _.vippsHelp1.click();
+        assert.equal('block', _.vippsPicture1.getCssProperty('display').value);
+    });
+    it('Trykk på "Lukk skjermbilde" og sjekk at riktig bilde har display: none', function() {
+        _.vippsCloseScreenshotButton.click();
+        assert.equal('none', _.vippsPicture1.getCssProperty('display').value);
+    });
+    it('Trykk på spørsmålstegn nr. 2 og sjekk at riktig bilde har display: block', function() {
+        _.vippsHelp2.click();
+        assert.equal('block', _.vippsPicture2.getCssProperty('display').value);
+    });
+    it('Trykk på "Lukk skjermbilde" og sjekk at riktig bilde har display: none', function() {
+        _.vippsCloseScreenshotButton.click();
+        assert.equal('none', _.vippsPicture2.getCssProperty('display').value);
+    });it('Trykk på spørsmålstegn nr. 3 og sjekk at riktig bilde har display: block', function() {
+        _.vippsHelp3.click();
+        assert.equal('block', _.vippsPicture3.getCssProperty('display').value);
+    });
+    it('Trykk på "Lukk skjermbilde" og sjekk at riktig bilde har display: none', function() {
+        _.vippsCloseScreenshotButton.click();
+        assert.equal('none', _.vippsPicture3.getCssProperty('display').value);
+    });it('Trykk på spørsmålstegn nr. 4 og sjekk at riktig bilde har display: block', function() {
+        _.vippsHelp4.click();
+        assert.equal('block', _.vippsPicture4.getCssProperty('display').value);
+    });
+    it('Trykk på "Lukk skjermbilde" og sjekk at riktig bilde har display: none', function() {
+        _.vippsCloseScreenshotButton.click();
+        assert.equal('none', _.vippsPicture4.getCssProperty('display').value);
+    });it('Trykk på spørsmålstegn nr. 5 og sjekk at riktig bilde har display: block', function() {
+        _.vippsHelp5.click();
+        assert.equal('block', _.vippsPicture5.getCssProperty('display').value);
+    });
+    it('Trykk på "Lukk skjermbilde" og sjekk at riktig bilde har display: none', function() {
+        _.vippsCloseScreenshotButton.click();
+        assert.equal('none', _.vippsPicture5.getCssProperty('display').value);
+    });
+
     it('Trykk på "Ferdig"-knappen og sjekk at result-pane har "vipps"-klassen', function() {
         _.vippsDoneButton.click();
         // Har klassene error og active når feilmelding vises
