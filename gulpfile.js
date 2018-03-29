@@ -7,6 +7,8 @@ const browserify = require('browserify')
 const buffer = require('gulp-buffer')
 const watch = require('gulp-watch')
 const rename = require('gulp-rename')
+const babel = require('gulp-babel')
+const babelify = require('babelify')
 
 gulp.task('style', function() {
     gulp.src('style/**/*.scss')
@@ -20,7 +22,7 @@ gulp.task('script', function() {
     return gulp.src('script/widget.js', {read: false})
     .pipe(tap(function (file) {
         gutil.log('bundling ' + file.path);
-        file.contents = browserify(file.path, {debug: true}).bundle();
+        file.contents = browserify(file.path, {debug: true}).transform("babelify", {presets: ["env"]}).bundle();
     }))
     .pipe(rename("bundle.js"))
     .pipe(gulp.dest("./"))
