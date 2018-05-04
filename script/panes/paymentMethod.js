@@ -26,14 +26,18 @@ module.exports = class PaymentMethodPane extends Pane {
     }
     
     customFocus() {
-        this.updatePayPalForm();
+        this.updatePayPalForms();
         this.setupWebSocket();
         this.setupVippsGuide();
     } 
     
-    updatePayPalForm() {
-        this.payPalForm = document.getElementById("payPalForm");
-        this.payPalForm.amount.setAttribute("value", this.widget.donationAmount);
+    updatePayPalForms() {
+        // Single donation
+        this.payPalSingleForm = document.getElementById("payPalSingleForm");
+        this.payPalSingleForm.amount.setAttribute("value", this.widget.donationAmount);
+        // Recurring donation
+        this.payPalRecurringForm = document.getElementById("payPalRecurringForm");
+        this.payPalRecurringForm.a3.setAttribute("value", this.widget.donationAmount);
     }
     
     setupWebSocket() {
@@ -46,7 +50,25 @@ module.exports = class PaymentMethodPane extends Pane {
         var _self = this;
         this.payPalBtn = this.paneElement.getElementsByClassName("paypal")[0];
         this.payPalBtn.addEventListener("click", () => {
-            _self.payPalButtonClicked(); 
+            _self.showPayPalDetails();
+        });
+
+        this.payPalSingleBtn = document.getElementById("paypalSingleBtn");
+        this.payPalSingleBtn.addEventListener("click", () => {
+            _self.payPalSingleButtonClicked();
+        });
+
+        this.payPalRecurringBtn = document.getElementById("paypalRecurringBtn");
+        this.payPalRecurringBtn.addEventListener("click", () => {
+            _self.payPalRecurringButtonClicked();
+        });
+
+        // Hides paypal-details element on click outside of buttons
+        this.paneElement.addEventListener("click", event => {
+            let classes = event.target.classList;
+            if (!(classes.contains("paypal-single") || classes.contains("paypal-recurring") || classes.contains("paypal"))) {
+                this.hidePayPalDetails();
+            }
         });
 
         this.vippsBtn = this.paneElement.getElementsByClassName("vipps")[0];
@@ -56,8 +78,13 @@ module.exports = class PaymentMethodPane extends Pane {
         });
     }
 
-    payPalButtonClicked() {
-        document.getElementById('submitPaypal').click();
+    payPalSingleButtonClicked() {
+        document.getElementById('submitSinglePaypal').click();
+        this.showWaitingScreen();
+    }
+
+    payPalRecurringButtonClicked() {
+        document.getElementById('submitRecurringPaypal').click();
         this.showWaitingScreen();
     }
     
@@ -69,7 +96,8 @@ module.exports = class PaymentMethodPane extends Pane {
         console.log(msg.data)
         if (!this.clientWsID) {
             this.clientWsID = msg.data;
-            this.payPalForm.custom.setAttribute("value", this.widget.KID + "|" + this.clientWsID);
+            this.payPalSingleForm.custom.setAttribute("value", this.widget.KID + "|" + this.clientWsID);
+            this.payPalRecurringForm.custom.setAttribute("value", this.widget.KID + "|" + this.clientWsID);
         } 
         else {
             if (msg.data == "PAYPAL_VERIFIED") {
@@ -145,6 +173,32 @@ module.exports = class PaymentMethodPane extends Pane {
         document.getElementById("vipps-donation-kid").innerHTML = this.widget.KID;
 
         var _self = this;
+        _self.resizeWidgetToFit();
+    }
+
+    showPayPalDetails() {
+        var _self = this;
+        let paypalBtn = _self.paneElement.getElementsByClassName("paypal")[0];
+        let vippsBtn = _self.paneElement.getElementsByClassName("vipps")[0];
+        let detailsElement = document.getElementById("paypal-details");
+
+        paypalBtn.classList.add("hidden");
+        vippsBtn.classList.add("hidden");
+        detailsElement.classList.add("visible");
+
+        _self.resizeWidgetToFit();
+    }
+
+    hidePayPalDetails() {
+        var _self = this;
+        let paypalBtn = _self.paneElement.getElementsByClassName("paypal")[0];
+        let vippsBtn = _self.paneElement.getElementsByClassName("vipps")[0];
+        let detailsElement = document.getElementById("paypal-details");
+
+        paypalBtn.classList.remove("hidden");
+        vippsBtn.classList.remove("hidden");
+        detailsElement.classList.remove("visible");
+
         _self.resizeWidgetToFit();
     }
 }

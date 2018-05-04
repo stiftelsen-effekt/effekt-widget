@@ -573,8 +573,69 @@ $cdn-url: "https://api.gieffektivt.no/static/";
                                 background-image: url(#{$cdn-url}logos/bank.png);
                                 background-position: center 0;
                             }
+
+                            &.hidden {
+                                display: none;
+                            }
+                        }
+
+                        .paypal-details {
+                            display: none;
+                            margin-top: -20px;
+                            padding-bottom: 15px;
+
+                            &.visible {
+                                display: block;
+                            }
+
+                            .paypal-type {
+                                width: 100px;
+                                height: 46px;
+                                border: 1px solid #4b4b4b;
+                                margin: 5px;
+                                display: inline-block;
+
+                                span {
+                                    line-height: 46px;
+                                    margin: 0;
+                                    font-weight: 300;
+                                    text-align: center;
+                                    font-size: 20px;
+                                    text-transform: none;
+                                    letter-spacing: 0px;
+                                    font-family: 'Open Sans';
+                                }
+                            }
+
+                            span {
+                                margin-bottom: 20px;
+                            }
+
+                            .logo {
+                                width: 100px;
+                                height: 46px;
+                                margin: 5px;
+                                display: inline-block;
+    
+                                background-size: 70%;
+                                background-position: center 8px;
+                                background-repeat: no-repeat;
+                                background-image: url(#{$cdn-url}logos/PayPal.png);
+    
+                                position: relative;
+    
+                                .transaction-costs {
+                                    font-size: 10px;
+                                    color: rgb(143, 142, 142);
+                                    position: absolute;
+                                    bottom: 2px;
+                                    width: 100%;
+                                    text-align: center;
+                                }
+                            }
                         }
                     }
+
                     .awaiting-confirmation {
                         display: none;
                         justify-content: center;
