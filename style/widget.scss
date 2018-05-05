@@ -217,7 +217,6 @@ $cdn-url: "https://api.gieffektivt.no/static/";
                 .amount-wrapper {
                     position: relative;
                     display: inline-block;
-                    margin-top: 20px;
                     margin-bottom: 10px;
 
                     .currency {
@@ -233,8 +232,7 @@ $cdn-url: "https://api.gieffektivt.no/static/";
                     }
                 }
                 
-
-                .select-split {
+                .select {
                     font-size: 12px;
                     text-align: center;
                     padding-top: 6px;
@@ -244,6 +242,7 @@ $cdn-url: "https://api.gieffektivt.no/static/";
 
                     &:nth-child(2n) {
                         padding-top: 0;
+                        padding-bottom: 8px;
                     }
 
                     & > * {
@@ -578,63 +577,6 @@ $cdn-url: "https://api.gieffektivt.no/static/";
                                 display: none;
                             }
                         }
-
-                        .paypal-details {
-                            display: none;
-                            margin-top: -20px;
-                            padding-bottom: 15px;
-
-                            &.visible {
-                                display: block;
-                            }
-
-                            .paypal-type {
-                                width: 100px;
-                                height: 46px;
-                                border: 1px solid #4b4b4b;
-                                margin: 5px;
-                                display: inline-block;
-                                cursor: pointer;
-
-                                span {
-                                    line-height: 46px;
-                                    margin: 0;
-                                    font-weight: 300;
-                                    text-align: center;
-                                    font-size: 14px;
-                                    text-transform: none;
-                                    letter-spacing: 0px;
-                                    font-family: 'Open Sans';
-                                }
-                            }
-
-                            span {
-                                margin-bottom: 20px;
-                            }
-
-                            .logo {
-                                width: 100px;
-                                height: 46px;
-                                margin: 5px;
-                                display: inline-block;
-    
-                                background-size: 70%;
-                                background-position: center 8px;
-                                background-repeat: no-repeat;
-                                background-image: url(#{$cdn-url}logos/PayPal.png);
-    
-                                position: relative;
-    
-                                .transaction-costs {
-                                    font-size: 10px;
-                                    color: rgb(143, 142, 142);
-                                    position: absolute;
-                                    bottom: 2px;
-                                    width: 100%;
-                                    text-align: center;
-                                }
-                            }
-                        }
                     }
 
                     .awaiting-confirmation {
@@ -676,8 +618,7 @@ $cdn-url: "https://api.gieffektivt.no/static/";
 
                     .header {
                         height: 32px;
-                        padding-top: 34px;
-                        padding-bottom: 6px;
+                        padding: 34px 0 6px 0;
                     }
 
                     &.active {
@@ -725,6 +666,7 @@ $cdn-url: "https://api.gieffektivt.no/static/";
                                 box-sizing: border-box;
                                 vertical-align: top;
                                 margin-right: 5px;
+                                line-height: 16px;
                             }
                         }
                     }
@@ -737,6 +679,7 @@ $cdn-url: "https://api.gieffektivt.no/static/";
                         position: absolute;
                         bottom: -50px;
                         background: white;
+                        line-height: 25px;
 
                         & > div {
                             display: inline-block;
@@ -768,16 +711,18 @@ $cdn-url: "https://api.gieffektivt.no/static/";
                             background: black;
                             color: white;
                             text-align: center;
-                            left: calc(50% - 60px);
+                            left: calc(50% - 68px);
                             z-index: 100;
                             cursor: pointer;
+                            font-size: 12px;
+                            line-height: 25px;
                         }
 
                         .explanation-image {
                             width: 100%;
                             height: 100%;
                             position: absolute;
-                            top: 0;
+                            top: -1px; //"Fiks" for en pixel hvitt i toppen av widget på squarespace
                             left: 0;
                             background-position: top center;
                             background-size: cover;

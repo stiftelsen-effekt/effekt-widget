@@ -87,13 +87,22 @@
                                     <input type="text" class="amount" placeholder="sum" pattern="[0-9]*" inputmode="numeric" nocomma="true" autocomplete="off"></input>
                                     <span class="currency">kr</span>
                                 </div>
-                                <div class="select-split">
+                                <div class="select recurring">
+                                    <label for="check-select-single">Jeg vil gi en engangsdonajson</label>
+                                    <input type="radio" name="recurring-selection" id="check-select-single" checked="true" autocomplete="off" />
+                                    <label class="box" for ="check-select-single"></label>
+                                </div>
+                                <div class="select recurring">
+                                    <label for="check-select-recurring">Jeg vil gi en månedlig donasjon</label>
+                                    <input type="radio" name="recurring-selection" id="check-select-recurring" autocomplete="off" />
+                                    <label class="box" for ="check-select-recurring"></label>
+                                </div>
+                                <div class="select split">
                                     <label for="check-select-recommended">Bruk vår anbefalte fordeling</label>
                                     <input type="radio" name="split-selection" id="check-select-recommended" checked="true" autocomplete="off" />
                                     <label class="box" for ="check-select-recommended"></label>
                                 </div>
-                          
-                                <div class="select-split">
+                                <div class="select split">
                                     <label for="check-select-split">Jeg vil velge fordeling selv</label>
 
                                     <input type="radio" name="split-selection" id="check-select-split" autocomplete="off" />
@@ -133,50 +142,36 @@
                                             <div class="transaction-costs">1.5kr</div>
                                         </div>-->
 
-                                        <div class="paypal-details" id="paypal-details">
-                                                <div class="logo">
-                                                    <div class="transaction-costs">1.9% + 2.8kr</div>
-                                                </div>
+                                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="payPalSingleForm" target="_blank" style="display: inline-block;">
+                                            <input type="hidden" name="cmd" value="_donations">
+                                            <input type="hidden" name="charset" value="UTF-8">
+                                            <input type="hidden" name="currency_code" value="NOK">
+                                            <input type="hidden" name="amount" value="500">
+                                            <input type="hidden" name="business" value="stiftelseneffekt@gmail.com">
+                                            <input type="hidden" name="item_name" value="Donasjon">
+                                            <input type="hidden" name="notify_url" value="https://api.gieffektivt.no/paypal/ipn">
+                                            <input type="hidden" name="custom" value="blank">
 
-                                            <span>Ønsker du å gi en enkeltdonasjon eller en månedlig donasjon?</span>
+                                            <input type="submit" style="display: none;" id="submitSinglePaypal" />
+                                        </form>
 
-                                            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="payPalSingleForm" target="_blank" style="display: inline-block;">
-                                                <input type="hidden" name="cmd" value="_donations">
-                                                <input type="hidden" name="charset" value="UTF-8">
-                                                <input type="hidden" name="currency_code" value="NOK">
-                                                <input type="hidden" name="amount" value="500">
-                                                <input type="hidden" name="business" value="stiftelseneffekt@gmail.com">
-                                                <input type="hidden" name="item_name" value="Donasjon">
-                                                <input type="hidden" name="notify_url" value="https://api.gieffektivt.no/paypal/ipn">
-                                                <input type="hidden" name="custom" value="blank">
-
-                                                <input type="submit" style="display: none;" id="submitSinglePaypal" />
-                                                <div class="paypal-type single" id="paypalSingleBtn">
-                                                    <span>Enkel</span>
-                                                </div>
-                                            </form>
-
-                                            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="payPalRecurringForm" target="_blank" style="display: inline-block;">
-                                                <input type="hidden" name="cmd" value="_xclick-subscriptions">
-                                                <input type="hidden" name="charset" value="UTF-8">
-                                                <input type="hidden" name="currency_code" value="NOK">
-                                                <input type="hidden" name="business" value="stiftelseneffekt@gmail.com">
-                                                <input type="hidden" name="item_name" value="Månedlig donasjon">
-                                                <input type="hidden" name="notify_url" value="https://api.gieffektivt.no/paypal/ipn">
-                                                <input type="hidden" name="custom" value="blank">
-                                                <input type="hidden" name="a3" value="500">
-                                                <input type="hidden" name="p3" value="1">
-                                                <input type="hidden" name="t3" value="M">
-                                                <input type="hidden" name="src" value="1">
-                                                <input type="hidden" name="srt" value="24">
-                                                <input type="hidden" name="no_note" value="1">
-                                                
-                                                <input type="submit" style="display: none;" id="submitRecurringPaypal" />
-                                                <div class="paypal-type recurring" id="paypalRecurringBtn">
-                                                    <span>Månedlig</span>
-                                                </div>
-                                            </form>
-                                        </div>
+                                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="payPalRecurringForm" target="_blank" style="display: inline-block;">
+                                            <input type="hidden" name="cmd" value="_xclick-subscriptions">
+                                            <input type="hidden" name="charset" value="UTF-8">
+                                            <input type="hidden" name="currency_code" value="NOK">
+                                            <input type="hidden" name="business" value="stiftelseneffekt@gmail.com">
+                                            <input type="hidden" name="item_name" value="Månedlig donasjon til Stiftelsen Effekt">
+                                            <input type="hidden" name="notify_url" value="https://api.gieffektivt.no/paypal/ipn">
+                                            <input type="hidden" name="custom" value="blank">
+                                            <input type="hidden" name="a3" value="500">
+                                            <input type="hidden" name="p3" value="1">
+                                            <input type="hidden" name="t3" value="M">
+                                            <input type="hidden" name="src" value="1">
+                                            <input type="hidden" name="srt" value="24">
+                                            <input type="hidden" name="no_note" value="1">
+                                            
+                                            <input type="submit" style="display: none;" id="submitRecurringPaypal" />
+                                        </form>
 
                                         <div class="method paypal">
                                             <div class="transaction-costs">1.9% + 2.8kr</div>

@@ -16,7 +16,8 @@ module.exports = class AmountPane extends Pane {
         nxtBtn.classList.add("loading");
     
         widget.donationAmount = this.getDonationAmount();
-    
+        widget.recurring = this.getRecurringBoolean();
+
         if (widget.donationAmount > 0) {
             if (this.submitOnNext) {
                 widget.registerDonation({
@@ -42,7 +43,6 @@ module.exports = class AmountPane extends Pane {
 
     customFocus() {
         var input = this.paneElement.getElementsByClassName("amount")[0];
-        this.widget.element.style.height = "";
     
         setTimeout(function () {
             input.focus();
@@ -52,6 +52,10 @@ module.exports = class AmountPane extends Pane {
     //Convenience functions
     getDonationAmount() {
         return parseInt(this.paneElement.getElementsByClassName("amount")[0].value);
+    }
+
+    getRecurringBoolean() {
+        return document.getElementById("check-select-recurring").checked;
     }
 
     setupSelectSplitCheckbox() {
