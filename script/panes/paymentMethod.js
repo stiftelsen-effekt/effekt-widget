@@ -29,6 +29,7 @@ module.exports = class PaymentMethodPane extends Pane {
         this.updatePayPalForms();
         this.setupWebSocket();
         this.setupVippsGuide();
+        this.setupButtonVisibility();
     } 
     
     updatePayPalForms() {
@@ -58,6 +59,15 @@ module.exports = class PaymentMethodPane extends Pane {
             _self.openVippsGuide();
             //show vipps guide
         });
+    }
+
+    setupButtonVisibility() {
+        // Skjuler Vipps-knapp om recurring donation er valgt og sørger for at den viser hvis ikke
+        if (widget.recurring) {
+            this.vippsBtn.classList.add("hidden");
+        } else {
+            this.vippsBtn.classList.remove("hidden");
+        }
     }
 
     payPalButtonHandler() {
