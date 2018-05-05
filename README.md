@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.com/fellmirr/effekt-frontend.svg?token=c2w4h9Kgq1trsjUBScvg&branch=master)](https://travis-ci.com/fellmirr/effekt-frontend)
 
 # effekt-frontend
-Frontend for stiftelsen effekt
+Frontend for Stiftelsen Effekt
 
 # Setup
 To setup dev enviroment
