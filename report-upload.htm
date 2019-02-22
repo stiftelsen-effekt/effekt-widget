@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <style>
+        html, body {
+            font-family: sans-serif;
+        }
+        </style>
+    </head>
+    <body>
+            <h2>Live</h2>
+            <h3>Vipps</h3>
+            <form action="https://api.gieffektivt.no/reports/vipps/?token=46bc14d858615a06bd9670bccca59df5d536da068686507ca9274a73b9ad7f71&pretty=true" method="POST" encType="multipart/form-data">
+                <input type="file" name="report" />
+                <input type="submit" value="Upload" />
+            </form>
+            
+            <h3>Paypal</h3>
+            <form action="https://api.gieffektivt.no/reports/paypal/?token=46bc14d858615a06bd9670bccca59df5d536da068686507ca9274a73b9ad7f71&pretty=true" method="POST" encType="multipart/form-data">
+                <input type="file" name="report" />
+                <input type="submit" value="Upload" />
+            </form>
+
+            <h2>Dev</h2>
+            <h3>Vipps</h3>
+            <form action="http://localhost/reports/vipps/?token=9aa819250ecf4140de06220e92bf8b52c888fdb48e60bdc42e21f17fdc67b273&pretty=true" method="POST" encType="multipart/form-data">
+                <input type="file" name="report" />
+                <input type="submit" value="Upload" />
+            </form>
+            
+            <h3>Paypal</h3>
+            <form action="http://localhost/reports/paypal/?token=9aa819250ecf4140de06220e92bf8b52c888fdb48e60bdc42e21f17fdc67b273&pretty=true" method="POST" encType="multipart/form-data">
+                <input type="file" name="report" />
+                <input type="submit" value="Upload" />
+            </form>
+    </body>
+</html>
+
+
+
