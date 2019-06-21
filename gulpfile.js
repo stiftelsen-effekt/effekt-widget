@@ -1,40 +1,51 @@
-const gulp = require('gulp')
-const sass = require('gulp-sass')
-const gutil = require('gulp-util')
-const tap = require('gulp-tap')
-const uglify = require('gulp-uglify')
-const browserify = require('browserify')
-const buffer = require('gulp-buffer')
-const watch = require('gulp-watch')
-const rename = require('gulp-rename')
-const babel = require('gulp-babel')
-const babelify = require('babelify')
+const gulp = require('gulp');
+const { parallel } = require('gulp')
 
-gulp.task('style', function() {
-    gulp.src('style/**/*.scss')
-        .pipe(sass({
-            errLogToConsole: true
-        }))
-        .pipe(gulp.dest('style/'))
-})
+const sass = require('gulp-sass');
+const minify = require('gulp-minify')
+const watchify = require('watchify');
+const browserify = require('browserify');
+const source = require('vinyl-source-stream');
+const buffer = require('vinyl-buffer');
+const log = require('gulplog');
+const sourcemaps = require('gulp-sourcemaps');
+const assign = require('lodash.assign');
 
-gulp.task('script', function() {
-    return gulp.src('script/widget.js', {read: false})
-    .pipe(tap(function (file) {
-        gutil.log('bundling ' + file.path);
-        file.contents = browserify(file.path, {debug: true}).transform("babelify", {presets: ["env"]}).bundle();
-    }))
-    .pipe(rename("bundle.js"))
-    .pipe(gulp.dest("./"))
-    /*.pipe(buffer())
-    .pipe(uglify())
-    .pipe(rename("bundle.min.js"))
-    .pipe(gulp.dest('./'));*/
-})
+// add custom browserify options here
+const customOpts = {
+  entries: ['./script/widget.js'],
+  debug: true
+};
+var opts = assign({}, watchify.args, customOpts);
+//var b = watchify(browserify(opts));
+var b = browserify(customOpts);
 
-gulp.task('default', ['style', 'script'])
+// add transformations here
+// i.e. b.transform(coffeeify);
 
-gulp.task('watch', function() {
-    gulp.watch('style/**/*.scss', ['style'])
-    gulp.watch('script/**/*.js', ['script'])
-})
+b.on('update', bundle); // on any dep update, runs the bundler
+b.on('log', log.info); // output build logs to terminal
+
+function bundle() {
+  return b.bundle()
+    // log errors if they happen
+    .on('error', log.error.bind(log, 'Browserify Error'))
+    .pipe(source('bundle.js'))
+    
+    // optional, remove if you don't need to buffer file contents
+    .pipe(buffer())
+    .pipe(minify())
+    // optional, remove if you dont want sourcemaps
+    .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
+       // Add transformation tasks to the pipeline here.
+    .pipe(sourcemaps.write('./')) // writes .map file
+    .pipe(gulp.dest('./dist'));
+}
+
+function styles() {
+    return gulp.src('./style/**/*.scss')
+        .pipe(sass().on('error', sass.logError))
+        .pipe(gulp.dest('./dist'));
+}
+
+exports.build = parallel(bundle, styles)
