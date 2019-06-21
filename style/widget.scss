@@ -309,6 +309,7 @@ $cdn-url: "https://api.gieffektivt.no/static/";
                             position: relative;
                             z-index: 10;
                             padding: 0;
+                            padding-top: 6px;
 
                             &.absolute {
                                 color: white;
@@ -450,7 +451,7 @@ $cdn-url: "https://api.gieffektivt.no/static/";
                                     content: 'kr';
                                     position: absolute;
                                     right: -20px;
-                                    top: 5px;
+                                    top: 9px;
                                     color: #aaa;
                                     font-size: 12px;
                                     font-family: 'Open Sans';
