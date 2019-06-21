@@ -1,5 +1,5 @@
 
-[![Build Status](https://travis-ci.com/fellmirr/effekt-frontend.svg?token=c2w4h9Kgq1trsjUBScvg&branch=master)](https://travis-ci.com/fellmirr/effekt-frontend)
+[![Build Status](https://travis-ci.com/stiftelsen-effekt/effekt-frontend.svg?token=s1qLcbzPb7xPzHqKnyfS&branch=master)](https://travis-ci.com/stiftelsen-effekt/effekt-frontend)
 
 # effekt-frontend
 Frontend for Stiftelsen Effekt
