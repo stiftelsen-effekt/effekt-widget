@@ -16,11 +16,9 @@
     "url": "https://github.com/stiftelsen-effekt/effekt-frontend/issues"
   },
   "homepage": "https://github.com/stiftelsen-effekt/effekt-frontend#readme",
-  "devDependencies": {
-    "gulp": "^4.0.2",
-    "gulp-minify": "^3.1.0"
-  },
   "dependencies": {
+    "gulp": "^4.0.2",
+    "gulp-minify": "^3.1.0",
     "browserify": "^16.2.3",
     "decimal.js": "^7.3.0",
     "email-validation": "^0.1.2",
