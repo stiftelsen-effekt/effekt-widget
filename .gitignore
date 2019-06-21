@@ -1,8 +1,7 @@
 node_modules/
 style/**/*.css
-bundle.js
-bundle.min.js
 .idea/
 sc.log
 errorShots/
 backup/
+dist/
