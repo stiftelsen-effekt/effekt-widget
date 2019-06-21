@@ -1,5 +1,3 @@
-require("babel-polyfill")
-
 function DonationWidget() {
     var _self = undefined;
 
