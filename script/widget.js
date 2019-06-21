@@ -100,7 +100,7 @@ function DonationWidget() {
 
     /* Slider control */
     this.goToSlide = function(slidenum) {
-        console.log("Going to slide number: " + slidenum);
+        console.log("Going to slide number saodk: " + slidenum);
 
         //Recursively walk farward until visible pane found
         function walkToVisibleSlideAndReturnIndex(slidenum) {
