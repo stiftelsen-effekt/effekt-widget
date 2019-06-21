@@ -4,4 +4,7 @@ style/**/*.css
 sc.log
 errorShots/
 backup/
-dist/
+!dist/
+
+dist/*
+!dist/assets/
