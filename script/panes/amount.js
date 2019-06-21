@@ -64,16 +64,18 @@ module.exports = class AmountPane extends Pane {
         var selectSplit = document.getElementById("check-select-split");
         var selectRecommended = document.getElementById("check-select-recommended");
         this.submitOnNext = true;
+
+        var _this = this;
     
         selectSplit.addEventListener("change", function(e) {
             widget.panes.find(function (pane) { return pane instanceof DonationPane; }).show();
-            this.submitOnNext = false;
+            _this.submitOnNext = false;
             widget.updateSliderProgress();
         });
     
         selectRecommended.addEventListener("change", function(e) {
             widget.panes.find(function (pane) { return pane instanceof DonationPane; }).hide();
-            this.submitOnNext = true;
+            _this.submitOnNext = true;
             widget.updateSliderProgress();
         })
     }
