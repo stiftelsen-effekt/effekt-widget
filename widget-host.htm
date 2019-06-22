@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="dist/widget.css">
+        <link rel="stylesheet" type="text/css" href="dist/widget-mobile.css">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+
+        <script src="script/lib/fastclick.js"></script>
+    </head>
+    <body>
+        <script src="dist/bundle.js"></script>
+        <div id="donation-widget-container"></div>
+        <script>
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'https://storage.googleapis.com/effekt-widget/widget.htm', true);
+        xhr.responseType = 'document';
+        xhr.onload = (e) => {
+            var doc = e.target.response;
+            const widgetContainer = document.getElementById("donation-widget-container");
+            widgetContainer.appendChild(doc.getElementById("donation-widget"));
+
+            console.log("Widget loaded, setting up");
+
+            var donationWidgetElement = document.getElementById("donation-widget");
+            var widget = new DonationWidget();
+            widget.setup(widget, donationWidgetElement);
+
+            document.getElementById("donationBtn").addEventListener("click", function(e) {
+                widget.show();
+            });
+        }
+        xhr.send();
+        </script>
+
+        <ul>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+        </ul>
+        <button id="donationBtn">Doner</button>
+        <ul>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+        </ul>
+        
+
+        
+    </body>
+</html>
+
+<!-- Remember attributions on main page -->
+<div>Icons made by <a href="https://www.flaticon.com/authors/google" title="Google">Google</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
