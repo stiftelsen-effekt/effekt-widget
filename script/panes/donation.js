@@ -140,7 +140,7 @@ module.exports = class DonationPane extends Pane {
         setTimeout(function() {
             widget.request("organizations/active", "GET", { }, function(err, data) {
                 if (err == 0) {
-                    setNoApiError();
+                    _self.widget.setNoApiError();
                 } else {
                     widget.organizations = data.content;
     

@@ -1,6 +1,9 @@
 function DonationWidget() {
     var _self = undefined;
 
+    /* Network helpers */
+    this.request = require('./helpers/network.js').request;
+
     this.setup = function (self, widgetElement) {
         _self = self;
 
@@ -68,7 +71,6 @@ function DonationWidget() {
         });
 
         if (this.panes.length != paneElements.length) throw new Error("Missing Javascript object for some HTML panes");
-
 
         //General setup helpers
         setupCloseBtn();
@@ -180,15 +182,12 @@ function DonationWidget() {
     }
     this.hideError = hideError;
 
-    function setNoApiError() {
+    this.setNoApiError = function() {
         var noApiErrorElement = document.getElementById("no_api_error");
 
         noApiErrorElement.style.zIndex = 10;
         noApiErrorElement.classList.add("active");
     }
-
-    /* Network helpers */
-    this.request = require('./helpers/network.js').request;
 
     //UI snazzyness
     function setupSelectOnClick() {
@@ -268,6 +267,7 @@ function DonationWidget() {
         show: this.show,
         close: this.close,
         error: this.error,
+        setNoApiError: this.setNoApiError,
         request: this.request,
         updateSliderProgress: this.updateSliderProgress,
         registerDonation : this.registerDonation ,
