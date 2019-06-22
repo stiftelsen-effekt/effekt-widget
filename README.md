@@ -13,14 +13,9 @@ Install NPM packages
 npm install
 ```
 
-Compile sass-files to css-files and bundle JS-files
+Compile sass-files to css-files and bundle JS-files to the /dist folder
 
 ```
-gulp
+gulp build
 ``` 
 
-Watch JS-files and sass-files for changes, and bundle or compile them to css when changed
-
-```
-gulp watch
-```
