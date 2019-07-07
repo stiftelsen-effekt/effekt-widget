@@ -48,4 +48,9 @@ function styles() {
         .pipe(gulp.dest('./dist'));
 }
 
-exports.build = parallel(bundle, styles)
+function html() {
+  return gulp.src('./widget.htm')
+    .pipe(gulp.dest('./dist'))
+}
+
+exports.build = parallel(bundle, styles, html)
