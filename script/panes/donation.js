@@ -16,7 +16,7 @@ module.exports = class DonationPane extends Pane {
         var pane = this.paneElement;
     
         if (this.sharesType == "decimal") {
-            var percentSplit = rounding.toPercent(widget.organizations.map(function(org) { return org.setValue; }), widget.donationAmount, 3);
+            var percentSplit = rounding.toPercent(widget.organizations.map(function(org) { return org.setValue; }), widget.donationAmount, 12);
     
             var donationSplit = widget.organizations.map(function(org, i) {
                 if (org.setValue != "0") {
