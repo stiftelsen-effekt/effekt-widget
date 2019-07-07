@@ -21,3 +21,4 @@ deploy:
   local-dir: dist
   on:
     repo: stiftelsen-effekt/effekt-frontend
+  cache_control: 'no-cache'
