@@ -6,5 +6,5 @@ steps:
   args: ['run', 'build']
 artifacts:
   objects:
-    location: 'gs://static.gieffektivt.no/'
-    paths: ['dist/**/**']
+    location: 'gs://effekt-widget/'
+    paths: ['dist/**/*']
