@@ -4,7 +4,5 @@ steps:
 - name: 'gcr.io/cloud-builders/npm'
   env: ['CI=true']
   args: ['run', 'build']
-artifacts:
-  objects:
-    location: 'gs://effekt-widget/'
-    paths: ['dist/**/*']
+- name: 'gcr.io/cloud-builders/gsutil'
+  args: ['-m', 'cp', '-r', 'dist/*', 'gs://effekt-widget/']
