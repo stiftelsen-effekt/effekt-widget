@@ -4,7 +4,7 @@
   "description": "Effekt frontend donation widget",
   "main": "widget.htm",
   "scripts": {
-    "test": "node_modules\\.bin\\wdio wdio.conf.js"
+    "build": "gulp build"
   },
   "repository": {
     "type": "git",

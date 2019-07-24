@@ -3,6 +3,6 @@ steps:
   args: ['install']
 - name: 'gcr.io/cloud-builders/npm'
   env: ['CI=true']
-  args: ['run', 'build']
+  args: ['run', 'run-script', 'build']
 - name: 'gcr.io/cloud-builders/gsutil'
   args: ['-m', 'cp', '-r', 'dist/*', 'gs://effekt-widget/']
