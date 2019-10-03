@@ -12,7 +12,7 @@ module.exports = class PaymentMethodPane extends Pane {
     }
 
     submit(state) {
-        var resultPane = widget.panes.find(function (pane) { return pane instanceof DonationPane; })
+        var resultPane = this.widget.panes.find(function (pane) { return pane instanceof DonationPane; })
         
         if (state == "DONATION_RECIEVED") {
             resultPane.setResultState("DONATION_RECIEVED");
@@ -63,7 +63,7 @@ module.exports = class PaymentMethodPane extends Pane {
 
     setupButtonVisibility() {
         // Skjuler Vipps-knapp om recurring donation er valgt og sørger for at den viser hvis ikke
-        if (widget.recurring) {
+        if (this.widget.recurring) {
             this.vippsBtn.classList.add("hidden");
         } else {
             this.vippsBtn.classList.remove("hidden");
