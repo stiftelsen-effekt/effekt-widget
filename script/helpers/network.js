@@ -1,5 +1,5 @@
-var api_url = "https://api.gieffektivt.no/";
-//var api_url = "http://localhost:3000/";
+//var api_url = "https://api.gieffektivt.no/";
+var api_url = "http://localhost:80/";
 
 module.exports = {
     request: function(endpoint, type, data, cb) {

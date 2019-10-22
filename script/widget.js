@@ -84,7 +84,16 @@ function DonationWidget() {
         })
     }
 
-    this.registerDonation = function(postData, nxtBtn) {
+    this.registerDonation = function(nxtBtn) {
+        const postData = {
+            donor: {
+                name: this.name,
+                email: this.email,
+                ssn: this.ssn
+            },
+            amount: this.donationAmount
+        }
+
         _self.request("donations/register", "POST", postData, function(err, data) {
             if (err == 0 || err) {
                 if (err == 0) _self.error("Når ikke server. Forsøk igjen senere.");
@@ -102,7 +111,6 @@ function DonationWidget() {
 
     /* Slider control */
     this.goToSlide = function(slidenum) {
-        console.log("Going to slide number saodk: " + slidenum);
 
         //Recursively walk farward until visible pane found
         function walkToVisibleSlideAndReturnIndex(slidenum) {
@@ -111,12 +119,10 @@ function DonationWidget() {
             else return walkToVisibleSlideAndReturnIndex((_self.currentSlide < slidenum) ? slidenum+1 : slidenum-1);
         }
         slidenum = walkToVisibleSlideAndReturnIndex(slidenum);
-        console.log("Slide number after traversing: " + slidenum);
         
         if (slidenum < 0 || slidenum > _self.panes.length - 1) throw Error("Slide under 0 or larger than set")
 
         var visiblePanesInFront = getVisiblePanesInFront(slidenum);
-        console.log("Visible in front: " + visiblePanesInFront);
 
         _self.slider.style.transform = "translateX(-" + (visiblePanesInFront * _self.width) + "px)";
 
@@ -227,6 +233,7 @@ function DonationWidget() {
         _self.wrapper.classList.add("active");
         var activePane = _self.panes[_self.currentSlide];
         activePane.focus(_self, activePane);
+        activePane.resizeWidgetToFit();
 
         _self.active = true;
 

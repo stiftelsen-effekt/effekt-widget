@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="dist/widget.css">
+        <link rel="stylesheet" type="text/css" href="dist/widget-mobile.css">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+
+        <script src="script/lib/fastclick.js"></script>
+    </head>
+    <body>
+        
+        <div id="donation-widget-container">
+            <div id="donation-widget">
+                <div class="close-btn"></div>
+            
+                <div class="inner">
+                    <div id="no_api_error">
+                        <h3>Ingen tilkobling</h3>
+                        <p>Hei! Vi når dessverre ikke serveren vår fra din maskin. Du kan forsøke igjen på et senere tidspunkt. Takk!</p>
+                    </div>
+            
+                    <div class="slider">
+                        <div class="pane basic">
+                            <div class="inner">
+                                <h3>Doner her</h3>
+                                <input type="text" class="name" placeholder="Navn" autocomplete="off"></input>
+                                <input type="text" class="email" placeholder="Email" autocomplete="off"></input>
+                                
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" name="tax-deduction" id="check-tax-deduction" autocomplete="off" /> 
+                                    <label for="check-tax-deduction">Jeg ønsker skattefradrag <a href="https://gieffektivt.no/skattefradrag#rec6908833" target="_blank" class="more"></a></label>
+                                </div>
+            
+                                <input type="text" class="ssn" placeholder="Fødselsnr (11 siffer)" autocomplete="off" style="display: none;"></input>
+            
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" name="privacy-policy" id="check-privacy-policy" autocomplete="off" /> 
+                                    <label for="check-privacy-policy">Jeg godtar <a href="#">personværnserklæringen</a></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pane amount">
+                            <div class="inner">
+                                <h3>Angi sum</h3>
+                                <div class="amount-wrapper">
+                                    <input type="text" class="amount" placeholder="sum" pattern="[0-9]*" inputmode="numeric" nocomma="true" autocomplete="off"></input>
+                                    <span class="currency">kr</span>
+                                </div>
+                                <div class="select recurring">
+                                    <label for="check-select-single">Jeg vil gi en engangsdonajson</label>
+                                    <input type="radio" name="recurring-selection" id="check-select-single" checked="true" autocomplete="off" />
+                                    <label class="box" for ="check-select-single"></label>
+                                </div>
+                                <div class="select recurring">
+                                    <label for="check-select-recurring">Jeg vil gi en månedlig donasjon</label>
+                                    <input type="radio" name="recurring-selection" id="check-select-recurring" autocomplete="off" />
+                                    <label class="box" for ="check-select-recurring"></label>
+                                </div>
+                                <div class="select split">
+                                    <label for="check-select-recommended">Bruk vår anbefalte fordeling</label>
+                                    <input type="radio" name="split-selection" id="check-select-recommended" checked="true" autocomplete="off" />
+                                    <label class="box" for ="check-select-recommended"></label>
+                                </div>
+                                <div class="select split">
+                                    <label for="check-select-split">Jeg vil velge fordeling selv</label>
+            
+                                    <input type="radio" name="split-selection" id="check-select-split" autocomplete="off" />
+                                    <label class="box" for ="check-select-split"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pane shares hidden scrollable">
+                            <div class="inner">
+                                <h3>Velg fordeling</h3>
+                                <div class="share-distribution">
+                                    <div class="mode-switch">
+                                        <span class="absolute">kr</span>
+                                        <span class="percentage">%</span>
+                                        <div class="selector"></div>
+                                    </div>
+            
+                                    <ul class="organizations">
+                                    </ul>
+            
+                                    <ul class="overlay-organizations"></ul>
+            
+                                    <span class="total">0/100</span>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="pane payment-method">
+                            <div class="inner">
+                                <div class="selection active">
+                                    <h3>Betalingsmåte</h3>
+            
+                                    <span>Kostnadene angitt under dekkes av Effekt. <br>100% av din donasjon kommer frem.</span>
+            
+                                    <div class="payment-methods">
+                                        <!--<div class="method bank">
+                                            <div class="transaction-costs">1.5kr</div>
+                                        </div>-->
+            
+                                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="payPalSingleForm" target="_blank" style="display: inline-block;">
+                                            <input type="hidden" name="cmd" value="_donations">
+                                            <input type="hidden" name="charset" value="UTF-8">
+                                            <input type="hidden" name="currency_code" value="NOK">
+                                            <input type="hidden" name="amount" value="500">
+                                            <input type="hidden" name="business" value="donasjon@gieffektivt.no">
+                                            <input type="hidden" name="item_name" value="Donasjon">
+                                            <input type="hidden" name="notify_url" value="https://api.gieffektivt.no/paypal/ipn">
+                                            <input type="hidden" name="custom" value="blank">
+            
+                                            <input type="submit" style="display: none;" id="submitSinglePaypal" />
+                                        </form>
+            
+                                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="payPalRecurringForm" target="_blank" style="display: inline-block;">
+                                            <input type="hidden" name="cmd" value="_xclick-subscriptions">
+                                            <input type="hidden" name="charset" value="UTF-8">
+                                            <input type="hidden" name="currency_code" value="NOK">
+                                            <input type="hidden" name="business" value="donasjon@gieffektivt.no">
+                                            <input type="hidden" name="item_name" value="Månedlig donasjon til Stiftelsen Effekt">
+                                            <input type="hidden" name="notify_url" value="https://api.gieffektivt.no/paypal/ipn">
+                                            <input type="hidden" name="custom" value="blank">
+                                            <input type="hidden" name="a3" value="500">
+                                            <input type="hidden" name="p3" value="1">
+                                            <input type="hidden" name="t3" value="M">
+                                            <input type="hidden" name="src" value="1">
+                                            <input type="hidden" name="srt" value="24">
+                                            <input type="hidden" name="no_note" value="1">
+                                            
+                                            <input type="submit" style="display: none;" id="submitRecurringPaypal" />
+                                        </form>
+            
+                                        <div class="method paypal">
+                                            <div class="transaction-costs">1.9% + 2.8kr</div>
+                                        </div>
+            
+                                        <div class="method vipps">
+                                            <div class="transaction-costs">1.7%</div>
+                                        </div>
+                                    </div>
+            
+                                    <div class="awaiting-confirmation">
+                                        <div>
+                                            <strong>Venter på bekreftelse på innbetaling fra tredjepart</strong>
+                                            <img src="https://storage.googleapis.com/effekt-widget/assets/loading.svg" />
+                                        </div>
+                                    </div>
+                                </div>
+            
+                                <div class="vipps-guide">
+                                    <img src="https://storage.googleapis.com/effekt-widget/assets/logos/vipps.png" class="header"/>
+                                    <ul>
+                                        <li>
+                                            <div class="list-point">1</div>
+                                            <div class="text">Velg <strong>betal</strong> i Vipps-appen</div>
+                                            <div class="explanatory-image" data-index="0"></div>
+                                        </li>
+                                        <li>
+                                            <div class="list-point">2</div>
+                                            <div class="text">Søk etter og velg Stiftelsen Effekt eller #311367</div>
+                                            <div class="explanatory-image" data-index="1"></div>
+                                        </li>
+                                        <li>
+                                            <div class="list-point">3</div>
+                                            <div class="text">Før inn beløp <strong id="vipps-donation-amount"></strong> og <br>KID: <strong id="vipps-donation-kid"></strong> i meldingsfeltet</div>
+                                            <div class="explanatory-image" data-index="2"></div>
+                                        </li>
+                                        <li>
+                                            <div class="list-point">4</div>
+                                            <div class="text">Bekreft donasjon </div>
+                                            <div class="explanatory-image" data-index="3"></div></li>
+                                        <li>
+                                            <div class="list-point">5</div>
+                                            <div class="text">Kvittering</div>
+                                            <div class="explanatory-image" data-index="4"></div>
+                                        </li>
+                                    </ul>
+            
+                                    <div class="actions">
+                                        <div id="vipps-cancel">Avbryt</div>
+                                        <div id="vipps-finished">Ferdig</div>
+                                    </div>
+            
+                                    <div class="helper-images">
+                                        <div class="close-btn">Lukk skjermbilde</div>
+                                        <div class="explanation-image" style="background-image: url('https://storage.googleapis.com/effekt-widget/assets/vipps/1.jpg');"></div>
+                                        <div class="explanation-image" style="background-image: url('https://storage.googleapis.com/effekt-widget/assets/vipps/2.jpg');"></div>
+                                        <div class="explanation-image" style="background-image: url('https://storage.googleapis.com/effekt-widget/assets/vipps/3.jpg');"></div>
+                                        <div class="explanation-image" style="background-image: url('https://storage.googleapis.com/effekt-widget/assets/vipps/4.jpg');"></div>
+                                        <div class="explanation-image" style="background-image: url('https://storage.googleapis.com/effekt-widget/assets/vipps/5.jpg');"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="pane result">
+                            <div class="inner">
+                                <h3>Takk!</h3>
+            
+                                <img src="https://storage.googleapis.com/effekt-widget/assets/heart.svg" class="heart" />
+            
+                                <div class="result-type bank-pending">
+                                    <h4>Du kan nå overføre til oss.</h4>
+                                        
+                                    <div class="transfer-info">
+                                        <div class="line">
+                                            <label>Sum</label><span class="amount"></span>
+                                        </div>
+                                        <div class="line">
+                                            <label>Kontonr</label><span class="account select-on-click" x-ms-format-detection="none">1503 74 03269</span>
+                                        </div>
+                                        <div class="line">
+                                            <label>KID</label><span class="KID select-on-click" x-ms-format-detection="none"></span>
+                                        </div>
+                                    </div>
+            
+                                    <span class="email-text">Vi har også sendt en mail til <font class="email"></font> med informasjon om din donasjon. Sjekk søppelpost-mappen om du ikke har mottatt eposten i løpet av noen timer.</span>
+                                </div>
+            
+                                <div class="result-type vipps-pending">
+                                    <p>Vi bruker vanligvis noen dager på å bekrefte Vipps-donasjoner. Du vil få en mail til <font class="email"></font> når vi har bekreftet din donasjon. Sjekk søppelpost-mappen om du ikke har mottatt eposten i løpet av noen dager.</p>
+                                </div>
+            
+                                <div class="result-type donation-confirmed">
+                                    <p>Vi har nå mottatt din donasjon! Vi har også sendt en kvittering til <font class="email"></font> med mer informasjon. Sjekk søppelpost-mappen om du ikke har mottatt eposten i løpet av noen timer.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="error"></div>
+                    <div class="progress" style="width: 0%;"></div>
+                </div>
+            </div>
+        </div>
+
+        
+
+        <ul>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+        </ul>
+        <button id="donationBtn">Doner</button>
+        <ul>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+            <li>Bananmos</li>
+        </ul>
+        
+
+        <script src="dist/bundle.js"></script>
+        <script>
+        var donationWidgetElement = document.getElementById("donation-widget");
+        var widget = new DonationWidget();
+        widget.setup(widget, donationWidgetElement);
+
+        document.getElementById("donationBtn").addEventListener("click", function(e) {
+            widget.show();
+        });
+        </script>
+    </body>
+</html>
+
+<!-- Remember attributions on main page -->
+<div>Icons made by <a href="https://www.flaticon.com/authors/google" title="Google">Google</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>

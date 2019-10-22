@@ -9,7 +9,14 @@ module.exports = class DonorPane extends Pane {
         if (window.localStorage) {
             this.paneElement.getElementsByClassName("name")[0].value = window.localStorage.getItem("donation-name");
             this.paneElement.getElementsByClassName("email")[0].value = window.localStorage.getItem("donation-email");
-        } 
+        }
+        
+        this.checkTaxDeductionElement = this.paneElement.querySelector("#check-tax-deduction");
+        this.checkPrivacyPolicyElement = this.paneElement.querySelector("#check-privacy-policy");
+
+        //Setup checkbox listener
+        this.checkTaxDeductionElement.addEventListener("change", this.ssnCheckChanged.bind(this));
+        let chosenTaxDeduction = false;
     }
 
     submit() {
@@ -21,6 +28,7 @@ module.exports = class DonorPane extends Pane {
     
         var email = pane.getElementsByClassName("email")[0].value.trim();
         var name = pane.getElementsByClassName("name")[0].value.trim();
+        var ssn = pane.getElementsByClassName("ssn")[0].value.trim();
     
         //Validate input
         if (name.length < 2 || name.length > 32) { //Invalid name
@@ -32,9 +40,31 @@ module.exports = class DonorPane extends Pane {
             widget.error("Ikke en gyldig mail");
             return;
         }
+
+        if (!this.checkPrivacyPolicyElement.checked) {
+            widget.error("Du må godkjenne personværnserklæringen.");
+            return;
+        }
     
         widget.name = name;
         widget.email = email;
+        
+        if (this.chosenTaxDeduction) {
+            if (ssn.length != 11) {
+                widget.error("Personnummer er 11 siffer");
+                return;
+            }
+
+            if (isNaN(ssn)) {
+                widget.error("Personnummer kan bare inneholde tall");
+                return;
+            }
+
+            widget.ssn = ssn;
+        }
+        else {
+            widget.ssn = null;
+        }
     
         if (window.localStorage) {
             window.localStorage.setItem("donation-name", name);
@@ -48,9 +78,21 @@ module.exports = class DonorPane extends Pane {
         }, 200);
     }
 
-    customFocus() {
-        console.log("User focus");
+    ssnCheckChanged(e) {
+        if (e.target.checked) {
+            this.paneElement.getElementsByClassName("ssn")[0].style.display = "";
+            this.chosenTaxDeduction = true;
+            this.resizeWidgetToFit();
+        }  
+        else {
+            this.paneElement.getElementsByClassName("ssn")[0].style.display = "none";
+            this.chosenTaxDeduction = false;
+            this.resizeWidgetToFit();
+        }
+        
+    }
 
+    customFocus() {
         var input = this.paneElement.getElementsByClassName("name")[0];
         setTimeout(function () {
             input.focus();

@@ -11,8 +11,20 @@
             <div class="pane basic">
                 <div class="inner">
                     <h3>Doner her</h3>
-                    <input type="text" class="name" placeholder="navn" autocomplete="off"></input>
-                    <input type="text" class="email" placeholder="email" autocomplete="off"></input>
+                    <input type="text" class="name" placeholder="Navn" autocomplete="off"></input>
+                    <input type="text" class="email" placeholder="Email" autocomplete="off"></input>
+                    
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" name="tax-deduction" id="check-tax-deduction" autocomplete="off" /> 
+                        <label for="check-tax-deduction">Jeg ønsker skattefradrag <a href="https://gieffektivt.no/" target="_blank" class="more"></a></label>
+                    </div>
+
+                    <input type="text" class="ssn" placeholder="Fødselsnr (11 siffer)" autocomplete="off" style="display: none;"></input>
+
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" name="privacy-policy" id="check-privacy-policy" autocomplete="off" /> 
+                        <label for="check-privacy-policy">Jeg godtar <a href="https://drive.google.com/open?id=1SgLd_GCjy7ZE7SY6u5zmfZsOi6F_bIvS">personværnserklæringen</a></label>
+                    </div>
                 </div>
             </div>
             <div class="pane amount">
@@ -82,7 +94,7 @@
                                 <input type="hidden" name="charset" value="UTF-8">
                                 <input type="hidden" name="currency_code" value="NOK">
                                 <input type="hidden" name="amount" value="500">
-                                <input type="hidden" name="business" value="stiftelseneffekt@gmail.com">
+                                <input type="hidden" name="business" value="donasjon@gieffektivt.no">
                                 <input type="hidden" name="item_name" value="Donasjon">
                                 <input type="hidden" name="notify_url" value="https://api.gieffektivt.no/paypal/ipn">
                                 <input type="hidden" name="custom" value="blank">
@@ -94,7 +106,7 @@
                                 <input type="hidden" name="cmd" value="_xclick-subscriptions">
                                 <input type="hidden" name="charset" value="UTF-8">
                                 <input type="hidden" name="currency_code" value="NOK">
-                                <input type="hidden" name="business" value="stiftelseneffekt@gmail.com">
+                                <input type="hidden" name="business" value="donasjon@gieffektivt.no">
                                 <input type="hidden" name="item_name" value="Månedlig donasjon til Stiftelsen Effekt">
                                 <input type="hidden" name="notify_url" value="https://api.gieffektivt.no/paypal/ipn">
                                 <input type="hidden" name="custom" value="blank">

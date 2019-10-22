@@ -108,6 +108,11 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
                 font-family: 'Open Sans', sans-serif;
             }
 
+            A:Link, A:Visited {
+                color: #2196F3;
+                text-decoration: underline;
+            }
+
             .select-on-click {
                 cursor: pointer;
             }
@@ -208,6 +213,40 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
 
                 input.email {
                     margin-bottom: 20px;
+                }
+
+                .checkbox-wrapper {
+                    margin: 10px 45px;
+                    font-size: 12px;
+                    color: #444;   
+                    user-select: none;
+
+                    * {
+                        vertical-align: middle;
+                    }
+
+                    input[type="checkbox"] {
+                        width: 16px;
+                        height: 16px;
+                    }
+
+                    &:last-child {
+                        padding-bottom: 12px;
+                    }
+
+                    .more {
+                        display: inline-block;
+                        width: 14px;
+                        height: 14px;
+                        vertical-align: middle;
+                        text-decoration: none;
+                        background-image: url(#{$cdn-url}help.svg);
+                        background-size: cover;
+                        background-repeat: no-repeat;
+                        background-position: center center;
+                        opacity: .4;
+                        margin-left: 4px;
+                    }
                 }
             }
 

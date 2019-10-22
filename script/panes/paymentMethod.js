@@ -84,7 +84,6 @@ module.exports = class PaymentMethodPane extends Pane {
     }
 
     onSocketMessage(msg) {
-        console.log(msg.data)
         if (!this.clientWsID) {
             this.clientWsID = msg.data;
             this.payPalSingleForm.custom.setAttribute("value", this.widget.KID + "|" + this.clientWsID);

@@ -20,8 +20,6 @@
             const widgetContainer = document.getElementById("donation-widget-container");
             widgetContainer.appendChild(doc.getElementById("donation-widget"));
 
-            console.log("Widget loaded, setting up");
-
             var donationWidgetElement = document.getElementById("donation-widget");
             var widget = new DonationWidget();
             widget.setup(widget, donationWidgetElement);

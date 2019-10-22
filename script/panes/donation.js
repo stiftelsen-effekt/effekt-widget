@@ -42,19 +42,11 @@ module.exports = class DonationPane extends Pane {
             }).filter(function(item) { return item })
         }
         
-        console.log("Split: "+ rounding.sumWithPrecision(donationSplit.map(function(item) {return item.split})))
         if (rounding.sumWithPrecision(donationSplit.map(function(item) {return item.split})) === '100') {
             var nxtBtn = pane.getElementsByClassName("btn")[1];
             nxtBtn.classList.add("loading"); 
     
-            widget.registerDonation({
-                donor: {
-                    name: widget.name,
-                    email: widget.email
-                },
-                amount: widget.donationAmount,
-                organizations: donationSplit
-            }, nxtBtn);
+            widget.registerDonation(nxtBtn).bind(widget);
         }
         else {
             var nxtBtn = pane.getElementsByClassName("btn")[1];
@@ -244,12 +236,10 @@ module.exports = class DonationPane extends Pane {
     Switching between % and absolute values
     */
     setupModeButton() {
-        console.log("Setup mode btn")
         var widget = this.widget;
         var pane = this.paneElement;
 
         var btn = pane.getElementsByClassName("mode-switch")[0];
-        console.log(btn);
         var organizationList = pane.getElementsByClassName("organizations")[0];
 
         this.sharesType = "decimal";

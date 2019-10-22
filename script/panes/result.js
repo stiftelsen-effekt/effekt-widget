@@ -15,7 +15,7 @@ module.exports = class ResultPane extends Pane {
     }
     
     customFocus() {
-        console.log("Result focus");
+        
     }
     
     setResultState(state) {

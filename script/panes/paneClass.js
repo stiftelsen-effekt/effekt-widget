@@ -27,12 +27,8 @@ module.exports = class Pane {
     }
 
     resizeWidgetToFit() {
-        console.log("Resize widget to fit pane content");
-
         if (this.hasButton) var padding = 90;
         else var padding = 50;
-
-        console.log(this.hasButton)
 
         //Height is size of the inner content of pane + padding
         var height = this.paneElement.getElementsByClassName("inner")[0].clientHeight + padding;

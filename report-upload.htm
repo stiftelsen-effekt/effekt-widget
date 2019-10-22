@@ -43,8 +43,6 @@
             var paymentMethod = document.getElementById("range_paymentMethod");
 
             rangeForm.addEventListener("submit", function() {
-                console.log("Heyhey");
-
                 var url = `https://api.gieffektivt.no/reports/range?fromDate=${fromDate.value}&toDate=${toDate.value}&paymentMethodIDs=${paymentMethod.value}&filetype=excel&token=46bc14d858615a06bd9670bccca59df5d536da068686507ca9274a73b9ad7f71`;
                 window.open(url, "_blank");
             });

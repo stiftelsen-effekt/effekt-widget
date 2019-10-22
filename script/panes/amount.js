@@ -20,13 +20,7 @@ module.exports = class AmountPane extends Pane {
 
         if (widget.donationAmount > 0) {
             if (this.submitOnNext) {
-                widget.registerDonation({
-                    donor: {
-                        name: widget.name,
-                        email: widget.email
-                    },
-                    amount: widget.donationAmount
-                }, nxtBtn);
+                widget.registerDonation(nxtBtn).bind(widget);
             } else {
                 widget.nextSlide();
     
