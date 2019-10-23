@@ -111,7 +111,7 @@ module.exports = class PaymentMethodPane extends Pane {
             KID: this.widget.KID,
             sum: this.widget.donationAmount
         };
-        this.widget.request("/donations/bank/pending", "POST", postData, function() {});
+        this.widget.request("donations/bank/pending", "POST", postData, function() {});
 
         this.submit("BANK_PENDING");
     }
