@@ -109,7 +109,7 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
             }
 
             A:Link, A:Visited {
-                color: #2196F3;
+                color: #FFAA2B;
                 text-decoration: underline;
             }
 
@@ -144,7 +144,7 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
                     width: $size;
                     height: $size;
     
-                    border: 2px solid #2196F3;
+                    border: 2px solid #FFAA2B;
     
                     border-radius: 50%;
     
@@ -313,7 +313,7 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
 
                         &:checked {
                             & + label {
-                                background: #2196F3;
+                                background: #FFAA2B;
                             }
                         }
                     }
@@ -729,10 +729,10 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
                             display: inline-block;
 
                             padding: 5px 20px;
-                            color: #2196F3;
+                            color: #FFAA2B;
                             font-size: 11px;
                             text-transform: uppercase;
-                            border: 2px solid #2196F3;
+                            border: 2px solid #FFAA2B;
                             margin: 0 5px;
                             user-select: none;
                             cursor: pointer;
@@ -949,7 +949,7 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
         transform: width 200ms;
 
         height: 6px;
-        background: #2196F3;
+        background: #FFAA2B;
 
         transition: width 200ms;
     }
