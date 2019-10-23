@@ -94,8 +94,8 @@ function DonationWidget() {
             amount: this.donationAmount
         }
 
-        if (this.donatoinSplit) {
-            postData.organizations = this.donatoinSplit;
+        if (this.donationSplit) {
+            postData.organizations = this.donationSplit;
         }
 
         _self.request("donations/register", "POST", postData, function(err, data) {
