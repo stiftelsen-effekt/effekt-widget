@@ -65,7 +65,7 @@ module.exports = class PaymentMethodPane extends Pane {
 
         this.bankBtn = this.paneElement.getElementsByClassName("bank")[0];
         this.bankBtn.addEventListener("click", () => {
-            _self.submit("BANK_PENDING");
+            _self.bankButtonHandler();
         })
     }
 
@@ -106,9 +106,19 @@ module.exports = class PaymentMethodPane extends Pane {
         }
     }
 
+    bankButtonHandler() {
+        const postData = {
+            KID: this.widget.KID,
+            sum: this.widget.donationAmount
+        };
+        this.widget.request("/donations/bank/pending", "POST", postData, function() {});
+
+        this.submit("BANK_PENDING");
+    }
+
     setupBankScreen() {
-        document.getElementById("vipps-donation-amount").innerHTML = this.widget.donationAmount + " kr";
-        document.getElementById("vipps-donation-kid").innerHTML = this.widget.KID;
+        document.getElementById("bank-amount").innerHTML = this.widget.donationAmount + " kr";
+        document.getElementById("bank-kid").innerHTML = this.widget.KID;
     }
     
     setupVippsGuide() {
