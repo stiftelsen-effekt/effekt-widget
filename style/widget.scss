@@ -823,6 +823,9 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
         
                             background: #222;
                             color: white;
+
+                            margin-top: 5px;
+                            padding: 8px 0;
         
                             label {
                                 display: inline-block;
@@ -847,7 +850,7 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
                         }
         
                         .email-text {
-                            margin-top: 10px;
+                            margin-top: 0px;
                             display: block;
                             width: 100%;
                             padding: 18px;
