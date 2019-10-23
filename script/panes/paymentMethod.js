@@ -36,11 +36,11 @@ module.exports = class PaymentMethodPane extends Pane {
         // Single donation
         this.payPalSingleForm = document.getElementById("payPalSingleForm");
         this.payPalSingleForm.amount.setAttribute("value", this.widget.donationAmount);
-        this.payPalSingleForm.custom.setAttribute("value", this.widget.KID + "|" + this.clientWsID);
+        if (this.clientWsID) this.payPalSingleForm.custom.setAttribute("value", this.widget.KID + "|" + this.clientWsID);
         // Recurring donation
         this.payPalRecurringForm = document.getElementById("payPalRecurringForm");
         this.payPalRecurringForm.a3.setAttribute("value", this.widget.donationAmount);
-        this.payPalRecurringForm.custom.setAttribute("value", this.widget.KID + "|" + this.clientWsID);
+        if (this.clientWsID) this.payPalRecurringForm.custom.setAttribute("value", this.widget.KID + "|" + this.clientWsID);
     }
     
     setupWebSocket() {
