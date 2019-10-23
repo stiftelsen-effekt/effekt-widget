@@ -59,6 +59,11 @@ module.exports = class PaymentMethodPane extends Pane {
             _self.openVippsGuide();
             //show vipps guide
         });
+
+        this.bankBtn = this.paneElement.getElementsByClassName("bank")[0];
+        this.bankBtn.addEventListener("click", () => {
+            _self.submit("BANK_PENDING");
+        })
     }
 
     setupButtonVisibility() {
