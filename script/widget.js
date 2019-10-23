@@ -94,6 +94,10 @@ function DonationWidget() {
             amount: this.donationAmount
         }
 
+        if (this.donatoinSplit) {
+            postData.organizations = this.donatoinSplit;
+        }
+
         _self.request("donations/register", "POST", postData, function(err, data) {
             if (err == 0 || err) {
                 if (err == 0) _self.error("Når ikke server. Forsøk igjen senere.");

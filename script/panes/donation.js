@@ -45,6 +45,8 @@ module.exports = class DonationPane extends Pane {
         if (rounding.sumWithPrecision(donationSplit.map(function(item) {return item.split})) === '100') {
             var nxtBtn = pane.getElementsByClassName("btn")[1];
             nxtBtn.classList.add("loading"); 
+
+            widget.donationSplit = donationSplit;
     
             widget.registerDonation(nxtBtn);
         }
