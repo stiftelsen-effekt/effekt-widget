@@ -36,9 +36,11 @@ module.exports = class PaymentMethodPane extends Pane {
         // Single donation
         this.payPalSingleForm = document.getElementById("payPalSingleForm");
         this.payPalSingleForm.amount.setAttribute("value", this.widget.donationAmount);
+        this.payPalSingleForm.custom.setAttribute("value", this.widget.KID + "|" + this.clientWsID);
         // Recurring donation
         this.payPalRecurringForm = document.getElementById("payPalRecurringForm");
         this.payPalRecurringForm.a3.setAttribute("value", this.widget.donationAmount);
+        this.payPalRecurringForm.custom.setAttribute("value", this.widget.KID + "|" + this.clientWsID);
     }
     
     setupWebSocket() {
@@ -91,8 +93,7 @@ module.exports = class PaymentMethodPane extends Pane {
     onSocketMessage(msg) {
         if (!this.clientWsID) {
             this.clientWsID = msg.data;
-            this.payPalSingleForm.custom.setAttribute("value", this.widget.KID + "|" + this.clientWsID);
-            this.payPalRecurringForm.custom.setAttribute("value", this.widget.KID + "|" + this.clientWsID);
+            this.updatePayPalForms();
         } 
         else {
             if (msg.data == "PAYPAL_VERIFIED") {
@@ -103,7 +104,7 @@ module.exports = class PaymentMethodPane extends Pane {
             }
         }
     }
-
+    
     setupVippsGuide() {
         var _self = this;
 
