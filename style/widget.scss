@@ -225,6 +225,10 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
                         vertical-align: middle;
                     }
 
+                    A:Link, A:Visited, A:Hover {
+                        color: #FFAA2B;
+                    }
+
                     input[type="checkbox"] {
                         width: 16px;
                         height: 16px;
