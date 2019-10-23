@@ -10,6 +10,8 @@ module.exports = class DonorPane extends Pane {
             this.paneElement.getElementsByClassName("name")[0].value = window.localStorage.getItem("donation-name");
             this.paneElement.getElementsByClassName("email")[0].value = window.localStorage.getItem("donation-email");
         }
+
+        this.resizableOnMobile = true;
         
         this.checkTaxDeductionElement = this.paneElement.querySelector("#check-tax-deduction");
         this.checkPrivacyPolicyElement = this.paneElement.querySelector("#check-privacy-policy");

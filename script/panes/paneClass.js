@@ -33,7 +33,7 @@ module.exports = class Pane {
         //Height is size of the inner content of pane + padding
         var height = this.paneElement.getElementsByClassName("inner")[0].clientHeight + padding;
 
-        //What? Has something to do with mobile, but unclear what
+        
         if (this.resizableOnMobile) this.widget.element.style.maxHeight = "3000px";
         else this.widget.element.style.maxHeight = "";
 
