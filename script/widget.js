@@ -7,7 +7,7 @@ function DonationWidget() {
     this.setup = function (self, widgetElement) {
         _self = self;
 
-        this.assetsUrl = "https://storage.googleapis.com/effekt-widget/";
+        this.assetsUrl = "https://storage.googleapis.com/effekt-widget/assets/";
         
         this.localStorage = window.localStorage; 
     
