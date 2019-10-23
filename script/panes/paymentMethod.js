@@ -29,6 +29,7 @@ module.exports = class PaymentMethodPane extends Pane {
         this.updatePayPalForms();
         this.setupWebSocket();
         this.setupVippsGuide();
+        this.setupBankScreen();
         this.setupButtonVisibility();
     } 
     
@@ -103,6 +104,11 @@ module.exports = class PaymentMethodPane extends Pane {
                 this.widget.error("Feil i PayPal");
             }
         }
+    }
+
+    setupBankScreen() {
+        document.getElementById("vipps-donation-amount").innerHTML = this.widget.donationAmount + " kr";
+        document.getElementById("vipps-donation-kid").innerHTML = this.widget.KID;
     }
     
     setupVippsGuide() {
