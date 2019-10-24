@@ -43,7 +43,16 @@ module.exports = class PaymentMethodPane extends Pane {
         this.payPalRecurringForm.a3.setAttribute("value", this.widget.donationAmount);
         if (this.clientWsID) this.payPalRecurringForm.custom.setAttribute("value", this.widget.KID + "|" + this.clientWsID);
     }
-    
+
+    setupWebSocket() {
+        this.socket = new WebSocket("wss://api.gieffektivt.no:443");
+        var _self = this;
+        
+        this.socket.addEventListener("message", (msg) => { _self.onSocketMessage(msg); });
+        this.socket.addEventListener("close", () => { console.log("Socket closed;"); })
+        this.socket.addEventListener("open", this.keepWebsocketAlive.bind(this));
+    }
+
     keepWebsocketAlive() { 
         var timeout = 20000;  
         if (this.socket.readyState == this.socket.OPEN) {  
@@ -56,16 +65,6 @@ module.exports = class PaymentMethodPane extends Pane {
             clearTimeout(this.websocketTimerId);  
         }  
     }
-
-    setupWebSocket() {
-        this.socket = new WebSocket("wss://api.gieffektivt.no:443");
-        var _self = this;
-        this.keepWebsocketAlive();
-        this.socket.addEventListener("message", (msg) => { _self.onSocketMessage(msg); });
-        this.socket.addEventListener("close", () => { console.log("Socket closed;"); })
-    }
-
-    
     
     setupButtons() {
         var _self = this;
