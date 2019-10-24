@@ -47,8 +47,22 @@ module.exports = class PaymentMethodPane extends Pane {
     setupWebSocket() {
         this.socket = new WebSocket("wss://api.gieffektivt.no:443");
         var _self = this;
+        this.keepWebsocketAlive();
         this.socket.addEventListener("message", (msg) => { _self.onSocketMessage(msg); });
         this.socket.addEventListener("close", () => { console.log("Socket closed;"); })
+    }
+
+    keepWebsocketAlive() { 
+        var timeout = 20000;  
+        if (this.socket.readyState == webSocket.OPEN) {  
+            this.socket.send('');  
+        }  
+        this.websocketTimerId = setTimeout(keepWebsocketAlive, timeout);  
+    }  
+    cancelWebsocketKeepAlive() {  
+        if (this.websocketTimerId) {  
+            clearTimeout(this.websocketTimerId);  
+        }  
     }
     
     setupButtons() {
@@ -106,6 +120,7 @@ module.exports = class PaymentMethodPane extends Pane {
         else {
             if (msg.data == "PAYPAL_VERIFIED") {
                 this.submit("DONATION_RECIEVED");
+                this.cancelWebsocketKeepAlive();
                 this.socket.close();
             }
             else if (msg.data == "PAYPAL_ERROR") {
