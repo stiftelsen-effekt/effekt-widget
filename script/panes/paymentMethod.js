@@ -49,16 +49,16 @@ module.exports = class PaymentMethodPane extends Pane {
         var _self = this;
         
         this.socket.addEventListener("message", (msg) => { _self.onSocketMessage(msg); });
-        this.socket.addEventListener("close", () => { console.log("Socket closed;"); })
+        this.socket.addEventListener("close", () => { console.log("Socket closed"); })
         this.socket.addEventListener("open", this.keepWebsocketAlive.bind(this));
     }
 
     keepWebsocketAlive() { 
-        var timeout = 20000;  
+        var timeout = 20000;
         if (this.socket.readyState == this.socket.OPEN) {  
             this.socket.send('');  
         }  
-        this.websocketTimerId = setTimeout(this.keepWebsocketAlive, timeout);  
+        this.websocketTimerId = setTimeout(this.keepWebsocketAlive.bind(this), timeout);  
     }  
     cancelWebsocketKeepAlive() {  
         if (this.websocketTimerId) {  

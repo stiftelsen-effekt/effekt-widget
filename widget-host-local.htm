@@ -29,14 +29,14 @@
                                 
                                 <div class="checkbox-wrapper">
                                     <input type="checkbox" name="tax-deduction" id="check-tax-deduction" autocomplete="off" /> 
-                                    <label for="check-tax-deduction">Jeg ønsker skattefradrag <a href="https://gieffektivt.no/skattefradrag#rec6908833" target="_blank" class="more"></a></label>
+                                    <label for="check-tax-deduction">Jeg ønsker skattefradrag <a href="https://gieffektivt.no/skattefradrag" target="_blank" class="more"></a></label>
                                 </div>
             
                                 <input type="text" class="ssn" placeholder="Fødselsnr (11 siffer)" autocomplete="off" style="display: none;"></input>
             
                                 <div class="checkbox-wrapper">
                                     <input type="checkbox" name="privacy-policy" id="check-privacy-policy" autocomplete="off" /> 
-                                    <label for="check-privacy-policy">Jeg godtar <a href="#">personværnserklæringen</a></label>
+                                    <label for="check-privacy-policy">Jeg godtar <a href="https://stiftelseneffekt.no/personvern" target="_blank">personværnerklæringen</a></label>
                                 </div>
                             </div>
                         </div>
@@ -95,7 +95,7 @@
                                 <div class="selection active">
                                     <h3>Betalingsmåte</h3>
             
-                                    <span>Kostnadene angitt under dekkes av Effekt. <br>100% av din donasjon kommer frem.</span>
+                                    <span>Kostnadene angitt under dekkes av Effektiv Altruisme Norge. <br>100% av din donasjon kommer frem.</span>
             
                                     <div class="payment-methods">
                                         <!--<div class="method bank">
@@ -139,6 +139,10 @@
             
                                         <div class="method vipps">
                                             <div class="transaction-costs">1.7%</div>
+                                        </div>
+            
+                                        <div class="method bank">
+                                            <div class="transaction-costs">0kr</div>
                                         </div>
                                     </div>
             
@@ -207,13 +211,13 @@
                                         
                                     <div class="transfer-info">
                                         <div class="line">
-                                            <label>Sum</label><span class="amount"></span>
+                                            <label>Sum</label><span class="amount" id="bank-amount"></span>
                                         </div>
                                         <div class="line">
-                                            <label>Kontonr</label><span class="account select-on-click" x-ms-format-detection="none">1503 74 03269</span>
+                                            <label>Kontonr</label><span class="account select-on-click" x-ms-format-detection="none">1506 29 95960</span>
                                         </div>
                                         <div class="line">
-                                            <label>KID</label><span class="KID select-on-click" x-ms-format-detection="none"></span>
+                                            <label>KID</label><span class="KID select-on-click" x-ms-format-detection="none" id="bank-kid"></span>
                                         </div>
                                     </div>
             
