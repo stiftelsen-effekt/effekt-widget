@@ -54,7 +54,7 @@ module.exports = class PaymentMethodPane extends Pane {
 
     keepWebsocketAlive() { 
         var timeout = 20000;  
-        if (this.socket.readyState == webSocket.OPEN) {  
+        if (this.socket.readyState == this.socket.OPEN) {  
             this.socket.send('');  
         }  
         this.websocketTimerId = setTimeout(keepWebsocketAlive, timeout);  
