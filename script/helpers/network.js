@@ -1,4 +1,4 @@
-var api_url = "https://api.gieffektivt.no/";
+var api_url = "http://api.gieffektivt.no/";
 //var api_url = "http://localhost:80/";
 
 module.exports = {
