@@ -45,7 +45,7 @@ module.exports = class PaymentMethodPane extends Pane {
     }
 
     setupWebSocket() {
-        this.socket = new WebSocket("ws://api.gieffektivt.no");
+        this.socket = new WebSocket("wss://api.gieffektivt.no");
         var _self = this;
         
         this.socket.addEventListener("message", (msg) => { _self.onSocketMessage(msg); });
