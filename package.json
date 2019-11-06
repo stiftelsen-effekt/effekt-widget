@@ -32,6 +32,8 @@
     "watchify": "^3.11.1"
   },
   "devDependencies": {
-    "gulp-replace": "^1.0.0"
+    "@types/jsdom": "^12.2.4",
+    "gulp-replace": "^1.0.0",
+    "jsdom": "^15.2.0"
   }
 }

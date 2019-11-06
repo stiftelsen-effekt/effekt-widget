@@ -2,7 +2,8 @@ function DonationWidget() {
     var _self = undefined;
 
     /* Network helpers */
-    this.request = require('./helpers/network.js').request;
+    this.networkHelper = require('./helpers/network.js');
+    this.request = this.networkHelper.request.bind(this.networkHelper);
 
     this.setup = function (self, widgetElement) {
         _self = self;
@@ -284,9 +285,10 @@ function DonationWidget() {
         registerDonation : this.registerDonation ,
         prevSlide: this.prevSlide,
         hideError: this.hideError,
-        setup: this.setup
+        setup: this.setup,
+        network: this.networkHelper
     }
     return properties;
 } 
 
-window.DonationWidget = DonationWidget;
+window.DonationWidget = DonationWidget; 

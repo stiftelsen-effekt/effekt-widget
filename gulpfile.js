@@ -1,5 +1,5 @@
 const gulp = require('gulp');
-const { parallel } = require('gulp')
+const { parallel, series } = require('gulp')
 
 const sass = require('gulp-sass');
 const minify = require('gulp-minify')
@@ -11,6 +11,9 @@ const log = require('gulplog');
 const sourcemaps = require('gulp-sourcemaps');
 const assign = require('lodash.assign');
 var replace = require('gulp-replace');
+const jsdom = require('jsdom')
+const { JSDOM } = jsdom;
+const fs = require('fs')
 
 const customOpts = {
   entries: ['./script/widget.js'],
@@ -39,7 +42,7 @@ function styles() {
         .pipe(gulp.dest('./dist'));
 }
 
-function html() {
+function formatWidgetHTML() {
   return gulp.src('./widget.htm')
     /*  Google Cloud Storage does not play nice with UTF-8 encoding.
         Replacing the characters with HTML entities fixes the problem,
@@ -55,4 +58,28 @@ function html() {
     .pipe(gulp.dest('./dist'))
 }
 
-exports.build = parallel(bundle, styles, html)
+/**
+ * This step fetches the html from widget.html and pastes it into the correct
+ * location in widget-host-local.htm. Use widget-host-local for testing changes
+ * made to widget.htm locally. See comment in widget-host-local.htm for further
+ * comments.
+ */
+function copyWidgetToLocalDev() {
+  //Read widget.html
+  let widgetHtml = fs.readFileSync('widget.htm').toString()
+
+  //Insert into widget-local.htm
+  let widgetHostLocalHtml = fs.readFileSync('widget-host-local.htm').toString()
+  let hostLocalDOM = new JSDOM(widgetHostLocalHtml)
+
+  let container = hostLocalDOM.window.document.body.querySelector("#donation-widget-container")
+  container.innerHTML = widgetHtml
+
+  //Save file
+  let finalHTML = hostLocalDOM.serialize()
+  fs.writeFileSync("widget-host-local.htm", finalHTML)
+
+  return Promise.resolve('Completed moving HTML')
+}
+
+exports.build = parallel(bundle, styles, series(formatWidgetHTML, copyWidgetToLocalDev))

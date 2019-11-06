@@ -1,10 +1,11 @@
-var api_url = "https://api.gieffektivt.no/";
-//var api_url = "http://localhost:80/";
-
 module.exports = {
+    api_url: "https://api.gieffektivt.no/",
+    //api_url: "http://localhost:80/",
+
     request: function(endpoint, type, data, cb) {
         var http = new XMLHttpRequest();
-        var url = api_url + endpoint;
+        //TODO:      this context is properly binded
+        var url = this.api_url + endpoint;
 
         http.onreadystatechange = function() {
             if (this.readyState == 4) {

@@ -19,6 +19,8 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
     transition: all 200ms; 
     background: transparent;
 
+    color: black;
+
     &.active {
         background: rgba(0,0,0,.8);
     }
