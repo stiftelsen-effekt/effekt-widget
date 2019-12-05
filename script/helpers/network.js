@@ -1,6 +1,6 @@
 module.exports = {
-    api_url: "https://api.gieffektivt.no/",
-    //api_url: "http://localhost:80/",
+    //api_url: "https://api.gieffektivt.no/",
+    api_url: "http://localhost:80/",
 
     request: function(endpoint, type, data, cb) {
         var http = new XMLHttpRequest();
@@ -24,6 +24,7 @@ module.exports = {
             }
         };
 
+        console.log(data)
         if (type == "POST") {
             http.open("POST", url, true);
             http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");

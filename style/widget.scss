@@ -553,6 +553,30 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
                 }
             }
 
+            &.referral {
+                ul {
+                    font-size: 12px;
+                    white-space: normal;
+                    display: flex;
+                    align-content: space-between;
+                    justify-content: space-between;
+                    width: 240px;
+                    flex-wrap: wrap;
+
+                    li {
+                        display: inline-block;
+                        margin: 5px 0;
+                        background: #f8f1e5;
+                        border: 1px solid #dfd2c5;
+                        border-radius: 3px;
+                        padding: 8px;
+                        box-sizing: border-box;
+                        width: 110px;
+                        cursor: pointer;
+                    }
+                }
+            }
+
             &.payment-method {
                 //font-size: 12px;
                 white-space: normal;

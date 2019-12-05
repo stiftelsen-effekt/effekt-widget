@@ -55,18 +55,26 @@ function DonationWidget() {
             hasNextBtn: true
         });
 
-        var PaymentMethodPane = require('./panes/paymentMethod.js');
-        this.panes[3] = new PaymentMethodPane({
-            widget: _self, 
+        var ReferralPane = require('./panes/referral.js');
+        this.panes[3] = new ReferralPane({
+            widget: _self,
             paneElement: paneElements[3],
+            hasPrevBtn: true,
+            hasNextBtn: true
+        })
+
+        var PaymentMethodPane = require('./panes/paymentMethod.js');
+        this.panes[4] = new PaymentMethodPane({
+            widget: _self, 
+            paneElement: paneElements[4],
             hasPrevBtn: true,
             hasNextBtn: false
         });
 
         var ResultPane = require('./panes/result.js');
-        this.panes[4] = new ResultPane({
+        this.panes[5] = new ResultPane({
             widget: _self,
-            paneElement: paneElements[4],
+            paneElement: paneElements[5],
             hasPrevBtn: false,
             hasNextBtn: false
         });
@@ -110,6 +118,7 @@ function DonationWidget() {
             nxtBtn.classList.remove("loading");
             
             _self.KID = data.content.KID;
+            _self.donorID = data.content.donorID;
             _self.nextSlide();
         });
     }
