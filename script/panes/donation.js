@@ -243,22 +243,23 @@ module.exports = class DonationPane extends Pane {
 
         var btn = pane.getElementsByClassName("mode-switch")[0];
         var organizationList = pane.getElementsByClassName("organizations")[0];
+        organizationList.classList.add("percentage-mode");
 
-        this.sharesType = "decimal";
+        this.sharesType = "percentage";
         var hasSwitched = false;
 
         var _self = this;
         btn.addEventListener("click", function(e) {
             if (_self.hasSwitched) {
                 btn.classList.remove("switched");
-                _self.sharesType = "decimal";
-                organizationList.classList.remove("percentage-mode");
+                _self.sharesType = "percentage";
+                organizationList.classList.add("percentage-mode");
                 _self.organizationValuesToAmount();
                 _self.hasSwitched = false;
             } else {
                 btn.classList.add("switched");
-                _self.sharesType = "percentage";
-                organizationList.classList.add("percentage-mode");
+                _self.sharesType = "decimal";
+                organizationList.classList.remove("percentage-mode");
                 _self.organizationValuesToPercent();
                 _self.hasSwitched = true;
             }
