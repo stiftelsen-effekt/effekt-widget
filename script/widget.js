@@ -119,6 +119,11 @@ function DonationWidget() {
             
             _self.KID = data.content.KID;
             _self.donorID = data.content.donorID;
+
+            if (data.content.hasAnsweredReferral) {
+                _self.panes[3].hide();
+            }
+
             _self.nextSlide();
         });
     }
