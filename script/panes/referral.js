@@ -36,16 +36,21 @@ module.exports = class AmountPane extends Pane {
     submit(referralID) {
         var _self = this;
 
-        console.log(_self.widget.donorID)
-
-        var postData = {
-            referralTypeID: referralID,
-            donorID: _self.widget.donorID
+        if (typeof referralID !== "undefined") {
+            //User pressed an option
+            var postData = {
+                referralTypeID: referralID,
+                donorID: _self.widget.donorID
+            }
+    
+            this.widget.request("referrals/", "POST", postData, function (err, data) {
+                _self.hide();
+                _self.widget.nextSlide();
+            })
         }
-
-        this.widget.request("referrals/", "POST", postData, function (err, data) {
-            console.log(data)
+        else {
+            //User did not select a referral option
             _self.widget.nextSlide();
-        })
+        }
     }
 } 
