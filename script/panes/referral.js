@@ -4,6 +4,7 @@ module.exports = class AmountPane extends Pane {
     constructor(config) {
         super(config);
 
+        this.resizableOnMobile = true;
         this.setupReferralList();
     }
 
