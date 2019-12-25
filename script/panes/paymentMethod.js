@@ -143,7 +143,7 @@ module.exports = class PaymentMethodPane extends Pane {
 
     setupBankScreen() {
         document.getElementById("bank-amount").innerHTML = this.widget.donationAmount + " kr";
-        document.getElementById("bank-kid").innerHTML = this.widget.KID;
+        document.getElementById("bank-kid").innerHTML = this.widget.KID.toString().replace(/\s/g, '');
     }
     
     setupVippsGuide() {
