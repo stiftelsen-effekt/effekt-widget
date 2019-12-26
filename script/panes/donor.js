@@ -18,7 +18,7 @@ module.exports = class DonorPane extends Pane {
 
         //Setup checkbox listener
         this.checkTaxDeductionElement.addEventListener("change", this.ssnCheckChanged.bind(this));
-        let chosenTaxDeduction = false;
+        this.chosenTaxDeduction = false;
     }
 
     submit() {
@@ -52,8 +52,8 @@ module.exports = class DonorPane extends Pane {
         widget.email = email;
         
         if (this.chosenTaxDeduction) {
-            if (ssn.length != 11) {
-                widget.error("Personnummer er 11 siffer");
+            if (ssn.length != 11 && ssn.length != 9) {
+                widget.error("Oppgi 9 eller 11 siffer");
                 return;
             }
 
