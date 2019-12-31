@@ -27,6 +27,41 @@
                     </div>
                 </div>
             </div>
+
+            <div class="pane payment-method">
+                <div class="inner">
+                    <div class="selection active">
+                        <h3>Betalingsmåte</h3>
+
+                        <span>Kostnadene angitt under dekkes av Effektiv Altruisme Norge. <br>100% av din donasjon kommer frem.</span>
+
+                        <div class="payment-methods">
+                            <div class="method bank">
+                                <div class="transaction-costs">2kr</div>
+                            </div>
+
+                            
+
+                            <div class="method paypal">
+                                <div class="transaction-costs">1.9% + 2.8kr</div>
+                            </div>
+
+                            <div class="method vipps">
+                                <div class="transaction-costs">1.7%</div>
+                            </div>
+
+                            <div class="method bank hidden">
+                                <div class="transaction-costs">0kr</div>
+                            </div>
+                        </div>
+
+                        
+                    </div>
+
+                    
+                </div>
+            </div>
+
             <div class="pane amount">
                 <div class="inner">
                     <h3>Angi sum</h3>
@@ -86,112 +121,92 @@
                 </div>
             </div>
 
-            <div class="pane payment-method">
-                <div class="inner">
-                    <div class="selection active">
-                        <h3>Betalingsmåte</h3>
+            <div class="pane vipps">
+                <div class="vipps-guide">
+                    <img src="https://storage.googleapis.com/effekt-widget/assets/logos/vipps.png" class="header"/>
+                    <ul>
+                        <li>
+                            <div class="list-point">1</div>
+                            <div class="text">Velg <strong>betal</strong> i Vipps-appen</div>
+                            <div class="explanatory-image" data-index="0"></div>
+                        </li>
+                        <li>
+                            <div class="list-point">2</div>
+                            <div class="text">Søk etter og velg gieffektivt.no eller #576742</div>
+                            <div class="explanatory-image" data-index="1"></div>
+                        </li>
+                        <li>
+                            <div class="list-point">3</div>
+                            <div class="text">Før inn beløp <strong id="vipps-donation-amount"></strong> og <br>KID: <strong id="vipps-donation-kid"></strong> i meldingsfeltet</div>
+                            <div class="explanatory-image" data-index="2"></div>
+                        </li>
+                        <li>
+                            <div class="list-point">4</div>
+                            <div class="text">Bekreft donasjon </div>
+                            <div class="explanatory-image" data-index="3"></div></li>
+                        <li>
+                            <div class="list-point">5</div>
+                            <div class="text">Kvittering</div>
+                            <div class="explanatory-image" data-index="4"></div>
+                        </li>
+                    </ul>
 
-                        <span>Kostnadene angitt under dekkes av Effektiv Altruisme Norge. <br>100% av din donasjon kommer frem.</span>
-
-                        <div class="payment-methods">
-                            <div class="method bank">
-                                <div class="transaction-costs">2kr</div>
-                            </div>
-
-                            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="payPalSingleForm" target="_blank" style="display: inline-block;">
-                                <input type="hidden" name="cmd" value="_donations">
-                                <input type="hidden" name="charset" value="UTF-8">
-                                <input type="hidden" name="currency_code" value="NOK">
-                                <input type="hidden" name="amount" value="500">
-                                <input type="hidden" name="business" value="donasjon@gieffektivt.no">
-                                <input type="hidden" name="item_name" value="Donasjon">
-                                <input type="hidden" name="notify_url" value="https://api.gieffektivt.no/paypal/ipn">
-                                <input type="hidden" name="custom" value="blank">
-
-                                <input type="submit" style="display: none;" id="submitSinglePaypal" />
-                            </form>
-
-                            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="payPalRecurringForm" target="_blank" style="display: inline-block;">
-                                <input type="hidden" name="cmd" value="_xclick-subscriptions">
-                                <input type="hidden" name="charset" value="UTF-8">
-                                <input type="hidden" name="currency_code" value="NOK">
-                                <input type="hidden" name="business" value="donasjon@gieffektivt.no">
-                                <input type="hidden" name="item_name" value="Månedlig donasjon til Stiftelsen Effekt">
-                                <input type="hidden" name="notify_url" value="https://api.gieffektivt.no/paypal/ipn">
-                                <input type="hidden" name="custom" value="blank">
-                                <input type="hidden" name="a3" value="500">
-                                <input type="hidden" name="p3" value="1">
-                                <input type="hidden" name="t3" value="M">
-                                <input type="hidden" name="src" value="1">
-                                <input type="hidden" name="srt" value="24">
-                                <input type="hidden" name="no_note" value="1">
-                                
-                                <input type="submit" style="display: none;" id="submitRecurringPaypal" />
-                            </form>
-
-                            <div class="method paypal">
-                                <div class="transaction-costs">1.9% + 2.8kr</div>
-                            </div>
-
-                            <div class="method vipps">
-                                <div class="transaction-costs">1.7%</div>
-                            </div>
-
-                            <div class="method bank hidden">
-                                <div class="transaction-costs">0kr</div>
-                            </div>
-                        </div>
-
-                        <div class="awaiting-confirmation">
-                            <div>
-                                <strong>Venter på bekreftelse på innbetaling fra tredjepart</strong>
-                                <img src="https://storage.googleapis.com/effekt-widget/assets/loading.svg" />
-                            </div>
-                        </div>
+                    <div class="actions">
+                        <div id="vipps-cancel">Avbryt</div>
+                        <div id="vipps-finished">Ferdig</div>
                     </div>
 
-                    <div class="vipps-guide">
-                        <img src="https://storage.googleapis.com/effekt-widget/assets/logos/vipps.png" class="header"/>
-                        <ul>
-                            <li>
-                                <div class="list-point">1</div>
-                                <div class="text">Velg <strong>betal</strong> i Vipps-appen</div>
-                                <div class="explanatory-image" data-index="0"></div>
-                            </li>
-                            <li>
-                                <div class="list-point">2</div>
-                                <div class="text">Søk etter og velg gieffektivt.no eller #576742</div>
-                                <div class="explanatory-image" data-index="1"></div>
-                            </li>
-                            <li>
-                                <div class="list-point">3</div>
-                                <div class="text">Før inn beløp <strong id="vipps-donation-amount"></strong> og <br>KID: <strong id="vipps-donation-kid"></strong> i meldingsfeltet</div>
-                                <div class="explanatory-image" data-index="2"></div>
-                            </li>
-                            <li>
-                                <div class="list-point">4</div>
-                                <div class="text">Bekreft donasjon </div>
-                                <div class="explanatory-image" data-index="3"></div></li>
-                            <li>
-                                <div class="list-point">5</div>
-                                <div class="text">Kvittering</div>
-                                <div class="explanatory-image" data-index="4"></div>
-                            </li>
-                        </ul>
+                    <div class="helper-images">
+                        <div class="close-btn">Lukk skjermbilde</div>
+                        <div class="explanation-image" style="background-image: url('https://storage.googleapis.com/effekt-widget/assets/vipps/1.jpg');"></div>
+                        <div class="explanation-image" style="background-image: url('https://storage.googleapis.com/effekt-widget/assets/vipps/2.jpg');"></div>
+                        <div class="explanation-image" style="background-image: url('https://storage.googleapis.com/effekt-widget/assets/vipps/3.jpg');"></div>
+                        <div class="explanation-image" style="background-image: url('https://storage.googleapis.com/effekt-widget/assets/vipps/4.jpg');"></div>
+                        <div class="explanation-image" style="background-image: url('https://storage.googleapis.com/effekt-widget/assets/vipps/5.jpg');"></div>
+                    </div>
+                </div>
+            </div>
 
-                        <div class="actions">
-                            <div id="vipps-cancel">Avbryt</div>
-                            <div id="vipps-finished">Ferdig</div>
-                        </div>
+            <div class="pane paypal">
+                <div class="inner">
+                    <h3>Gå til paypal</h3>
+                    <button>Donér nå</button>
+                </div>
+                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="payPalSingleForm" target="_blank" style="display: inline-block;">
+                    <input type="hidden" name="cmd" value="_donations">
+                    <input type="hidden" name="charset" value="UTF-8">
+                    <input type="hidden" name="currency_code" value="NOK">
+                    <input type="hidden" name="amount" value="500">
+                    <input type="hidden" name="business" value="donasjon@gieffektivt.no">
+                    <input type="hidden" name="item_name" value="Donasjon">
+                    <input type="hidden" name="notify_url" value="https://api.gieffektivt.no/paypal/ipn">
+                    <input type="hidden" name="custom" value="blank">
 
-                        <div class="helper-images">
-                            <div class="close-btn">Lukk skjermbilde</div>
-                            <div class="explanation-image" style="background-image: url('https://storage.googleapis.com/effekt-widget/assets/vipps/1.jpg');"></div>
-                            <div class="explanation-image" style="background-image: url('https://storage.googleapis.com/effekt-widget/assets/vipps/2.jpg');"></div>
-                            <div class="explanation-image" style="background-image: url('https://storage.googleapis.com/effekt-widget/assets/vipps/3.jpg');"></div>
-                            <div class="explanation-image" style="background-image: url('https://storage.googleapis.com/effekt-widget/assets/vipps/4.jpg');"></div>
-                            <div class="explanation-image" style="background-image: url('https://storage.googleapis.com/effekt-widget/assets/vipps/5.jpg');"></div>
-                        </div>
+                    <input type="submit" style="display: none;" id="submitSinglePaypal" />
+                </form>
+
+                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="payPalRecurringForm" target="_blank" style="display: inline-block;">
+                    <input type="hidden" name="cmd" value="_xclick-subscriptions">
+                    <input type="hidden" name="charset" value="UTF-8">
+                    <input type="hidden" name="currency_code" value="NOK">
+                    <input type="hidden" name="business" value="donasjon@gieffektivt.no">
+                    <input type="hidden" name="item_name" value="Månedlig donasjon til Stiftelsen Effekt">
+                    <input type="hidden" name="notify_url" value="https://api.gieffektivt.no/paypal/ipn">
+                    <input type="hidden" name="custom" value="blank">
+                    <input type="hidden" name="a3" value="500">
+                    <input type="hidden" name="p3" value="1">
+                    <input type="hidden" name="t3" value="M">
+                    <input type="hidden" name="src" value="1">
+                    <input type="hidden" name="srt" value="24">
+                    <input type="hidden" name="no_note" value="1">
+                    
+                    <input type="submit" style="display: none;" id="submitRecurringPaypal" />
+                </form>
+
+                <div class="awaiting-confirmation">
+                    <div>
+                        <strong>Venter på bekreftelse på innbetaling fra tredjepart</strong>
+                        <img src="https://storage.googleapis.com/effekt-widget/assets/loading.svg" />
                     </div>
                 </div>
             </div>

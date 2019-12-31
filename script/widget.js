@@ -39,42 +39,58 @@ function DonationWidget() {
             hasNextBtn: true
         });
 
-        var AmountPane = require('./panes/amount.js');
-        this.panes[1] = new AmountPane({
+        var PaymentMethodPane = require('./panes/paymentMethod.js');
+        this.panes[1] = new PaymentMethodPane({
             widget: _self, 
             paneElement: paneElements[1],
             hasPrevBtn: true,
-            hasNextBtn: true
+            hasNextBtn: false
         });
 
-        var DonationPane = require('./panes/donation.js');
-        this.panes[2] = new DonationPane({
+        var AmountPane = require('./panes/amount.js');
+        this.panes[2] = new AmountPane({
             widget: _self, 
             paneElement: paneElements[2],
             hasPrevBtn: true,
             hasNextBtn: true
         });
 
-        var ReferralPane = require('./panes/referral.js');
-        this.panes[3] = new ReferralPane({
-            widget: _self,
+        var DonationPane = require('./panes/donation.js');
+        this.panes[3] = new DonationPane({
+            widget: _self, 
             paneElement: paneElements[3],
             hasPrevBtn: true,
             hasNextBtn: true
-        })
+        });
 
-        var PaymentMethodPane = require('./panes/paymentMethod.js');
-        this.panes[4] = new PaymentMethodPane({
-            widget: _self, 
+        var ReferralPane = require('./panes/referral.js');
+        this.panes[4] = new ReferralPane({
+            widget: _self,
             paneElement: paneElements[4],
             hasPrevBtn: true,
-            hasNextBtn: false
+            hasNextBtn: true
+        });
+
+        var PaypalPane = require('./panes/payPal.js');
+        this.panes[5] = new PaypalPane({
+            widget: _self,
+            paneElement: paneElements[5],
+            hasPrevBtn: true,
+            hasNextBtn: true
+        });
+
+        var VippsPane = require('./panes/vipps.js');
+        this.panes[6] = new VippsPane({
+            widget: _self,
+            paneElement: paneElements[6],
+            hasPrevBtn: true,
+            hasNextBtn: true
         });
 
         var ResultPane = require('./panes/result.js');
-        this.panes[5] = new ResultPane({
+        this.panes[7] = new ResultPane({
             widget: _self,
-            paneElement: paneElements[5],
+            paneElement: paneElements[7],
             hasPrevBtn: false,
             hasNextBtn: false
         });

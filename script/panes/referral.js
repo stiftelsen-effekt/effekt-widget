@@ -1,6 +1,6 @@
 const Pane = require('./paneClass.js');
 
-module.exports = class AmountPane extends Pane {
+module.exports = class ReferralPane extends Pane {
     constructor(config) {
         super(config);
 
