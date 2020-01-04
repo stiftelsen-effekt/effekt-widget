@@ -691,16 +691,16 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
                         }
                     }
                 }
+            }
 
-                .vipps-guide {
-                    display: none;
+            &.vipps {
+                .inner {
                     position: relative;
 
                     width: 100%;
                     top: 0;
                     left: 0;
-                    background: white;
-                    z-index: 10;
+                    text-align: center;
 
                     .header {
                         height: 32px;
@@ -718,6 +718,7 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
                         text-align: left;
                         font-size: 14px;
                         margin: 0;
+                        padding-bottom: 0;
 
                         li {
                             margin: 20px 0;
@@ -725,6 +726,7 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
                                 width: 238px;
                                 display: inline-block;
                                 vertical-align: top;
+                                white-space: normal;
                             }
 
                             .explanatory-image {
@@ -754,30 +756,6 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
                                 margin-right: 5px;
                                 line-height: 16px;
                             }
-                        }
-                    }
-
-                    .actions {
-                        margin-bottom: 16px;
-                        width: 100%;
-                        text-align: center;
-                        padding: 5px 0;
-                        position: absolute;
-                        bottom: -50px;
-                        background: white;
-                        line-height: 25px;
-
-                        & > div {
-                            display: inline-block;
-
-                            padding: 5px 20px;
-                            color: #FFAA2B;
-                            font-size: 11px;
-                            text-transform: uppercase;
-                            border: 2px solid #FFAA2B;
-                            margin: 0 5px;
-                            user-select: none;
-                            cursor: pointer;
                         }
                     }
 

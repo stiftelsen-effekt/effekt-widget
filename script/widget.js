@@ -102,7 +102,6 @@ function DonationWidget() {
         setupSelectOnClick();
     }
 
-    /* Setup helpers */
     function setupCloseBtn() {
         _self.closeBtn.addEventListener("click", function() {
             _self.close();
@@ -140,7 +139,21 @@ function DonationWidget() {
                 _self.panes[3].hide();
             }
 
+            if (_self.method === "BANK") {
+                _self.registerBankPending();
+            }
+
             _self.nextSlide();
+        });
+    }
+
+    this.registerBankPending = function() {
+        const postData = {
+            KID: _self.KID,
+            sum: _self.donationAmount
+        };
+        _self.request("donations/bank/pending", "POST", postData, function(err, data) {
+            if (err) _self.error("Sending av epost feilet");
         });
     }
 
@@ -164,9 +177,6 @@ function DonationWidget() {
         _self.currentSlide = slidenum;
         this.updateSliderProgress();
 
-        var pane = _self.panes[slidenum];
-        pane.resizeWidgetToFit();
-
         //Fix for occational render bug
         setTimeout(function() {
             _self.element.style.overflow = "hidden";
@@ -178,7 +188,9 @@ function DonationWidget() {
             }, 5);
         }, 500);
 
+        var pane = _self.panes[slidenum];
         pane.focus();
+        pane.resizeWidgetToFit();
     }
 
     this.nextSlide = function() {
@@ -312,7 +324,8 @@ function DonationWidget() {
         setNoApiError: this.setNoApiError,
         request: this.request,
         updateSliderProgress: this.updateSliderProgress,
-        registerDonation : this.registerDonation ,
+        registerDonation : this.registerDonation,
+        registerBankPending: this.registerBankPending,
         prevSlide: this.prevSlide,
         hideError: this.hideError,
         setup: this.setup,

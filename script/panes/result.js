@@ -15,7 +15,24 @@ module.exports = class ResultPane extends Pane {
     }
     
     customFocus() {
-        
+        if (this.widget.method === "BANK") {
+            this.setResultState("BANK_PENDING");
+            this.setupBankFields();
+        }
+        else if (this.widget.method === "VIPPS") {
+            this.setResultState("VIPPS_PENDING");
+        }
+        else if (this.widget.method === "PAYPAL") {
+            this.setResultState("DONATION_RECIEVED");
+        }
+        else {
+            this.widget.error("Donasjonskanal " + this.widget.method + " ikke støttet");
+        }
+    }
+
+    setupBankFields() {
+        document.getElementById("bank-amount").innerHTML = this.widget.donationAmount + " kr";
+        document.getElementById("bank-kid").innerHTML = this.widget.KID.toString().replace(/\s/g, '');
     }
     
     setResultState(state) {

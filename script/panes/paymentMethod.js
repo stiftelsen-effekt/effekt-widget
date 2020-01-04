@@ -12,8 +12,9 @@ module.exports = class PaymentMethodPane extends Pane {
         this.setupButtons();
     }
 
-    submit() {
-        
+    submit(method) {
+        this.setMethod(method);
+        this.widget.nextSlide();
     }
     
     customFocus() {
@@ -39,22 +40,19 @@ module.exports = class PaymentMethodPane extends Pane {
         var _self = this;
         this.payPalBtn = this.paneElement.getElementsByClassName("paypal")[0];
         this.payPalBtn.addEventListener("click", () => {
-            this.setMethod("PAYPAL");
             this.showPane(PayPalPane);
-            this.widget.nextSlide();
+            this.submit("PAYPAL");
         });
 
         this.vippsBtn = this.paneElement.getElementsByClassName("vipps")[0];
         this.vippsBtn.addEventListener("click", () => {
-            this.setMethod("VIPPS");
             this.showPane(VippsPane);
-            this.widget.nextSlide();
+            this.submit("VIPPS");
         });
 
         this.bankBtn = this.paneElement.getElementsByClassName("bank")[0];
         this.bankBtn.addEventListener("click", () => {
-            this.setMethod("BANK");
-            this.widget.nextSlide();
+            this.submit("BANK");
         })
     }
 
