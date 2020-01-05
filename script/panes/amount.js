@@ -1,4 +1,4 @@
-const DonationPane = require('./donation.js');
+const SharesPane = require('./shares.js');
 const Pane = require('./paneClass.js');
 
 module.exports = class AmountPane extends Pane {
@@ -18,7 +18,7 @@ module.exports = class AmountPane extends Pane {
         widget.donationAmount = this.getDonationAmount();
         widget.recurring = this.getRecurringBoolean();
 
-        if (widget.donationAmount > 0) {
+        if (widget.donationAmount > 0 || widget.method === "VIPPS" || widget.method === "BANK") {
             if (this.submitOnNext) {
                 widget.registerDonation(nxtBtn);
             } else {
@@ -62,13 +62,13 @@ module.exports = class AmountPane extends Pane {
         var _this = this;
     
         selectSplit.addEventListener("change", function(e) {
-            widget.panes.find(function (pane) { return pane instanceof DonationPane; }).show();
+            widget.getPane(SharesPane).show();
             _this.submitOnNext = false;
             widget.updateSliderProgress();
         });
     
         selectRecommended.addEventListener("change", function(e) {
-            widget.panes.find(function (pane) { return pane instanceof DonationPane; }).hide();
+            widget.getPane(SharesPane).hide();
             _this.submitOnNext = true;
             widget.updateSliderProgress();
         })

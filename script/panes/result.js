@@ -31,7 +31,6 @@ module.exports = class ResultPane extends Pane {
     }
 
     setupBankFields() {
-        document.getElementById("bank-amount").innerHTML = this.widget.donationAmount + " kr";
         document.getElementById("bank-kid").innerHTML = this.widget.KID.toString().replace(/\s/g, '');
     }
     
@@ -42,13 +41,11 @@ module.exports = class ResultPane extends Pane {
         }
 
         if (state == "DONATION_RECIEVED") {
-            this.paneElement.classList.add("confirmed");
+            this.paneElement.setAttribute("class", "pane result confirmed");
         } else if (state == "VIPPS_PENDING") {
-            this.paneElement.classList.add("vipps");
+            this.paneElement.setAttribute("class", "pane result vipps");
         } else if (state == "BANK_PENDING") {
-            this.paneElement.classList.add("bank");
-
-            this.paneElement.classList.add
+            this.paneElement.setAttribute("class", "pane result bank");
         }
     }
 }

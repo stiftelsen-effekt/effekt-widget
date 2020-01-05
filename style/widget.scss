@@ -260,63 +260,82 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
             &.amount {
                 text-align: center;
 
-                .amount-wrapper {
-                    position: relative;
-                    display: inline-block;
-                    margin-bottom: 10px;
-
-                    .currency {
-                        position: absolute;
-                        display: inline-block;
-                        top: 20px;
-                        right: 20px;
-
-                        font-size: 16px;
-                        font-weight: 300;
-
-                        color: #aaa;
+                &.VIPPS, &.BANK {
+                    .controls {
+                        .amount-wrapper {
+                            display: none;
+                        }
+    
+                        .select.recurring {
+                            display: none;
+                        }
                     }
                 }
-                
-                .select {
-                    font-size: 12px;
-                    text-align: center;
-                    padding-top: 6px;
-                    color: #777;
 
-                    user-select: none;
+                .controls {
+                    min-height: 160px;
+                    display: flex;
+                    justify-content: center;
+                    flex-direction: column;
 
-                    &:nth-child(2n) {
-                        padding-top: 0;
-                        padding-bottom: 8px;
-                    }
-
-                    & > * {
-                        vertical-align: middle;
-                        cursor: pointer;
-                    }
-
-                    label.box {
-                        width: 9px;
-                        height: 9px;
-                        background: white;
-                        border: 2px solid white;
-                        box-shadow: 0 0 0 1px #aaa;
-                        cursor: pointer;
+                    .amount-wrapper {
+                        position: relative;
                         display: inline-block;
-                        border-radius: 50%;
-
-                        cursor: pointer;
-
-                        margin-left: 6px;
+                        margin-bottom: 10px;
+    
+                        .currency {
+                            position: absolute;
+                            display: inline-block;
+                            top: 20px;
+                            right: 20px;
+    
+                            font-size: 16px;
+                            font-weight: 300;
+    
+                            color: #aaa;
+                        }
                     }
-
-                    input {
-                        display: none;
-
-                        &:checked {
-                            & + label {
-                                background: #FFAA2B;
+    
+                    .select {
+                        font-size: 14px;
+                        text-align: center;
+                        padding-top: 6px;
+                        color: #333;
+    
+                        user-select: none;
+    
+                        &:nth-child(2n) {
+                            padding-top: 0;
+                            padding-bottom: 8px;
+                        }
+    
+                        & > * {
+                            vertical-align: middle;
+                            cursor: pointer;
+                        }
+    
+                        label.box {
+                            width: 9px;
+                            height: 9px;
+                            background: white;
+                            border: 2px solid white;
+                            box-shadow: 0 0 0 1px #aaa;
+                            cursor: pointer;
+                            display: inline-block;
+                            border-radius: 50%;
+    
+                            cursor: pointer;
+    
+                            margin-left: 6px;
+                        }
+    
+                        input {
+                            display: none;
+    
+                            &:checked {
+                                & + label {
+                                    background: #FFAA2B;
+                                }
                             }
                         }
                     }
@@ -664,31 +683,33 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
                             }
                         }
                     }
+                }
+            }
 
-                    .awaiting-confirmation {
-                        display: none;
-                        justify-content: center;
-                        align-items: center;
+            &.paypal {
+                .awaiting-confirmation {
+                    display: none;
+                    justify-content: center;
+                    align-items: center;
 
-                        height: 100%;
-                        width: 100%;
+                    height: 100%;
+                    width: 100%;
 
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        background: white;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    background: white;
 
-                        strong {
-                            display: block;
-                            width: 220px;
-                        }
+                    strong {
+                        display: block;
+                        width: 220px;
+                    }
 
-                        img {
-                            width: 48px;
-                            height: 48px;
-                            margin-top: 25px;
-                            animation: spin 2000ms infinite linear;
-                        }
+                    img {
+                        width: 48px;
+                        height: 48px;
+                        margin-top: 25px;
+                        animation: spin 2000ms infinite linear;
                     }
                 }
             }

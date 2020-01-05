@@ -1,7 +1,7 @@
 var Pane = require('./paneClass.js')
 var rounding = require('../lib/rounding.js'); 
 
-module.exports = class DonationPane extends Pane {
+module.exports = class SharesPane extends Pane {
     constructor(config) {
         super(config);
 
@@ -296,32 +296,3 @@ module.exports = class DonationPane extends Pane {
         this.updateTotalShares();
     }
 }
-
-/*
-module.exports = function(widget, pane) {
-    this.pane = pane;
-    this.widget = widget;
-
-    setup(pane);
-
-    return {
-        submit: submitDonation,
-        focus: focusDonation,
-        widget: widget,
-        pane: pane
-    }
-}
-function focusDonation() {
-    var widget = this.widget;
-    var pane = this.pane;
-
-    var organizations = pane.getElementsByClassName("organizations")[0];
-
-    setSplitValues();
-
-    setTimeout(function() {
-        pane.getElementsByTagName("input")[0].focus();
-    }, 200);
-}
-
-*/

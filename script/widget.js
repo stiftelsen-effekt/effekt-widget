@@ -1,3 +1,12 @@
+var DonorPane = require('./panes/donor.js');
+var PaymentMethodPane = require('./panes/paymentMethod.js');
+var AmountPane = require('./panes/amount.js');
+var SharesPane = require('./panes/shares.js');
+var ReferralPane = require('./panes/referral.js');
+var PaypalPane = require('./panes/payPal.js');
+var VippsPane = require('./panes/vipps.js');
+var ResultPane = require('./panes/result.js');
+
 function DonationWidget() {
     var _self = undefined;
 
@@ -31,23 +40,20 @@ function DonationWidget() {
         this.slider = this.element.getElementsByClassName("slider")[0];
         this.slider.style.width = (paneElements.length * this.width) + "px";
   
-        var DonorPane = require('./panes/donor.js');
         this.panes[0] = new DonorPane({
             widget: _self, 
             paneElement: paneElements[0],
             hasPrevBtn: false,
             hasNextBtn: true
         });
-
-        var PaymentMethodPane = require('./panes/paymentMethod.js');
+        
         this.panes[1] = new PaymentMethodPane({
             widget: _self, 
             paneElement: paneElements[1],
             hasPrevBtn: true,
             hasNextBtn: false
         });
-
-        var AmountPane = require('./panes/amount.js');
+        
         this.panes[2] = new AmountPane({
             widget: _self, 
             paneElement: paneElements[2],
@@ -55,15 +61,13 @@ function DonationWidget() {
             hasNextBtn: true
         });
 
-        var DonationPane = require('./panes/donation.js');
-        this.panes[3] = new DonationPane({
+        this.panes[3] = new SharesPane({
             widget: _self, 
             paneElement: paneElements[3],
             hasPrevBtn: true,
             hasNextBtn: true
         });
 
-        var ReferralPane = require('./panes/referral.js');
         this.panes[4] = new ReferralPane({
             widget: _self,
             paneElement: paneElements[4],
@@ -71,7 +75,6 @@ function DonationWidget() {
             hasNextBtn: true
         });
 
-        var PaypalPane = require('./panes/payPal.js');
         this.panes[5] = new PaypalPane({
             widget: _self,
             paneElement: paneElements[5],
@@ -79,7 +82,6 @@ function DonationWidget() {
             hasNextBtn: true
         });
 
-        var VippsPane = require('./panes/vipps.js');
         this.panes[6] = new VippsPane({
             widget: _self,
             paneElement: paneElements[6],
@@ -87,7 +89,6 @@ function DonationWidget() {
             hasNextBtn: true
         });
 
-        var ResultPane = require('./panes/result.js');
         this.panes[7] = new ResultPane({
             widget: _self,
             paneElement: paneElements[7],
@@ -106,6 +107,11 @@ function DonationWidget() {
         _self.closeBtn.addEventListener("click", function() {
             _self.close();
         })
+    }
+
+    this.setMethod = function(method) {
+        _self.method = method;
+        _self.getPane(AmountPane).paneElement.setAttribute("class", "pane amount " + method);
     }
 
     this.registerDonation = function(nxtBtn) {
@@ -303,12 +309,22 @@ function DonationWidget() {
         setTimeout(function() {
             _self.wrapper.style.zIndex = -1;
             if (_self.currentSlide == _self.panes.length-1) { 
+                //On result pane
+                //Reset widget to default state
                 _self.goToSlide(0);
-                _self.panes[2].hide();
+                _self.getPane(SharesPane).hide();
+                _self.getPane(VippsPane).hide();
+                _self.getPane(PaypalPane).hide();
+                _self.method = null;
                 document.getElementById("check-select-recommended").click();
             }
         }, 500);
-    }  
+    }
+
+    //Helpers
+    this.getPane = function(PaneType) {
+        return _self.panes.find(function (pane) { return pane instanceof PaneType; });
+    }
 
     /* Return */
     var properties = {
@@ -329,7 +345,9 @@ function DonationWidget() {
         prevSlide: this.prevSlide,
         hideError: this.hideError,
         setup: this.setup,
-        network: this.networkHelper
+        network: this.networkHelper,
+        getPane: this.getPane,
+        setMethod: this.setMethod
     }
     return properties;
 } 

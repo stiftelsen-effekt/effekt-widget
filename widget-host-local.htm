@@ -100,31 +100,39 @@ structure as this file.
 
             <div class="pane amount">
                 <div class="inner">
-                    <h3>Angi sum</h3>
-                    <div class="amount-wrapper">
-                        <input type="text" class="amount" placeholder="sum" pattern="[0-9]*" inputmode="numeric" nocomma="true" autocomplete="off">
-                        <span class="currency">kr</span>
-                    </div>
-                    <div class="select recurring">
-                        <label for="check-select-single">Jeg vil gi en engangsdonajson</label>
-                        <input type="radio" name="recurring-selection" id="check-select-single" checked="true" autocomplete="off">
-                        <label class="box" for="check-select-single"></label>
-                    </div>
-                    <div class="select recurring">
-                        <label for="check-select-recurring">Jeg vil gi en månedlig donasjon</label>
-                        <input type="radio" name="recurring-selection" id="check-select-recurring" autocomplete="off">
-                        <label class="box" for="check-select-recurring"></label>
-                    </div>
-                    <div class="select split">
-                        <label for="check-select-recommended">Bruk vår anbefalte fordeling</label>
-                        <input type="radio" name="split-selection" id="check-select-recommended" checked="true" autocomplete="off">
-                        <label class="box" for="check-select-recommended"></label>
-                    </div>
-                    <div class="select split">
-                        <label for="check-select-split">Jeg vil velge fordeling selv</label>
+                    <h3>Om donasjonen</h3>
+                    <div class="controls">
+                        <div class="amount-wrapper">
+                            <input type="text" class="amount" placeholder="sum" pattern="[0-9]*" inputmode="numeric" nocomma="true" autocomplete="off">
+                            <span class="currency">kr</span>
+                        </div>
 
-                        <input type="radio" name="split-selection" id="check-select-split" autocomplete="off">
-                        <label class="box" for="check-select-split"></label>
+                        <div class="recurring">
+                            <div class="select recurring">
+                                <label for="check-select-single">Jeg vil gi en engangsdonajson</label>
+                                <input type="radio" name="recurring-selection" id="check-select-single" checked="true" autocomplete="off">
+                                <label class="box" for="check-select-single"></label>
+                            </div>
+                            <div class="select recurring">
+                                <label for="check-select-recurring">Jeg vil gi en månedlig donasjon</label>
+                                <input type="radio" name="recurring-selection" id="check-select-recurring" autocomplete="off">
+                                <label class="box" for="check-select-recurring"></label>
+                            </div>
+                        </div>
+
+                        <div class="split">
+                            <div class="select split">
+                                <label for="check-select-recommended">Bruk vår anbefalte fordeling</label>
+                                <input type="radio" name="split-selection" id="check-select-recommended" checked="true" autocomplete="off">
+                                <label class="box" for="check-select-recommended"></label>
+                            </div>
+                            <div class="select split">
+                                <label for="check-select-split">Jeg vil velge fordeling selv</label>
+
+                                <input type="radio" name="split-selection" id="check-select-split" autocomplete="off">
+                                <label class="box" for="check-select-split"></label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -160,7 +168,7 @@ structure as this file.
             <div class="pane paypal">
                 <div class="inner">
                     <h3>Gå til paypal</h3>
-                    <button>Donér nå</button>
+                    <button id="widget-paypal-button">Donér nå</button>
                 </div>
                 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="payPalSingleForm" target="_blank" style="display: inline-block;">
                     <input type="hidden" name="cmd" value="_donations">
@@ -252,9 +260,6 @@ structure as this file.
                         <h4>Du kan nå overføre til oss.</h4>
                             
                         <div class="transfer-info">
-                            <div class="line">
-                                <label>Sum</label><span class="amount" id="bank-amount"></span>
-                            </div>
                             <div class="line">
                                 <label>Kontonr</label><span class="account select-on-click" x-ms-format-detection="none">1506 29 95960</span>
                             </div>
