@@ -344,103 +344,10 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
 
             &.shares {
                 h3 {
-                    margin-bottom: 6px;
+                    margin-bottom: 22px;
                 }
 
                 .share-distribution {
-                    .mode-switch {
-                        width: 60px;
-                        height: 26px;
-
-                        background: rgba(244,244,244,1);
-
-                        font-size: 0;
-                        position: relative;
-                        margin: 12px auto;
-                        cursor: pointer;
-                        -webkit-user-select: none;
-                        user-select: none;
-                        z-index: 1;
-
-                        overflow: hidden;
-
-                        span {
-                            width: 50%;
-                            display: inline-block;
-                            font-size: 10px;
-
-                            text-align: center;
-
-                            position: relative;
-                            z-index: 10;
-                            padding: 0;
-                            padding-top: 6px;
-
-                            &.absolute {
-                                color: white;
-                            }
-
-                            &.percentage {
-                                color: #222;
-                            }
-                        }
-
-                        .selector {
-                            position: absolute;
-                            top: 0;
-                            left: -2px;
-
-                            padding: 0;
-
-                            width: 50%;
-                            height: 100%;
-
-                            background: #222;
-
-                            transition: transform 200ms;
-
-                            &::after {
-                                content: '';
-
-                                width: 0;
-                                height: 0;
-                                border-style: solid;
-                                border-width: 26px 8px 0 0;
-                                border-color: #222 transparent transparent transparent;
-                                position: absolute;
-                                top: 0; right: -8px;
-                            }
-
-                            &::before {
-                                content: '';
-
-                                width: 0;
-                                height: 0;
-                                border-style: solid;
-                                border-width: 0 0 26px 8px;
-                                border-color: transparent transparent #222 transparent;
-                                position: absolute;
-                                top: 0; left: -8px;
-                            }
-                        }
-
-                        &.switched {
-                            .selector {
-                                transform: translateX(calc(100% + 4px));
-                            }
-
-                            span {
-                                &.absolute {
-                                    color: #222;
-                                }
-
-                                &.percentage {
-                                    color: white;
-                                }
-                            }
-                        }
-                    }
-
                     ul.organizations {
                         padding: 0;
                         margin: 0;
@@ -512,8 +419,8 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
                                     z-index: 10;
                                 }
 
-                                &::before {
-                                    content: 'kr';
+                                &::after {
+                                    content: '%';
                                     position: absolute;
                                     right: -20px;
                                     top: 9px;
@@ -523,33 +430,6 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
                                     opacity: 1;
 
                                     transition: all 200ms;
-                                }
-
-                                &::after {
-                                    content: '%';
-                                    position: absolute;
-                                    right: 0;
-                                    top: 5px;
-                                    color: #aaa;
-                                    font-size: 12px;
-                                    font-family: 'Open Sans';
-                                    opacity: 0;
-
-                                    transition: all 200ms;
-                                }
-                            }
-                        }
-
-                        &.percentage-mode {
-                            .input-wrapper {
-                                &::before {
-                                    transform: translateX(-20px);
-                                    opacity: 0;
-                                }
-
-                                &::after {
-                                    transform: translateX(20px);
-                                    opacity: 1;
                                 }
                             }
                         }
