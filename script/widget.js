@@ -3,7 +3,7 @@ var PaymentMethodPane = require('./panes/paymentMethod.js');
 var AmountPane = require('./panes/amount.js');
 var SharesPane = require('./panes/shares.js');
 var ReferralPane = require('./panes/referral.js');
-var PaypalPane = require('./panes/payPal.js');
+var PaypalPane = require('./panes/paypal.js');
 var VippsPane = require('./panes/vipps.js');
 var ResultPane = require('./panes/result.js');
 
