@@ -1,5 +1,5 @@
 var Pane = require('./paneClass.js')
-var PayPalPane = require('./payPal.js')
+var PayPalPane = require('./paypal.js')
 var VippsPane = require('./vipps.js')
 
 module.exports = class PaymentMethodPane extends Pane {
