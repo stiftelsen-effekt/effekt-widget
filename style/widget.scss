@@ -567,10 +567,25 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
             }
 
             &.paypal {
+                #widget-paypal-button {
+                    margin: 60px auto;
+                    display: block;
+                    border: 3px solid orange;
+                    background: white;
+                    padding: 20px 50px;
+                    letter-spacing: 1px;
+                    font-family: 'Open Sans';
+                    font-weight: 600;
+                    font-size: 14px;
+                    color: black;
+                    cursor: pointer;
+                }
+
                 .awaiting-confirmation {
                     display: none;
                     justify-content: center;
                     align-items: center;
+                    flex-direction: column;
 
                     height: 100%;
                     width: 100%;
@@ -583,6 +598,8 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
                     strong {
                         display: block;
                         width: 220px;
+                        padding-top: 20px;
+                        font-size: 12px;
                     }
 
                     img {
