@@ -89,35 +89,6 @@ module.exports = class SharesPane extends Pane {
     setupDonationList(widget, pane) {
         var _self = this;
         setTimeout(function() {
-            widget.organizations = [{
-                name: "AMF",
-                standardShare: 70
-            }, {
-                name: "Something schmonthing",
-                standardShare: 30
-            }, {
-                name: "This is cool", 
-                standardShare: 0
-            }, {
-                name: "Redd barna",
-                standardShare: 0
-            }, {
-                name: "Kokebok",
-                standardShare: 0
-            }];
-    
-            var list = pane.getElementsByClassName("organizations")[0];
-            var leftover = 0;
-
-            _self.splitSharesTotal = pane.getElementsByClassName("total")[0];
-
-            for (var i = 0; i < widget.organizations.length; i++) {
-                var org = widget.organizations[i];
-                org.element = _self.createListItem(org);
-
-                list.appendChild(org.element);
-            }
-            /*
             widget.request("organizations/active", "GET", { }, function(err, data) {
                 if (err == 0) {
                     _self.widget.setNoApiError();
@@ -137,7 +108,6 @@ module.exports = class SharesPane extends Pane {
                     }
                 }
             });
-            */
         }, 10)
     }
 
