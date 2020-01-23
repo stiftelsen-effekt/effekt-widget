@@ -40,18 +40,18 @@ function DonationWidget() {
         this.slider = this.element.getElementsByClassName("slider")[0];
         this.slider.style.width = (paneElements.length * this.width) + "px";
   
-        this.panes[0] = new DonorPane({
+        this.panes[0] = new PaymentMethodPane({
             widget: _self, 
             paneElement: paneElements[0],
             hasPrevBtn: false,
-            hasNextBtn: true
+            hasNextBtn: false
         });
-        
-        this.panes[1] = new PaymentMethodPane({
+
+        this.panes[1] = new DonorPane({
             widget: _self, 
             paneElement: paneElements[1],
             hasPrevBtn: true,
-            hasNextBtn: false
+            hasNextBtn: true
         });
         
         this.panes[2] = new AmountPane({
