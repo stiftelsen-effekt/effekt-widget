@@ -155,8 +155,7 @@ function DonationWidget() {
 
     this.registerBankPending = function() {
         const postData = {
-            KID: _self.KID,
-            sum: _self.donationAmount
+            KID: _self.KID
         };
         _self.request("donations/bank/pending", "POST", postData, function(err, data) {
             if (err) _self.error("Sending av epost feilet");
