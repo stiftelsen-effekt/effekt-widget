@@ -24,7 +24,6 @@ module.exports = {
             }
         };
 
-        console.log(data)
         if (type == "POST") {
             http.open("POST", url, true);
             http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");

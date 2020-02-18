@@ -94,7 +94,6 @@ module.exports = class PaypalPane extends Pane {
 
     submit(state) {
         //Goto result for paypal
-        console.log(state);
         this.widget.nextSlide();
     }
 } 
