@@ -142,7 +142,7 @@ function DonationWidget() {
             _self.donorID = data.content.donorID;
 
             if (data.content.hasAnsweredReferral) {
-                _self.panes[3].hide();
+                _self.getPane(ReferralPane).hide();
             }
 
             if (_self.method === "BANK") {
