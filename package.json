@@ -17,11 +17,11 @@
   },
   "homepage": "https://github.com/stiftelsen-effekt/effekt-frontend#readme",
   "dependencies": {
-    "gulp": "^4.0.2",
-    "gulp-minify": "^3.1.0",
     "browserify": "^16.2.3",
     "decimal.js": "^7.3.0",
     "email-validation": "^0.1.2",
+    "gulp": "^4.0.2",
+    "gulp-minify": "^3.1.0",
     "gulp-sass": "^4.0.2",
     "gulp-sourcemaps": "^2.6.5",
     "gulplog": "^1.0.0",

@@ -15,15 +15,21 @@ module.exports = class DonorPane extends Pane {
         
         this.checkTaxDeductionElement = this.paneElement.querySelector("#check-tax-deduction");
         this.checkPrivacyPolicyElement = this.paneElement.querySelector("#check-privacy-policy");
+        this.checkNewsletterElement = this.paneElement.querySelector("#check-newsletter");
 
         //Setup checkbox listener
         this.checkTaxDeductionElement.addEventListener("change", this.ssnCheckChanged.bind(this));
         this.chosenTaxDeduction = false;
+        
+        this.checkNewsletterElement.addEventListener("change", this.newsletterCheckChanged.bind(this));
+        this.chosenNewsletter = false;
+
     }
 
     submit() {
         var pane = this.paneElement;
         var widget = this.widget;
+        
     
         var nxtBtn = pane.getElementsByClassName("btn")[0];
         nxtBtn.classList.add("loading");
@@ -31,6 +37,8 @@ module.exports = class DonorPane extends Pane {
         var email = pane.getElementsByClassName("email")[0].value.trim();
         var name = pane.getElementsByClassName("name")[0].value.trim();
         var ssn = pane.getElementsByClassName("ssn")[0].value.trim();
+        var newsletter; 
+
     
         //Validate input
         if (name.length < 2 || name.length > 32) { //Invalid name
@@ -50,6 +58,9 @@ module.exports = class DonorPane extends Pane {
     
         widget.name = name;
         widget.email = email;
+        widget.newsletter = this.chosenNewsletter
+
+
         
         if (this.chosenTaxDeduction) {
             if (ssn.length != 11 && ssn.length != 9) {
@@ -85,6 +96,8 @@ module.exports = class DonorPane extends Pane {
             this.paneElement.getElementsByClassName("ssn")[0].style.display = "";
             this.chosenTaxDeduction = true;
             this.resizeWidgetToFit();
+
+            
         }  
         else {
             this.paneElement.getElementsByClassName("ssn")[0].style.display = "none";
@@ -92,6 +105,15 @@ module.exports = class DonorPane extends Pane {
             this.resizeWidgetToFit();
         }
         
+    }
+
+    newsletterCheckChanged(e) {
+        if (e.target.checked) {
+            this.chosenNewsletter = true;
+        }  
+        else {
+            this.chosenNewsletter = false;
+        }
     }
 
     customFocus() {
