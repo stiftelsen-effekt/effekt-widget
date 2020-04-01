@@ -89,6 +89,12 @@ structure as this file.
                         <input type="checkbox" name="privacy-policy" id="check-privacy-policy" autocomplete="off"> 
                         <label for="check-privacy-policy">Jeg godtar <a href="https://gieffektivt.no/samarbeid-drift#personvern" target="_blank">personvernerklæringen</a></label>
                     </div>
+
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" name="newsletter" id="check-newsletter" autocomplete="off"> 
+                        <label for="check-newsletter">Jeg ønsker å melde meg på nyhetsbrevet</label>
+                    </div>
+
                 </div>
             </div>
 
@@ -190,10 +196,8 @@ structure as this file.
                 </form>
 
                 <div class="awaiting-confirmation">
-                    <div>
-                        <strong>Venter på bekreftelse på innbetaling fra tredjepart</strong>
-                        <img src="https://storage.googleapis.com/effekt-widget/assets/loading.svg">
-                    </div>
+                    <img src="https://storage.googleapis.com/effekt-widget/assets/loading.svg">
+                    <strong>Venter på bekreftelse på innbetaling fra paypal</strong>
                 </div>
             </div>
 
@@ -287,7 +291,7 @@ document.getElementById("donation-btn").addEventListener("click", function(e) {
 const prodSelector = document.getElementById("selector-production")
 const localSelector = document.getElementById("selector-local")
 
-var localUrl = "http://localhost:80/"
+var localUrl = "http://localhost:3000/"
 const prodUrl = "https://api.gieffektivt.no/"
 
 if (widget.network.api_url === "https://api.gieffektivt.no/")

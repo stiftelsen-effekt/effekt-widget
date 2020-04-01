@@ -119,7 +119,8 @@ function DonationWidget() {
             donor: {
                 name: this.name,
                 email: this.email,
-                ssn: this.ssn
+                ssn: this.ssn,
+                newsletter: this.newsletter
             },
             amount: this.donationAmount
         }
