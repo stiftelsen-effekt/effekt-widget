@@ -6,6 +6,9 @@ module.exports = class ReferralPane extends Pane {
 
         this.resizableOnMobile = true;
         this.setupReferralList();
+
+        this.referralID = null;
+        this.otherComment = null;
     }
 
     setupReferralList() {
@@ -23,26 +26,48 @@ module.exports = class ReferralPane extends Pane {
             let referralType = referralTypes[i];
             let li = document.createElement("li");
             li.innerHTML = referralType.name;
-            li.addEventListener("click", function() {
-                _self.submit(referralType.ID);
-            });
+
+            if (referralType.name === "Annet") {
+                li.addEventListener("click", function() {
+                    _self.referralID = referralType.ID;
+                    _self.handleOtherOption(listElement);
+                });
+            }
+            else {
+                li.addEventListener("click", function() {
+                    _self.referralID = referralType.ID;
+                    _self.submit();
+                });
+            }
+            
             listElement.appendChild(li);
         }
+    }
+
+    handleOtherOption(listElement) {
+        var _self = this;
+        listElement.classList.add("hidden");
+        let inputElement = document.getElementById("other-referral-freetext");
+        inputElement.classList.remove("hidden");
+        inputElement.addEventListener("change", function(event) {
+            _self.otherComment = event.target.value;
+        })
     }
 
     focus() {
 
     }
 
-    submit(referralID) {
+    submit() {
         var _self = this;
 
-        if (typeof referralID !== "undefined") {
+        if (_self.referralID !== null) {
             //User pressed an option
             var postData = {
-                referralTypeID: referralID,
-                donorID: _self.widget.donorID
-            }
+                referralTypeID: _self.referralID,
+                donorID: _self.widget.donorID,
+                otherComment: _self.otherComment
+            };
     
             this.widget.request("referrals/", "POST", postData, function (err, data) {
                 _self.hide();
