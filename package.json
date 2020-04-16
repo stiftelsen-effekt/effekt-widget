@@ -4,7 +4,8 @@
   "description": "Effekt frontend donation widget",
   "main": "widget.htm",
   "scripts": {
-    "build": "gulp build"
+    "build": "gulp build",
+    "test": "npx cypress run"
   },
   "repository": {
     "type": "git",
