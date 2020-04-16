@@ -1,15 +1,10 @@
 steps:
 - name: 'ubuntu'
-  id: Update apt index
-  args:
-      [
-          'apt-get',
-          'update',
-      ]
-- name: 'ubuntu'
   id: Install Cypress Dependencies
   args:
-      [
+      [   'apt-get', 
+          'update', 
+          '&&',
           'apt-get',
           'install',
           'xvfb',
