@@ -1,6 +1,5 @@
 module.exports = {
-    api_url: "https://api.gieffektivt.no/",
-    //api_url: "http://localhost:3000/",
+    api_url: "https://data.gieffektivt.no/",
 
     request: function(endpoint, type, data, cb) {
         var http = new XMLHttpRequest();
