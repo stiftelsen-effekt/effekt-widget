@@ -1,27 +1,14 @@
 steps:
 - name: 'ubuntu'
-  id: Install Cypress Dependencies
+  id: Build and run tests
   args:
-      [   'apt-get', 
-          'update', 
-          '&&',
-          'apt-get',
-          'install',
-          'xvfb',
-          'libgtk2.0-0',
-          'libnotify-dev',
-          'libgconf-2-4',
-          'libnss3',
-          'libxss1',
-          'libasound2',
+      [   'bash', 
+          './ci-test.sh'
       ]
 - name: 'gcr.io/cloud-builders/npm'
   args: ['install']
 - name: 'gcr.io/cloud-builders/npm'
   env: ['CI=true']
   args: ['run', 'build']
-- name: 'gcr.io/cloud-builders/npm'
-  env: ['CI=true']
-  args: ['run', 'test']
 - name: 'gcr.io/cloud-builders/gsutil'
   args: ['-m', 'cp', '-r', 'dist/*', 'gs://effekt-widget/']
