@@ -111,7 +111,25 @@ function DonationWidget() {
 
     this.setMethod = function(method) {
         _self.method = method;
+        _self.resetPaymentPanes();
         _self.getPane(AmountPane).paneElement.setAttribute("class", "pane amount " + method);
+
+        switch(method) {
+            case "PAYPAL":
+                _self.getPane(PaypalPane).show();
+                break;
+            case "VIPPS":
+                _self.getPane(VippsPane).show();
+                break;
+            default:
+                console.error("Invalid payment method selected");
+                break;
+        }
+    }
+
+    this.resetPaymentPanes = function() {
+        _self.getPane(VippsPane).hide();
+        _self.getPane(PaypalPane).hide();
     }
 
     this.registerDonation = function(nxtBtn) {
@@ -347,7 +365,8 @@ function DonationWidget() {
         setup: this.setup,
         network: this.networkHelper,
         getPane: this.getPane,
-        setMethod: this.setMethod
+        setMethod: this.setMethod,
+        resetPaymentPanes: this.resetPaymentPanes
     }
     return properties;
 } 

@@ -20,30 +20,16 @@ module.exports = class PaymentMethodPane extends Pane {
     customFocus() {
     }
 
-    resetPaymentPanes() {
-        this.widget.getPane(VippsPane).hide();
-        this.widget.getPane(PayPalPane).hide();
-    }
+    
     
     setupButtons() {
         this.payPalBtn = this.paneElement.getElementsByClassName("paypal")[0];
-        this.payPalBtn.addEventListener("click", () => {
-            this.resetPaymentPanes();
-            this.widget.getPane(PayPalPane).show();
-            this.submit("PAYPAL");
-        });
+        this.payPalBtn.addEventListener("click", () => this.submit("PAYPAL"));
 
         this.vippsBtn = this.paneElement.getElementsByClassName("vipps")[0];
-        this.vippsBtn.addEventListener("click", () => {
-            this.resetPaymentPanes();
-            this.widget.getPane(VippsPane).show();
-            this.submit("VIPPS");
-        });
+        this.vippsBtn.addEventListener("click", () => this.submit("VIPPS"));
 
         this.bankBtn = this.paneElement.getElementsByClassName("bank")[0];
-        this.bankBtn.addEventListener("click", () => {
-            this.resetPaymentPanes();
-            this.submit("BANK");
-        })
+        this.bankBtn.addEventListener("click", () => this.submit("BANK"));
     }
 }

@@ -292,9 +292,9 @@ const prodSelector = document.getElementById("selector-production")
 const localSelector = document.getElementById("selector-local")
 
 var localUrl = "http://localhost:3000/"
-const prodUrl = "https://api.gieffektivt.no/"
+const prodUrl = "https://data.gieffektivt.no/"
 
-if (widget.network.api_url === "https://api.gieffektivt.no/")
+if (widget.network.api_url === "https://data.gieffektivt.no/")
     prodSelector.classList.add("active")
 else if (widget.network.api_url.indexOf("localhost") !== -1) {
     localUrl = widget.network.api_url
