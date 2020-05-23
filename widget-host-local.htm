@@ -28,7 +28,7 @@ structure as this file.
             <strong>API selection</strong><br>
             <div id="api-url-selector">
                 <div class="label" id="selector-production">Production</div>
-                <div class="label" id="selector-dev">Local</div>
+                <div class="label" id="selector-dev">Dev</div>
                 <div class="label" id="selector-local">Local</div>
             </div>
 
@@ -293,7 +293,7 @@ localSelector.addEventListener("click", () => {
     widget.network.api_url = localUrl
 })
 
-localSelector.addEventListener("click", () => {
+devSelector.addEventListener("click", () => {
     devSelector.classList.add("active")
     localSelector.classList.remove("active")
     prodSelector.classList.remove("active")
