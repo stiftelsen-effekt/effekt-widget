@@ -28,6 +28,7 @@ structure as this file.
             <strong>API selection</strong><br>
             <div id="api-url-selector">
                 <div class="label" id="selector-production">Production</div>
+                <div class="label" id="selector-dev">Local</div>
                 <div class="label" id="selector-local">Local</div>
             </div>
 
@@ -204,40 +205,11 @@ structure as this file.
             <div class="pane vipps">
                 <div class="inner">
                     <img src="https://storage.googleapis.com/effekt-widget/assets/logos/vipps.png" class="header">
-                    <ul>
-                        <li>
-                            <div class="list-point">1</div>
-                            <div class="text">Velg <strong>betal</strong> i Vipps-appen</div>
-                            <div class="explanatory-image" data-index="0"></div>
-                        </li>
-                        <li>
-                            <div class="list-point">2</div>
-                            <div class="text">Søk etter og velg gieffektivt.no eller #576742</div>
-                            <div class="explanatory-image" data-index="1"></div>
-                        </li>
-                        <li>
-                            <div class="list-point">3</div>
-                            <div class="text">Før inn beløp og KID: <strong id="vipps-donation-kid"></strong> i meldingsfeltet</div>
-                            <div class="explanatory-image" data-index="2"></div>
-                        </li>
-                        <li>
-                            <div class="list-point">4</div>
-                            <div class="text">Bekreft donasjon </div>
-                            <div class="explanatory-image" data-index="3"></div></li>
-                        <li>
-                            <div class="list-point">5</div>
-                            <div class="text">Kvittering</div>
-                            <div class="explanatory-image" data-index="4"></div>
-                        </li>
-                    </ul>
-
-                    <div class="helper-images">
-                        <div class="close-btn">Lukk skjermbilde</div>
-                        <div class="explanation-image" style="background-image: url('https://storage.googleapis.com/effekt-widget/assets/vipps/1.jpg');"></div>
-                        <div class="explanation-image" style="background-image: url('https://storage.googleapis.com/effekt-widget/assets/vipps/2.jpg');"></div>
-                        <div class="explanation-image" style="background-image: url('https://storage.googleapis.com/effekt-widget/assets/vipps/3.jpg');"></div>
-                        <div class="explanation-image" style="background-image: url('https://storage.googleapis.com/effekt-widget/assets/vipps/4.jpg');"></div>
-                        <div class="explanation-image" style="background-image: url('https://storage.googleapis.com/effekt-widget/assets/vipps/5.jpg');"></div>
+                    
+                    <div class="vipps-btn-wrapper">
+                        <a href="#" id="vipps-link">
+                            <img src="dist/assets/vipps/vipps-btn.svg">
+                        </a>
                     </div>
                 </div>
             </div>
@@ -289,13 +261,17 @@ document.getElementById("donation-btn").addEventListener("click", function(e) {
 });
 
 const prodSelector = document.getElementById("selector-production")
+const devSelector = document.getElementById("selector-dev")
 const localSelector = document.getElementById("selector-local")
 
 var localUrl = "http://localhost:3000/"
 const prodUrl = "https://data.gieffektivt.no/"
+const devUrl = "https://effektapi-dev-bx5l2gxkha-lz.a.run.app/"
 
-if (widget.network.api_url === "https://data.gieffektivt.no/")
+if (widget.network.api_url === prodUrl)
     prodSelector.classList.add("active")
+else if (widget.network.api_url === devUrl)
+    devSelector.classList.add("active")
 else if (widget.network.api_url.indexOf("localhost") !== -1) {
     localUrl = widget.network.api_url
     localSelector.classList.add("active")
@@ -306,13 +282,22 @@ else
 prodSelector.addEventListener("click", () => {
     prodSelector.classList.add("active")
     localSelector.classList.remove("active")
+    devSelector.classList.remove("active")
     widget.network.api_url = prodUrl
 })
 
 localSelector.addEventListener("click", () => {
     localSelector.classList.add("active")
     prodSelector.classList.remove("active")
+    devSelector.classList.remove("active")
     widget.network.api_url = localUrl
+})
+
+localSelector.addEventListener("click", () => {
+    devSelector.classList.add("active")
+    localSelector.classList.remove("active")
+    prodSelector.classList.remove("active")
+    widget.network.api_url = devUrl
 })
 </script>
 
