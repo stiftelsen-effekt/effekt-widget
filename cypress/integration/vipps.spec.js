@@ -41,7 +41,6 @@ context('Actions', () => {
                         timeout: 10000
                     }).should('have.property', 'status', 200)
                 })
-                
             })
     })
 })

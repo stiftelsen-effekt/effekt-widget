@@ -253,8 +253,13 @@ structure as this file.
 
 <script src="dist/bundle.js"></script>
 <script>
+var localUrl = "http://localhost:3000/"
+const prodUrl = "https://data.gieffektivt.no/"
+const devUrl = "https://dev.data.gieffektivt.no/"
+
 var donationWidgetElement = document.getElementById("donation-widget");
 var widget = new DonationWidget();
+widget.network.api_url = devUrl
 widget.setup(widget, donationWidgetElement);
 document.getElementById("donation-btn").addEventListener("click", function(e) {
     widget.show();
@@ -263,10 +268,6 @@ document.getElementById("donation-btn").addEventListener("click", function(e) {
 const prodSelector = document.getElementById("selector-production")
 const devSelector = document.getElementById("selector-dev")
 const localSelector = document.getElementById("selector-local")
-
-var localUrl = "http://localhost:3000/"
-const prodUrl = "https://data.gieffektivt.no/"
-const devUrl = "https://dev.data.gieffektivt.no/"
 
 if (widget.network.api_url === prodUrl)
     prodSelector.classList.add("active")
