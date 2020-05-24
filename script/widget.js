@@ -317,7 +317,7 @@ function DonationWidget() {
 
         //User is engaged in form, activate "are you sure you want to leave" prompt on attempt to navigate away
         window.onbeforeunload = function() {
-            return true;
+            //return true;
         };
     }
 
