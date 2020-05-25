@@ -663,6 +663,16 @@ $cdn-url: "CDN_URL";
 
                     .vipps-btn-wrapper {
                         margin-top: 58px;
+
+                        .vipps-btn {
+                            width: 210px;
+                            height: 44px;
+                            background-image: url(#{$cdn-url}vipps/vipps-btn.svg);
+                            background-size: cover;
+                            background-position: center center;
+                            background-repeat: no-repeat;
+                            display: inline-block;
+                        }
                     }
                 }
             }
