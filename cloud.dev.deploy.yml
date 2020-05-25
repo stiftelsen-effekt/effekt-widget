@@ -1,0 +1,14 @@
+steps:
+- name: 'ubuntu'
+  id: Build and run tests
+  args:
+      [   'bash', 
+          './ci-test.sh'
+      ]
+- name: 'gcr.io/cloud-builders/npm'
+  args: ['install']
+- name: 'gcr.io/cloud-builders/npm'
+  env: ['CI=true']
+  args: ['run', 'build']
+- name: 'gcr.io/cloud-builders/gsutil'
+  args: ['-m', 'cp', '-r', 'dist/*', 'gs://effekt-widget-dev/']
