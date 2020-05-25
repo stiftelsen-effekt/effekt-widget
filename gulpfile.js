@@ -37,8 +37,9 @@ function substitute() {
   else
     throw new Error("Could not detirmine API url")
 
-  return gulp.src('./script/helpers/network.js')
-    .pipe(replace('API_URL', api_url))
+  return gulp.src('./dist/bundle*.js')
+    .pipe(replace('ENV.API_URL', api_url))
+    .pipe(gulp.dest('./dist/'))
 }
 
 function bundle() {
@@ -61,7 +62,7 @@ function styles() {
     cdn_url = "https://storage.googleapis.com/effekt-widget-dev/assets/"
 
   return gulp.src('./style/**/*.scss')
-      .pipe(replace('CDN_URL', cdn_url))
+      .pipe(replace('ENV.CDN_URL', cdn_url))
       .pipe(sass().on('error', sass.logError))
       .pipe(gulp.dest('./dist'));
 }
@@ -106,4 +107,4 @@ function copyWidgetToLocalDev() {
   return Promise.resolve('Completed moving HTML')
 }
 
-exports.build = parallel(series(substitute, bundle), styles, series(formatWidgetHTML, copyWidgetToLocalDev))
+exports.build = parallel(series(bundle, substitute), styles, series(formatWidgetHTML, copyWidgetToLocalDev))

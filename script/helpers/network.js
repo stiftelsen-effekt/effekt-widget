@@ -1,5 +1,5 @@
 module.exports = {
-    api_url: "API_URL",
+    api_url: "ENV.API_URL",
 
     request: function(endpoint, type, data, cb) {
         var http = new XMLHttpRequest();
