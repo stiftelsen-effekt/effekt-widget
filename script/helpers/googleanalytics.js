@@ -1,13 +1,14 @@
 module.exports = {
     api_url: "https://data.gieffektivt.no/",
 
-    send: function(eventAction, eventLabel) {
+    send: function(eventAction, eventLabel, eventValue) {
         if (window.ga) {
             ga('send', {
                 hitType: 'event',
                 eventCategory: 'widget',
                 eventAction,
-                eventLabel
+                eventLabel,
+                eventValue
             });
         }
         else {

@@ -223,7 +223,7 @@ function DonationWidget() {
         pane.focus();
         pane.resizeWidgetToFit();
 
-        _self.sendAnalytics("go_to_slide", slidenum);
+        _self.sendAnalytics("go_to_slide", '', slidenum);
     }
 
     this.nextSlide = function() {
