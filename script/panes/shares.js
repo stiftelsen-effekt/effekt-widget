@@ -103,7 +103,7 @@ module.exports = class SharesPane extends Pane {
                     for (var i = 0; i < widget.organizations.length; i++) {
                         var org = widget.organizations[i];
                         org.element = _self.createListItem(org);
-    
+                        console.log(org)
                         list.appendChild(org.element);
                     }
                 }
@@ -131,7 +131,7 @@ module.exports = class SharesPane extends Pane {
 
         let tooltipText = document.createElement("span")
         tooltipText.classList.add("tooltiptext2")
-        tooltipText.innerText = "Against malaria foundation jobber for å bekjempe malaria ved å distribuere insektsnett i områder i Afrika"
+        tooltipText.innerText = org.shortDesc
         tooltip.appendChild(tooltipText)
 
         let info = document.createElement("div");
