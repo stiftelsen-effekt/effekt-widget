@@ -119,17 +119,27 @@ module.exports = class SharesPane extends Pane {
         var _self = this;
 
         var li = document.createElement("li");
-    
         var span = document.createElement("span");
+        span.classList.add("orgName")
         span.innerHTML = org.name;
     
         li.appendChild(span);
-    
-        var info = document.createElement("div");
+
+
+        let tooltip = document.createElement("div");
+        tooltip.classList.add("tooltip2")
+
+        let tooltipText = document.createElement("span")
+        tooltipText.classList.add("tooltiptext2")
+        tooltipText.innerText = "Against malaria foundation jobber for å bekjempe malaria ved å distribuere insektsnett i områder i Afrika"
+        tooltip.appendChild(tooltipText)
+
+        let info = document.createElement("div");
         info.classList.add("info");
         info.onclick = function() { window.open(org.infoUrl, "_blank"); }
     
-        li.appendChild(info);
+        tooltip.appendChild(info);
+        li.appendChild(tooltip)
     
         var inputWrapper = document.createElement("div");
         inputWrapper.classList.add("input-wrapper");
