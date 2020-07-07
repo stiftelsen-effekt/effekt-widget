@@ -103,9 +103,10 @@ module.exports = class SharesPane extends Pane {
                     for (var i = 0; i < widget.organizations.length; i++) {
                         var org = widget.organizations[i];
                         org.element = _self.createListItem(org);
-                        console.log(org)
                         list.appendChild(org.element);
                     }
+                    document.querySelector(".tooltiptext2").style.top = "40px" // Moves the highest tooltip down
+                    document.querySelectorAll('.tooltiptext2')[1].style.top = "40px" // Moves the second highest tooltip down
                 }
             });
         }, 10)
