@@ -378,7 +378,6 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
                     
                     ul.organizations {
                         padding: 0;
-                        //margin-top: 10px;
                         text-align: center;
 
                         li {
@@ -431,7 +430,7 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
                                 opacity: .3;
                             }
 
-                            .tooltip2 {
+                            .tooltip {
                                 display: inline-block;
                                 width: 14px;
                                 height: 14px;
@@ -439,7 +438,7 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
                                 margin-right: 5px;
                             }
                             
-                            .tooltip2 .tooltiptext2 {
+                            .tooltip .tooltiptext {
                               visibility: hidden;
                               left: 10%;
                               top: -83px;
@@ -461,7 +460,7 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
                               z-index: 11;
                             }
                             
-                            .tooltip2:hover .tooltiptext2 {
+                            .tooltip:hover .tooltiptext {
                               visibility: visible;
                             }
 
