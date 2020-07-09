@@ -388,6 +388,15 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
 
                             &:first-child {
                                 margin-top: 0;
+                                .tooltip .tooltiptext {
+                                    top: 40px;
+                                }
+                            }
+
+                            &:nth-child(2) {
+                                .tooltip .tooltiptext {
+                                    top: 40px;
+                                }
                             }
 
                             & > * {

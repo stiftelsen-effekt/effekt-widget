@@ -105,8 +105,6 @@ module.exports = class SharesPane extends Pane {
                         org.element = _self.createListItem(org);
                         list.appendChild(org.element);
                     }
-                    document.querySelectorAll(".tooltiptext")[1].style.top = "40px" // Moves the highest tooltip down
-                    document.querySelectorAll(".tooltiptext")[2].style.top = "40px" // Moves the second highest tooltip down
                 }
             });
         }, 10)
