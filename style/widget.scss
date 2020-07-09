@@ -241,8 +241,9 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
                         padding-bottom: 12px;
                     }
 
-                    .more {
+                    #info-icon {
                         display: inline-block;
+                        cursor: pointer;
                         width: 100%;
                         height: 100%;
                         vertical-align: middle;
@@ -252,17 +253,18 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
                         background-repeat: no-repeat;
                         background-position: center center;
                         opacity: .4;
-                        margin-left: 4px;
+                        margin-bottom: 4px;
                     }
 
-                    .tooltip {
+                    #hover-field {
                         display: inline-block;
                         width: 14px;
                         height: 14px;
                         border-radius: 50%;
+                        margin-left: 4px;
                     }
                     
-                    .tooltip .tooltiptext {
+                    #hover-field #tooltip {
                       visibility: hidden;
                       left: 15%;
                       top: 150px;
@@ -281,7 +283,7 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
                       z-index: 1;
                     }
                     
-                    .tooltip:hover .tooltiptext {
+                    #hover-field:hover #tooltip {
                       visibility: visible;
                     }
                 }
