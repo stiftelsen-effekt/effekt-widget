@@ -124,7 +124,6 @@ module.exports = class SharesPane extends Pane {
     
         li.appendChild(span);
 
-
         let tooltip = document.createElement("div");
         tooltip.classList.add("tooltip")
 
@@ -135,8 +134,10 @@ module.exports = class SharesPane extends Pane {
 
         let info = document.createElement("div");
         info.classList.add("info");
-        info.onclick = function() { window.open(org.infoUrl, "_blank"); }
-    
+        let isMobile = window.matchMedia('(max-width: 640px)').matches;
+        if (!isMobile) {
+            info.onclick = function() { window.open(org.infoUrl, "_blank"); }
+        }
         tooltip.appendChild(info);
         li.appendChild(tooltip)
     
