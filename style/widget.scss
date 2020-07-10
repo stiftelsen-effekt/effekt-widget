@@ -390,13 +390,13 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
 
                             &:first-child {
                                 margin-top: 0;
-                                .tooltip .tooltiptext {
+                                .hover-field .tooltip {
                                     top: 40px;
                                 }
                             }
 
                             &:nth-child(2) {
-                                .tooltip .tooltiptext {
+                                .hover-field .tooltip {
                                     top: 40px;
                                 }
                             }
@@ -429,7 +429,7 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
                                 line-height: 120%;
                             }
 
-                            .info { 
+                            .info-icon { 
                                 cursor: pointer;
                                 margin-right: 5px;
                                 width: 14px;
@@ -441,7 +441,7 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
                                 opacity: .3;
                             }
 
-                            .tooltip {
+                            .hover-field {
                                 display: inline-block;
                                 width: 14px;
                                 height: 14px;
@@ -449,7 +449,7 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
                                 margin-right: 5px;
                             }
                             
-                            .tooltip .tooltiptext {
+                            .hover-field .tooltip {
                               visibility: hidden;
                               left: 10%;
                               top: -83px;
@@ -471,7 +471,7 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
                               z-index: 11;
                             }
                             
-                            .tooltip:hover .tooltiptext {
+                            .hover-field:hover .tooltip {
                               visibility: visible;
                             }
 

@@ -124,22 +124,22 @@ module.exports = class SharesPane extends Pane {
     
         li.appendChild(span);
 
-        let tooltip = document.createElement("div");
-        tooltip.classList.add("tooltip")
+        let hoverField = document.createElement("div");
+        hoverField.classList.add("hover-field")
 
-        let tooltipText = document.createElement("span")
-        tooltipText.classList.add("tooltiptext")
-        tooltipText.innerText = org.shortDesc
-        tooltip.appendChild(tooltipText)
+        let tooltip = document.createElement("span")
+        tooltip.classList.add("tooltip")
+        tooltip.innerText = org.shortDesc
+        hoverField.appendChild(tooltip)
 
         let info = document.createElement("div");
-        info.classList.add("info");
+        info.classList.add("info-icon")
         let isMobile = window.matchMedia('(max-width: 640px)').matches;
         if (!isMobile) {
             info.onclick = function() { window.open(org.infoUrl, "_blank"); }
         }
-        tooltip.appendChild(info);
-        li.appendChild(tooltip)
+        hoverField.appendChild(info);
+        li.appendChild(hoverField)
     
         var inputWrapper = document.createElement("div");
         inputWrapper.classList.add("input-wrapper");
