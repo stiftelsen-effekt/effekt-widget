@@ -16,10 +16,21 @@ module.exports = class DonorPane extends Pane {
         this.checkTaxDeductionElement = this.paneElement.querySelector("#check-tax-deduction");
         this.checkPrivacyPolicyElement = this.paneElement.querySelector("#check-privacy-policy");
         this.checkNewsletterElement = this.paneElement.querySelector("#check-newsletter");
+        this.infoIconElement = this.paneElement.querySelector("#info-icon");
+
+        let isMobile = window.matchMedia('(max-width: 640px)').matches;
+        this.infoIconElement.onclick = function() {
+            event.preventDefault(); // Prevents checkbox from being checked when clicking the info link
+            if (!isMobile) {
+                window.open("https://gieffektivt.no/skattefradrag", "_blank"); 
+            }
+        }
+        
 
         //Setup checkbox listener
         this.checkTaxDeductionElement.addEventListener("change", this.ssnCheckChanged.bind(this));
         this.chosenTaxDeduction = false;
+
         
         this.checkNewsletterElement.addEventListener("change", this.newsletterCheckChanged.bind(this));
         this.chosenNewsletter = false;
