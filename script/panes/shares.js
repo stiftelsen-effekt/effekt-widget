@@ -103,7 +103,6 @@ module.exports = class SharesPane extends Pane {
                     for (var i = 0; i < widget.organizations.length; i++) {
                         var org = widget.organizations[i];
                         org.element = _self.createListItem(org);
-    
                         list.appendChild(org.element);
                     }
                 }
@@ -119,17 +118,28 @@ module.exports = class SharesPane extends Pane {
         var _self = this;
 
         var li = document.createElement("li");
-    
         var span = document.createElement("span");
+        span.classList.add("orgName")
         span.innerHTML = org.name;
     
         li.appendChild(span);
-    
-        var info = document.createElement("div");
-        info.classList.add("info");
-        info.onclick = function() { window.open(org.infoUrl, "_blank"); }
-    
-        li.appendChild(info);
+
+        let hoverField = document.createElement("div");
+        hoverField.classList.add("hover-field")
+
+        let tooltip = document.createElement("span")
+        tooltip.classList.add("tooltip")
+        tooltip.innerText = org.shortDesc
+        hoverField.appendChild(tooltip)
+
+        let info = document.createElement("div");
+        info.classList.add("info-icon")
+        let isMobile = window.matchMedia('(max-width: 640px)').matches;
+        if (!isMobile) {
+            info.onclick = function() { window.open(org.infoUrl, "_blank"); }
+        }
+        hoverField.appendChild(info);
+        li.appendChild(hoverField)
     
         var inputWrapper = document.createElement("div");
         inputWrapper.classList.add("input-wrapper");
