@@ -263,22 +263,33 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
                     }
                     
                     .tooltip .tooltiptext {
-                      visibility: hidden;
-                      left: 15%;
-                      top: 150px;
-                      width: 70%;
-                      height: 75px;
-                      background-color: white;
-                      color: #333;
-                      white-space: pre-line;
-                      border: 1px solid #333;
-                      border-radius: 6px;
-                      box-sizing: border-box;
-                      padding: 5px;
-                    
-                      /* Position the tooltip */
-                      position: absolute;
-                      z-index: 1;
+                        visibility: hidden;
+                        left: 10%;
+                        top: 122px;
+                        width: 80%;
+                        background-color: white;
+                        color: #333;
+                        white-space: pre-line;
+                        box-sizing: border-box;
+                        padding: 20px;
+                        position: absolute;
+                        z-index: 2;
+                        box-shadow: 0px 0px 20px 0px rgba(0,0,0,.22);
+
+                        &:after {
+                            content: '';
+                            position: absolute;
+                            bottom: -10px;
+                            right: 56px;
+
+                            width: 0; 
+                            height: 0; 
+                            border-left: 10px solid transparent;
+                            border-right: 10px solid transparent;
+                            
+                            border-top: 10px solid white;
+                            z-index: 3;
+                        }
                     }
                     
                     .tooltip:hover .tooltiptext {
