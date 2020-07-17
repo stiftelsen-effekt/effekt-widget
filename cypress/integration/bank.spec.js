@@ -6,32 +6,32 @@ context('Actions', () => {
     })
 
     it('A standard bank donation runs through', () => {
-        cy.get('#donation-btn').click()
+        cy.get('#donation-btn').click({force: true})
 
         cy.get("#donation-widget-container").should('have.class', 'active')
 
-        cy.get('#donation-widget .pane.payment-method .payment-methods .method.bank').click()
+        cy.get('#donation-widget .pane.payment-method .payment-methods .method.bank').click({force: true})
 
-        cy.onPaneNumber(1)
+        onPaneOffset(1)
 
         let random = Math.random().toString(36).substring(7)
         let randommail = random + '@testeffekt.com'
-        cy.getFromPane('basic', `.name`).type(random)
-        cy.getFromPane('basic', `.email`).type(randommail)
+        cy.get(`${pane('basic')} .name`).type(random, {force: true})
+        cy.get(`${pane('basic')} .email`).type(randommail, {force: true})
 
-        cy.getFromPane('basic', `#check-privacy-policy`).not('[disabled]').check().should('be.checked')
-        cy.submitPane('basic')
+        cy.get(`${pane('basic')} #check-privacy-policy`).not('[disabled]').check({force: true}).should('be.checked')
+        submitPane('basic')
 
-        cy.onPaneNumber(2)
+        onPaneOffset(2)
 
-        cy.getFromPane('amount', `#check-select-recommended`).not('[disabled]').should('be.checked')
-        cy.submitPane('amount')
-        cy.onPaneNumber(3)
+        cy.get(`${pane('amount')} #check-select-recommended`).not('[disabled]').should('be.checked')
+        submitPane('amount')
+        onPaneOffset(3)
 
-        cy.getFromPane('referral', `#referral-list li`).first().click()
+        cy.get(`${pane('referral')} #referral-list li`).first().click({force: true})
         //Referrals are simply hidden when submitting, so offset should remain 3
-        cy.onPaneNumber(3)
+        onPaneOffset(3)
 
-        cy.getFromPane('result', `.email:first-child`).first().should('have.text', randommail)
+        cy.get(`${pane('result')} .email:first-child`).first().should('have.text', randommail)
     })
 })
