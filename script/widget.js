@@ -13,6 +13,8 @@ function DonationWidget() {
     /* Network helpers */
     this.networkHelper = require('./helpers/network.js');
     this.request = this.networkHelper.request.bind(this.networkHelper);
+    this.analyticsHelper = require('./helpers/googleanalytics.js');
+    this.sendAnalytics = this.analyticsHelper.send.bind(this.analyticsHelper);
 
     this.setup = function (self, widgetElement) {
         _self = self;
@@ -114,6 +116,8 @@ function DonationWidget() {
         _self.resetPaymentPanes();
         _self.getPane(AmountPane).paneElement.setAttribute("class", "pane amount " + method);
 
+        _self.sendAnalytics("set_method", method);
+
         switch(method) {
             case "PAYPAL":
                 _self.getPane(PaypalPane).show();
@@ -163,6 +167,8 @@ function DonationWidget() {
             _self.KID = data.content.KID;
             _self.donorID = data.content.donorID;
 
+            _self.sendAnalytics("register_donation", _self.KID);
+
             if (data.content.hasAnsweredReferral) {
                 _self.getPane(ReferralPane).hide();
             }
@@ -190,7 +196,6 @@ function DonationWidget() {
 
     /* Slider control */
     this.goToSlide = function(slidenum) {
-
         //Recursively walk farward until visible pane found
         function walkToVisibleSlideAndReturnIndex(slidenum) {
             if (_self.panes[slidenum].visible) return slidenum;
@@ -222,6 +227,8 @@ function DonationWidget() {
         var pane = _self.panes[slidenum];
         pane.focus();
         pane.resizeWidgetToFit();
+
+        _self.sendAnalytics("go_to_slide", '', slidenum);
     }
 
     this.nextSlide = function() {
@@ -258,6 +265,8 @@ function DonationWidget() {
         setTimeout(function() {
             hideError();
         }, 5000);
+
+        _self.sendAnalytics("error", msg);
     }
 
     function hideError() {
@@ -319,6 +328,8 @@ function DonationWidget() {
         window.onbeforeunload = function() {
             //return true;
         };
+
+        _self.sendAnalytics("open_widget", "");
     }
 
     this.close = function() {
@@ -344,6 +355,8 @@ function DonationWidget() {
                 document.getElementById("check-select-recommended").click();
             }
         }, 500);
+
+        _self.sendAnalytics("close_widget", "");
     }
 
     //Helpers
@@ -373,7 +386,9 @@ function DonationWidget() {
         network: this.networkHelper,
         getPane: this.getPane,
         setMethod: this.setMethod,
-        resetPaymentPanes: this.resetPaymentPanes
+        resetPaymentPanes: this.resetPaymentPanes,
+        analyticsHelper: this.analyticsHelper,
+        sendAnalytics: this.sendAnalytics
     }
     return properties;
 } 
