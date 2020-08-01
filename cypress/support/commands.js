@@ -1,25 +1,21 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add("login", (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add("dismiss", { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+const pane = (paneName) => {
+    return `#donation-widget .pane.${paneName}`
+}
+
+Cypress.Commands.add('nextPane', (paneName) => {
+    cy.get(`${pane(paneName)} .btn.frwd`).click({force: true})
+  })
+
+Cypress.Commands.add('prevPane', (paneName) => {
+    cy.get(`${pane(paneName)} .btn.back`).click({force: true})
+})
+
+Cypress.Commands.add('onPaneOffset', (offsetNumber) => {
+    //Cypress reads the computed matrix value instead of translateX(-320px)
+    cy.get('#donation-widget .slider').should('have.css', 'transform', `matrix(1, 0, 0, 1, ${-320*offsetNumber}, 0)`)
+})
+
+Cypress.Commands.add('getInPane', (paneName, element) => {
+    return cy.get(`#donation-widget .pane.${paneName} ${element}`)
+})
