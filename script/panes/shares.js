@@ -31,6 +31,8 @@ module.exports = class SharesPane extends Pane {
             widget.donationSplit = donationSplit;
     
             widget.registerDonation(nxtBtn);
+
+            sessionStorage.setItem("donationsplit", JSON.stringify(donationSplit)); 
         }
         else {
             var nxtBtn = pane.getElementsByClassName("btn")[1];
@@ -61,12 +63,29 @@ module.exports = class SharesPane extends Pane {
 
     setSplitValues() {
         var widget = this.widget;
+        var ses = []; 
+
+        if(sessionStorage.donationsplit){
+            JSON.parse(sessionStorage.donationsplit).forEach(elm => {
+                 ses.push(elm);
+             });
+        }
 
         for (var i = 0; i < widget.organizations.length; i++) {
             var org = widget.organizations[i];
-            
-            org.setValue = org.standardShare;
-    
+
+            if(ses.length > 0){
+                ses.forEach(elm => {
+                    if (elm.id ===  org.id){
+                        org.setValue = elm.split;
+                    } else if (org.setValue == undefined){
+                        org.setValue = 0;
+                    }
+                });
+            } else {
+                org.setValue = org.standardShare;
+            }
+
             org.inputElement.value = org.setValue;
         }
     
