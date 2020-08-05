@@ -32,6 +32,8 @@ function substitute() {
     api_url = process.env.EFFEKT_API_URL
   else if(process.env.NODE_ENV == "dev")
     api_url = "https://dev.data.gieffektivt.no/"
+  else if(process.env.NODE_ENV == "stage")
+    api_url = "https://stage.data.gieffektivt.no/"
   else if(process.env.NODE_ENV == "production")
     api_url = "https://data.gieffektivt.no/"
   else
