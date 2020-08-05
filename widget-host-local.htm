@@ -28,6 +28,7 @@ structure as this file.
             <strong>API selection</strong><br>
             <div id="api-url-selector">
                 <div class="label" id="selector-production">Production</div>
+                <div class="label" id="selector-stage">Stage</div>
                 <div class="label" id="selector-dev">Dev</div>
                 <div class="label" id="selector-local">Local</div>
             </div>
@@ -260,6 +261,7 @@ structure as this file.
 <script>
 var localUrl = "http://localhost:3000/"
 const prodUrl = "https://data.gieffektivt.no/"
+const stageUrl = "https://stage.data.gieffektivt.no/"
 const devUrl = "https://dev.data.gieffektivt.no/"
 
 var donationWidgetElement = document.getElementById("donation-widget");
@@ -271,11 +273,14 @@ document.getElementById("donation-btn").addEventListener("click", function(e) {
 });
 
 const prodSelector = document.getElementById("selector-production")
+const stageSelector = document.getElementById("selector-stage")
 const devSelector = document.getElementById("selector-dev")
 const localSelector = document.getElementById("selector-local")
 
 if (widget.network.api_url === prodUrl)
     prodSelector.classList.add("active")
+else if (widget.network.api_url === stageUrl)
+    stageSelector.classList.add("active")
 else if (widget.network.api_url === devUrl)
     devSelector.classList.add("active")
 else if (widget.network.api_url.indexOf("localhost") !== -1) {
@@ -285,26 +290,36 @@ else if (widget.network.api_url.indexOf("localhost") !== -1) {
 else
     alert("Could not determine API url from widget.network.api_url")
 
-prodSelector.addEventListener("click", () => {
-    prodSelector.classList.add("active")
-    localSelector.classList.remove("active")
-    devSelector.classList.remove("active")
-    widget.network.api_url = prodUrl
-})
-
 localSelector.addEventListener("click", () => {
+    clearSelection()
     localSelector.classList.add("active")
-    prodSelector.classList.remove("active")
-    devSelector.classList.remove("active")
     widget.network.api_url = localUrl
 })
 
+prodSelector.addEventListener("click", () => {
+    clearSelection()
+    prodSelector.classList.add("active")
+    widget.network.api_url = prodUrl
+})
+
+stageSelector.addEventListener("click", () => {
+    clearSelection()
+    stageSelector.classList.add("active")
+    widget.network.api_url = stageUrl
+})
+
 devSelector.addEventListener("click", () => {
+    clearSelection()
     devSelector.classList.add("active")
-    localSelector.classList.remove("active")
-    prodSelector.classList.remove("active")
     widget.network.api_url = devUrl
 })
+
+function clearSelection() {
+    localSelector.classList.remove("active")
+    prodSelector.classList.remove("active")
+    stageSelector.classList.remove("active")
+    devSelector.classList.remove("active")
+}
 </script>
 
 </body></html>
