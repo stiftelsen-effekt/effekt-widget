@@ -35,11 +35,11 @@
             <div class="pane basic">
                 <div class="inner">
                     <h3>Om deg</h3>
-                    <input type="text" class="name" placeholder="Navn" autocomplete="off"></input>
-                    <input type="text" class="email" placeholder="Email" autocomplete="off"></input>
+                    <input type="text" class="name" data-cy="name" placeholder="Navn" autocomplete="off"></input>
+                    <input type="text" class="email" data-cy="email" placeholder="Email" autocomplete="off"></input>
                     
                     <div class="checkbox-wrapper">
-                        <input type="checkbox" name="tax-deduction" id="check-tax-deduction" autocomplete="off" /> 
+                        <input type="checkbox" name="tax-deduction" id="check-tax-deduction" data-cy="check-tax-deduction" autocomplete="off" /> 
                         <label for="check-tax-deduction">Jeg ønsker skattefradrag 
                             <div id="hover-field"> 
                                 <a target="_blank" id="info-icon"></a>
@@ -48,10 +48,10 @@
                         </label>
                     </div>
 
-                    <input type="text" class="ssn" placeholder="Fødselsnr eller orgnr" autocomplete="off" style="display: none;"></input>
+                    <input type="text" class="ssn" data-cy="ssn" placeholder="Fødselsnr eller orgnr" autocomplete="off" style="display: none;"></input>
 
                     <div class="checkbox-wrapper">
-                        <input type="checkbox" name="privacy-policy" id="check-privacy-policy" autocomplete="off" /> 
+                        <input type="checkbox" name="privacy-policy" id="check-privacy-policy" data-cy="check-privacy-policy" autocomplete="off" /> 
                         <label for="check-privacy-policy">Jeg godtar <a href="https://gieffektivt.no/samarbeid-drift#personvern" target="_blank">personvernerklæringen</a></label>
                     </div>
 
@@ -75,12 +75,12 @@
                         <div class="recurring">
                             <div class="select recurring">
                                 <label for="check-select-recurring">Jeg vil gi en månedlig donasjon</label>
-                                <input type="radio" name="recurring-selection" id="check-select-recurring" checked="true" autocomplete="off">
+                                <input type="radio" name="recurring-selection" id="check-select-recurring" data-cy="check-select-recurring" checked="true" autocomplete="off">
                                 <label class="box" for="check-select-recurring"></label>
                             </div>
                             <div class="select recurring">
                                 <label for="check-select-single">Jeg vil gi en engangsdonajson</label>
-                                <input type="radio" name="recurring-selection" id="check-select-single" autocomplete="off">
+                                <input type="radio" name="recurring-selection" id="check-select-single" data-cy="check-select-single" autocomplete="off">
                                 <label class="box" for="check-select-single"></label>
                             </div>
                         </div>
