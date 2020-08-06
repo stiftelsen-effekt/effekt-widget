@@ -26,7 +26,7 @@ context('Actions', () => {
 
         cy.getFromPane(`amount`, `#check-select-recommended`).not('[disabled]').should('be.checked')
         cy.submitPane('amount')
-        cy.onPaneNumber(3)
+        cy.onPaneNumber(3, 10000)
 
         cy.getFromPane(`referral`, `#referral-list li`).first().click({force: true})
         //Referrals are simply hidden when submitting, so offset should remain 3
