@@ -8,5 +8,5 @@ backup/
 
 dist/*
 !dist/assets/
-cypress/videos/widget.spec.js.mp4
-cypress/screenshots/widget.spec.js/Actions -- Opens up the widget (failed).png
+cypress/videos/
+cypress/screenshots/

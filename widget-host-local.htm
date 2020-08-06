@@ -266,7 +266,7 @@ const devUrl = "https://dev.data.gieffektivt.no/"
 
 var donationWidgetElement = document.getElementById("donation-widget");
 var widget = new DonationWidget();
-widget.network.api_url = devUrl
+
 widget.setup(widget, donationWidgetElement);
 document.getElementById("donation-btn").addEventListener("click", function(e) {
     widget.show();

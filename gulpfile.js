@@ -28,6 +28,9 @@ b.on('log', log.info);
 function substitute() {
   let api_url
 
+  console.log(process.env.EFFEKT_API_URL)
+  console.log(process.env.NODE_ENV)
+
   if(process.env.EFFEKT_API_URL)
     api_url = process.env.EFFEKT_API_URL
   else if(process.env.NODE_ENV == "dev")
@@ -38,6 +41,8 @@ function substitute() {
     api_url = "https://data.gieffektivt.no/"
   else
     throw new Error("Could not detirmine API url")
+
+  console.log(api_url)
 
   return gulp.src('./dist/bundle*.js')
     .pipe(replace('ENV.API_URL', api_url))

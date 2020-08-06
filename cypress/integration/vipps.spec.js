@@ -35,12 +35,14 @@ context('Actions', () => {
             .then((href) => {
                 let token = href.split("token=")[1]
 
-                cy.window().then((window) => {
-                    cy.request({
-                        url: `${window.widget.network.api_url}/vipps/integration-test/${token}`,
-                        timeout: 10000
-                    }).should('have.property', 'status', 200)
-                })
+                if (process.env.NODE_ENV === "dev") {
+                    cy.window().then((window) => {
+                        cy.request({
+                            url: `${window.widget.network.api_url}vipps/integration-test/${token}`,
+                            timeout: 10000
+                        }).should('have.property', 'status', 200)
+                    })
+                }
             })
     })
 })
