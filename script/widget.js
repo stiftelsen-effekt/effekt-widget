@@ -305,7 +305,8 @@ function DonationWidget() {
     }
 
     //Activate UI
-    this.show = function() {
+    this.show = function(method) {
+
         var widget = _self;
 
         document.body.classList.add("widget-active");
@@ -318,6 +319,11 @@ function DonationWidget() {
         activePane.resizeWidgetToFit();
 
         _self.active = true;
+
+        if(method){
+          _self.setMethod(method);
+          _self.nextSlide();
+        }
 
         //User is engaged in form, activate "are you sure you want to leave" prompt on attempt to navigate away
         window.onbeforeunload = function() {
