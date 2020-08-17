@@ -16,6 +16,8 @@ context('Actions', () => {
         let randommail = random + '@testeffekt.com'
         cy.get('[data-cy=name]').type(random, {force: true})
         cy.get('[data-cy=email]').type(randommail, {force: true})
+        //TODO: Find a way to get value of "data-cy=email"
+        cy.get('[data-cy=email]').should('have.value', randommail) // Remove later 
         cy.get('[data-cy=check-tax-deduction]').not('[disabled]').check({force: true}).should('be.checked')
         cy.get('[data-cy=check-privacy-policy]').click()
         cy.get('[data-cy=ssn]').type("123456789")
@@ -27,6 +29,7 @@ context('Actions', () => {
         cy.onPaneOffset(3)
 
         cy.server()
+        let sum = 0
         cy.request('GET', 'https://data.gieffektivt.no/organizations/active').then((response) => {
             let orgs = response.body.content
 
@@ -52,12 +55,15 @@ context('Actions', () => {
 
             cy.get(`[data-cy=${orgs[0].abbriv}-share]`).type('{backspace}{backspace}{backspace}')
             //Fills in all shares to equal 100
-            for (i = 0; i < orgs.length; i++) {
+            for (i = 0; i < orgs.length; i++) { 
                 if (i != orgs.length-1) {
-                    cy.get(`[data-cy=${orgs[i].abbriv}-share]`).type(orgs.length)
+                    cy.get(`[data-cy=${orgs[i].abbriv}-share]`).type(parseInt(orgs.length))
+                    sum += orgs.length
                 }
                 else {
-                    cy.get(`[data-cy=${orgs[i].abbriv}-share]`).type(100-(orgs.length-1)*orgs.length)
+                    let remainder = parseInt(100-(orgs.length-1)*orgs.length)
+                    cy.get(`[data-cy=${orgs[i].abbriv}-share]`).type(remainder)
+                    sum += remainder
                 }
             }
         })
@@ -87,14 +93,26 @@ context('Actions', () => {
             console.log(xhrs[0].responseBody)
             console.log(xhrs[1].responseBody)
 
+            if (sum == 100) {
+                expect(xhrs[0].responseBody.status).to.equal(200)
+            }
+            else {
+                expect(xhrs[0].responseBody.status).to.equal(400)
+            }
+
+            cy.prevPane('referral')
+            cy.get(`[data-cy=${orgs[0].abbriv}-share]`).type('{backspace}{backspace}{backspace}')
+
+
             //expect(xhrs[0].responseBody.status).to.equal(200)
-            
             //expect(xhrs[1].responseBody.status).to.equal(200)
+
 
             //TODO: Assert
             //xhr.responseCode == 200 NÅR ALT ER RIKTIG
             //xhr.responseCode == 400 NÅR DET IKKE SUMMER TIL 100, ELLER ER - i tallene, ELLER inneholder ugyldige tegn
         })
+
         //cy.onPaneOffset(4)
        
     })
