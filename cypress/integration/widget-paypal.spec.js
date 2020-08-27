@@ -5,48 +5,28 @@ context('Actions', () => {
 
     it('A standard paypal donation runs through', () => {
         cy.get('#donation-btn').click({force: true})
-
         cy.get("#donation-widget-container").should('have.class', 'active')
-
-        cy.get('#donation-widget .pane.payment-method .payment-methods .method.paypal').click({force: true})
-
-        onPaneOffset(1)
+        cy.get('[data-cy=method-paypal]').click({force: true})
+        cy.onPaneOffset(1)
 
         let random = Math.random().toString(36).substring(7)
         let randommail = random + '@testeffekt.com'
-        cy.get(`${pane('basic')} .name`).type(random, {force: true})
-        cy.get(`${pane('basic')} .email`).type(randommail, {force: true})
+        cy.get('[data-cy=name]').type(random, {force: true})
+        cy.get('[data-cy=email]').type(randommail, {force: true})
+        cy.get('[data-cy=check-privacy-policy]').click()
+        cy.nextPane('basic')
+        cy.onPaneOffset(2)
 
-        cy.get(`${pane('basic')} #check-privacy-policy`).not('[disabled]').check({force: true}).should('be.checked')
-        submitPane('basic')
-        onPaneOffset(2)
+        cy.getInPane('amount', '[data-cy=amount').type(500)
+        cy.get('[data-cy=check-select-recommended]').not('[disabled]').should('be.checked')
+        cy.nextPane('amount')
+        cy.onPaneOffset(3)
 
-        let ranAmount = Math.floor(Math.random() * 1000) + 100
-        cy.get(`${pane('amount')} .amount-wrapper .amount`).type(ranAmount)
-        cy.get(`${pane('amount')} #check-select-recommended`).not('[disabled]').should('be.checked')
+        cy.getInPane('referral', '#referral-list li').first().click({force: true})
+        //Referrals are simply hidden when submitting, so offset should remain 3
+        cy.onPaneOffset(3)
 
-        submitPane('amount')
-        //TODO: assert that widget.donationAmount is equal to ranAmount 
-        onPaneOffset(3)
-
-        cy.get(`${pane('referral')} #referral-list li`).first().click({force: true})
-        // Referrals are simply hidden when submitting, so offset should remain 3
-        onPaneOffset(3)
-
-        cy.get(`${pane('paypal')} #widget-paypal-button`).click({force: true})
+        cy.nextPane('vipps')
+        cy.onPaneOffset(4)
     })
 })
-
-/* Helper functions */
-const pane = (paneName) => {
-    return `#donation-widget .pane.${paneName}`
-}
-
-const submitPane = (paneName) => {
-    cy.get(`${pane(paneName)} .btn.frwd`).click({force: true})
-}
-
-const onPaneOffset = (offsetNumber) => {
-    //Cypress reads the computed matrix value instead of translateX(-320px)
-    cy.get('#donation-widget .slider').should('have.css', 'transform', `matrix(1, 0, 0, 1, ${-320*offsetNumber}, 0)`)
-}

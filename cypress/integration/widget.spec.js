@@ -5,7 +5,7 @@ context('Actions', () => {
         cy.visit('./widget-host-local.htm')
     })
 
-    it('Goes through mutual functionality between all donation methods', () => {
+    it('Goes through the mutual functionality between all donation methods', () => {
 
         cy.get('#donation-btn').click({force: true})
         cy.get("#donation-widget-container").should('have.class', 'active')
@@ -16,8 +16,7 @@ context('Actions', () => {
         let randommail = random + '@testeffekt.com'
         cy.get('[data-cy=name]').type(random, {force: true})
         cy.get('[data-cy=email]').type(randommail, {force: true})
-        //TODO: Find a way to get value of "data-cy=email"
-        cy.get('[data-cy=email]').should('have.value', randommail) // Remove later 
+        cy.get('[data-cy=email]').should('have.value', randommail)
         cy.get('[data-cy=check-tax-deduction]').not('[disabled]').check({force: true}).should('be.checked')
         cy.get('[data-cy=check-privacy-policy]').click()
         cy.get('[data-cy=ssn]').type("123456789")
@@ -29,10 +28,10 @@ context('Actions', () => {
         cy.onPaneOffset(3)
 
         cy.server()
-        let sum = 0
         cy.request('GET', 'https://data.gieffektivt.no/organizations/active').then((response) => {
             let orgs = response.body.content
 
+            //Checks that nextPane is inactive if share is more than 100
             cy.get(`[data-cy=${orgs[0].abbriv}-share]`).type('{backspace}{backspace}{backspace}')
             cy.get(`[data-cy=${orgs[0].abbriv}-share]`).type('101')
             cy.get('[data-cy=btn-frwd]').should('have.class', 'inactive')
@@ -40,6 +39,7 @@ context('Actions', () => {
             cy.nextPane('shares')
             cy.onPaneOffset(3)
 
+            //Checks that nextPane is inactive if share is less than 100
             cy.get(`[data-cy=${orgs[0].abbriv}-share]`).type('{backspace}{backspace}{backspace}')
             cy.get(`[data-cy=${orgs[0].abbriv}-share]`).type('99')
             cy.get('[data-cy=btn-frwd]').should('have.class', 'inactive')
@@ -56,14 +56,12 @@ context('Actions', () => {
             cy.get(`[data-cy=${orgs[0].abbriv}-share]`).type('{backspace}{backspace}{backspace}')
             //Fills in all shares to equal 100
             for (i = 0; i < orgs.length; i++) { 
-                if (i != orgs.length-1) {
+                if (i != orgs.length - 1) {
                     cy.get(`[data-cy=${orgs[i].abbriv}-share]`).type(parseInt(orgs.length))
-                    sum += orgs.length
                 }
                 else {
-                    let remainder = parseInt(100-(orgs.length-1)*orgs.length)
+                    let remainder = parseInt(100 - (orgs.length-1) * orgs.length)
                     cy.get(`[data-cy=${orgs[i].abbriv}-share]`).type(remainder)
-                    sum += remainder
                 }
             }
         })
@@ -73,6 +71,7 @@ context('Actions', () => {
         cy.nextPane('shares')
         cy.onPaneOffset(4)
 
+        //Back to start 
         cy.prevPane('referral')
         cy.onPaneOffset(3)
         cy.prevPane('shares')
@@ -88,32 +87,29 @@ context('Actions', () => {
 
         //Referrals are simply hidden when submitting, so offset should remain 4
         cy.getInPane('referral', '#referral-list li').first().click({force: true})
+        cy.onPaneOffset(4)
 
         cy.wait(['@register', '@pending']).then((xhrs) => {
+
             console.log(xhrs[0].responseBody)
             console.log(xhrs[1].responseBody)
 
-            if (sum == 100) {
+            let sumShares = 0
+            xhrs[0].responseBody.content.donationSplit.map(org => {
+                sumShares += parseInt(org.share)
+            })
+
+            expect().to.equal()
+
+            if (sumShares == 100) {
                 expect(xhrs[0].responseBody.status).to.equal(200)
+                expect(xhrs[1].responseBody.status).to.equal(200)
             }
-            else {
+
+            else if (sumShares != 100) {
                 expect(xhrs[0].responseBody.status).to.equal(400)
+                expect(xhrs[1].responseBody.status).to.equal(400)
             }
-
-            cy.prevPane('referral')
-            cy.get(`[data-cy=${orgs[0].abbriv}-share]`).type('{backspace}{backspace}{backspace}')
-
-
-            //expect(xhrs[0].responseBody.status).to.equal(200)
-            //expect(xhrs[1].responseBody.status).to.equal(200)
-
-
-            //TODO: Assert
-            //xhr.responseCode == 200 NÅR ALT ER RIKTIG
-            //xhr.responseCode == 400 NÅR DET IKKE SUMMER TIL 100, ELLER ER - i tallene, ELLER inneholder ugyldige tegn
         })
-
-        //cy.onPaneOffset(4)
-       
     })
 })
