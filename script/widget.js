@@ -88,7 +88,7 @@ function DonationWidget() {
             widget: _self,
             paneElement: paneElements[6],
             hasPrevBtn: true,
-            hasNextBtn: true
+            hasNextBtn: false
         });
 
         this.panes[7] = new ResultPane({
@@ -146,7 +146,8 @@ function DonationWidget() {
                 ssn: this.ssn,
                 newsletter: this.newsletter
             },
-            amount: this.donationAmount
+            amount: this.donationAmount,
+            method: this.method
         }
 
         if (this.donationSplit) {
@@ -174,6 +175,10 @@ function DonationWidget() {
 
             if (_self.method === "BANK") {
                 _self.registerBankPending();
+            }
+
+            if (_self.method === "VIPPS") {
+                _self.getPane(VippsPane).setUrl(data.content.paymentProviderUrl)
             }
 
             _self.nextSlide();
@@ -327,7 +332,7 @@ function DonationWidget() {
 
         //User is engaged in form, activate "are you sure you want to leave" prompt on attempt to navigate away
         window.onbeforeunload = function() {
-            return true;
+            //return true;
         };
 
         _self.sendAnalytics("open_widget", "");

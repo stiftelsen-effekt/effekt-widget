@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700');
 
-$cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
+$cdn-url: "ENV.CDN_URL";
 
 #donation-widget-container {
     position: fixed;
@@ -303,12 +303,20 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
             &.amount {
                 text-align: center;
 
-                &.VIPPS, &.BANK {
+                &.BANK {
                     .controls {
                         .amount-wrapper {
                             display: none;
                         }
     
+                        .select.recurring {
+                            display: none;
+                        }
+                    }
+                }
+
+                &.VIPPS {
+                    .controls {
                         .select.recurring {
                             display: none;
                         }
@@ -330,7 +338,7 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
                             position: absolute;
                             display: inline-block;
                             top: 20px;
-                            right: 20px;
+                            right: 25px;
     
                             font-size: 16px;
                             font-weight: 300;
@@ -735,86 +743,17 @@ $cdn-url: "https://storage.googleapis.com/effekt-widget/assets/";
                         display: block;
                     }
 
-                    ul {
-                        list-style: none;
-                        padding-left: 0;
-                        padding: 10px;
-                        text-align: left;
-                        font-size: 14px;
-                        margin: 0;
-                        padding-bottom: 0;
+                    .vipps-btn-wrapper {
+                        margin-top: 58px;
 
-                        li {
-                            margin: 20px 0;
-                            .text {
-                                width: 238px;
-                                display: inline-block;
-                                vertical-align: top;
-                                white-space: normal;
-                            }
-
-                            .explanatory-image {
-                                display: inline-block;
-                                width: 16px;
-                                height: 16px;
-                                background-image: url(#{$cdn-url}help.svg);
-                                background-size: cover;
-                                background-repeat: no-repeat;
-                                background-position: center center;
-                                vertical-align: top;
-                                margin-top: 2px;
-                                opacity: .4;
-                                cursor: pointer;
-                            }
-
-                            .list-point {
-                                padding: 1px 6px;
-                                border-radius: 50%;
-                                font-size: 12px;
-                                display: inline-block;
-                                border: 1px solid #222;
-                                width: 21px;
-                                height: 21px;
-                                box-sizing: border-box;
-                                vertical-align: top;
-                                margin-right: 5px;
-                                line-height: 16px;
-                            }
-                        }
-                    }
-
-                    .helper-images {
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        width: 100%;
-                        height: calc(100% + 50px);
-
-                        .close-btn {
-                            position: absolute;
-                            bottom: 16px;
-                            width: 136px;
-                            padding: 12px;
-                            box-sizing: border-box;
-                            background: black;
-                            color: white;
-                            text-align: center;
-                            left: calc(50% - 68px);
-                            z-index: 100;
-                            cursor: pointer;
-                            font-size: 12px;
-                            line-height: 25px;
-                        }
-
-                        .explanation-image {
-                            width: 100%;
-                            height: 100%;
-                            position: absolute;
-                            top: -1px; //"Fiks" for en pixel hvitt i toppen av widget på squarespace
-                            left: 0;
-                            background-position: top center;
+                        .vipps-btn {
+                            width: 210px;
+                            height: 44px;
+                            background-image: url(#{$cdn-url}vipps/vipps-btn.svg);
                             background-size: cover;
+                            background-position: center center;
                             background-repeat: no-repeat;
+                            display: inline-block;
                         }
                     }
                 }

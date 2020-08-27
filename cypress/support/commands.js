@@ -23,3 +23,8 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+Cypress.Commands.add("getPane", (paneName) => cy.get(`#donation-widget .pane.${paneName}`))
+Cypress.Commands.add("getFromPane", (paneName, selector) => cy.get(`#donation-widget .pane.${paneName} ${selector}`))
+Cypress.Commands.add("submitPane", (paneName) => cy.getFromPane(paneName, `.btn.frwd`).click())
+Cypress.Commands.add("onPaneNumber", (paneNumber, timeout = 4000) => cy.get('#donation-widget .slider', { timeout: timeout }).should('have.css', 'transform', `matrix(1, 0, 0, 1, ${-320*paneNumber}, 0)`))

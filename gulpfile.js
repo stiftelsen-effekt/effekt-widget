@@ -25,6 +25,30 @@ var b = browserify(customOpts);
 b.on('update', bundle);
 b.on('log', log.info);
 
+function substitute() {
+  let api_url
+
+  console.log(process.env.EFFEKT_API_URL)
+  console.log(process.env.NODE_ENV)
+
+  if(process.env.EFFEKT_API_URL)
+    api_url = process.env.EFFEKT_API_URL
+  else if(process.env.NODE_ENV == "dev")
+    api_url = "https://dev.data.gieffektivt.no/"
+  else if(process.env.NODE_ENV == "stage")
+    api_url = "https://stage.data.gieffektivt.no/"
+  else if(process.env.NODE_ENV == "production")
+    api_url = "https://data.gieffektivt.no/"
+  else
+    throw new Error("Could not detirmine API url")
+
+  console.log(api_url)
+
+  return gulp.src('./dist/bundle*.js')
+    .pipe(replace('ENV.API_URL', api_url))
+    .pipe(gulp.dest('./dist/'))
+}
+
 function bundle() {
   return b.bundle()
     .on('error', log.error.bind(log, 'Browserify Error'))
@@ -37,9 +61,17 @@ function bundle() {
 }
 
 function styles() {
-    return gulp.src('./style/**/*.scss')
-        .pipe(sass().on('error', sass.logError))
-        .pipe(gulp.dest('./dist'));
+  let cdn_url
+    
+  if(process.env.NODE_ENV == "production")
+    cdn_url = "https://storage.googleapis.com/effekt-widget/assets/"
+  else
+    cdn_url = "https://storage.googleapis.com/effekt-widget-dev/assets/"
+
+  return gulp.src('./style/**/*.scss')
+      .pipe(replace('ENV.CDN_URL', cdn_url))
+      .pipe(sass().on('error', sass.logError))
+      .pipe(gulp.dest('./dist'));
 }
 
 function formatWidgetHTML() {
@@ -82,4 +114,4 @@ function copyWidgetToLocalDev() {
   return Promise.resolve('Completed moving HTML')
 }
 
-exports.build = parallel(bundle, styles, series(formatWidgetHTML, copyWidgetToLocalDev))
+exports.build = parallel(series(bundle, substitute), styles, series(formatWidgetHTML, copyWidgetToLocalDev))

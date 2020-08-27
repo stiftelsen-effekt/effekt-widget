@@ -18,7 +18,7 @@ module.exports = class AmountPane extends Pane {
         widget.donationAmount = this.getDonationAmount();
         widget.recurring = this.getRecurringBoolean();
 
-        if (widget.donationAmount > 0 || widget.method === "VIPPS" || widget.method === "BANK") {
+        if (widget.donationAmount > 0 || widget.method === "BANK") {
             if (this.submitOnNext) {
                 widget.registerDonation(nxtBtn);
             } else {

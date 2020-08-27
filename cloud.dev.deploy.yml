@@ -1,0 +1,15 @@
+steps:
+- name: 'ubuntu'
+  id: Build and run tests
+  env: ['DEBIAN_FRONTEND=noninteractive', 'NODE_ENV=dev']
+  args:
+      [   'bash', 
+          './ci-test.sh'
+      ]
+- name: 'gcr.io/cloud-builders/npm:node-10.10.0'
+  args: ['install']
+- name: 'gcr.io/cloud-builders/npm:node-10.10.0'
+  env: ['CI=true', 'NODE_ENV=dev']
+  args: ['run', 'build']
+- name: 'gcr.io/cloud-builders/gsutil'
+  args: ['-m', 'cp', '-r', 'dist/*', 'gs://effekt-widget-dev/']
