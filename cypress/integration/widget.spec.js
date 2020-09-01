@@ -12,14 +12,16 @@ context('Actions', () => {
         cy.get('[data-cy=method-bank]').click({force: true})
         cy.onPaneOffset(1)
 
-        let random = Math.random().toString(36).substring(7)
-        let randommail = random + '@testeffekt.com'
-        cy.get('[data-cy=name]').type(random, {force: true})
-        cy.get('[data-cy=email]').type(randommail, {force: true})
-        cy.get('[data-cy=email]').should('have.value', randommail)
+        let randomName = Math.random().toString(36).substring(7)
+        let randomMail = randomName + '@testeffekt.com'
+        let ssn = "123456789"
+        cy.get('[data-cy=name]').type(randomName, {force: true})
+        cy.get('[data-cy=name]').should('have.value', randomName)
+        cy.get('[data-cy=email]').type(randomMail, {force: true})
+        cy.get('[data-cy=email]').should('have.value', randomMail)
         cy.get('[data-cy=check-tax-deduction]').not('[disabled]').check({force: true}).should('be.checked')
         cy.get('[data-cy=check-privacy-policy]').click()
-        cy.get('[data-cy=ssn]').type("123456789")
+        cy.get('[data-cy=ssn]').type(ssn)
         cy.nextPane('basic')
         cy.onPaneOffset(2)
         
@@ -99,7 +101,8 @@ context('Actions', () => {
                 sumShares += parseInt(org.share)
             })
 
-            expect().to.equal()
+            expect(xhrs[0].responseBody.content.email).to.equal(randomMail)
+            expect(xhrs[0].responseBody.content.ssn).to.equal(ssn)
 
             if (sumShares == 100) {
                 expect(xhrs[0].responseBody.status).to.equal(200)
