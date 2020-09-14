@@ -3,10 +3,11 @@
 context('Actions', () => {
     beforeEach(() => {
         cy.visit('./widget-host-local.htm')
+
+        sessionStorage.clear()
     })
 
     it('Goes through the mutual functionality between all donation methods', () => {
-
         cy.get('#donation-btn').click({force: true})
         cy.get("#donation-widget-container").should('have.class', 'active')
         cy.get('[data-cy=method-bank]').click({force: true})
@@ -30,6 +31,7 @@ context('Actions', () => {
         cy.onPaneOffset(3)
 
         cy.server()
+        let organizationsSplit = []
         cy.request('GET', 'https://data.gieffektivt.no/organizations/active').then((response) => {
             let orgs = response.body.content
 
@@ -59,10 +61,15 @@ context('Actions', () => {
             //Fills in all shares to equal 100
             for (i = 0; i < orgs.length; i++) { 
                 if (i != orgs.length - 1) {
-                    cy.get(`[data-cy=${orgs[i].abbriv}-share]`).type(parseInt(orgs.length))
+                    let split = parseInt(orgs.length)
+
+                    organizationsSplit.push({id: orgs[i].id, split: split.toString()})
+                    cy.get(`[data-cy=${orgs[i].abbriv}-share]`).type(split)
                 }
                 else {
                     let remainder = parseInt(100 - (orgs.length-1) * orgs.length)
+
+                    organizationsSplit.push({id: orgs[i].id, split: remainder.toString()})
                     cy.get(`[data-cy=${orgs[i].abbriv}-share]`).type(remainder)
                 }
             }
@@ -91,8 +98,27 @@ context('Actions', () => {
         cy.getInPane('referral', '#referral-list li').first().click({force: true})
         cy.onPaneOffset(4)
 
-        cy.wait(['@register', '@pending']).then((xhrs) => {
+        const assertRegisterObject = {
+            donor: {
+                name: randomName,
+                email: randomMail,
+                ssn: ssn,
+                newsletter: false
+            },
+            amount: null,
+            method: 'BANK',
+            organizations: organizationsSplit
+        }
 
+        cy.wait(['@register', '@pending']).then((xhrs) => {
+            const registerRequest = xhrs[0].request
+            const pendingRequest = xhrs[1].request
+
+            registerObjectURLEncoded = "data=" + encodeURIComponent(JSON.stringify(assertRegisterObject))
+
+            expect(registerRequest.body).to.be.eq(registerObjectURLEncoded)
+
+            /*
             let sumShares = 0
             xhrs[0].responseBody.content.donationSplit.map(org => {
                 sumShares += parseInt(org.share)
@@ -100,7 +126,8 @@ context('Actions', () => {
 
             expect(xhrs[0].responseBody.content.email).to.equal(randomMail)
             expect(xhrs[0].responseBody.content.ssn).to.equal(ssn)
-
+            
+            
             if (sumShares == 100) {
                 expect(xhrs[0].responseBody.status).to.equal(200)
                 expect(xhrs[1].responseBody.status).to.equal(200)
@@ -110,6 +137,7 @@ context('Actions', () => {
                 expect(xhrs[0].responseBody.status).to.equal(400)
                 expect(xhrs[1].responseBody.status).to.equal(400)
             }
+            */
         })
     })
 })
