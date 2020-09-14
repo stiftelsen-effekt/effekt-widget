@@ -93,9 +93,6 @@ context('Actions', () => {
 
         cy.wait(['@register', '@pending']).then((xhrs) => {
 
-            console.log(xhrs[0].responseBody)
-            console.log(xhrs[1].responseBody)
-
             let sumShares = 0
             xhrs[0].responseBody.content.donationSplit.map(org => {
                 sumShares += parseInt(org.share)
