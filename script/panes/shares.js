@@ -1,5 +1,6 @@
 var Pane = require('./paneClass.js')
 var rounding = require('../lib/rounding.js'); 
+var inputHelper = require('../helpers/input.js');
 
 module.exports = class SharesPane extends Pane {
     constructor(config) {
@@ -124,6 +125,8 @@ module.exports = class SharesPane extends Pane {
                         org.element = _self.createListItem(org);
                         list.appendChild(org.element);
                     }
+
+                    inputHelper.setupInput(_self);
                 }
             });
         }, 10)
