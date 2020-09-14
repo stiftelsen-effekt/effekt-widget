@@ -115,29 +115,10 @@ context('Actions', () => {
             const pendingRequest = xhrs[1].request
 
             registerObjectURLEncoded = "data=" + encodeURIComponent(JSON.stringify(assertRegisterObject))
-
             expect(registerRequest.body).to.be.eq(registerObjectURLEncoded)
 
-            /*
-            let sumShares = 0
-            xhrs[0].responseBody.content.donationSplit.map(org => {
-                sumShares += parseInt(org.share)
-            })
-
-            expect(xhrs[0].responseBody.content.email).to.equal(randomMail)
-            expect(xhrs[0].responseBody.content.ssn).to.equal(ssn)
-            
-            
-            if (sumShares == 100) {
-                expect(xhrs[0].responseBody.status).to.equal(200)
-                expect(xhrs[1].responseBody.status).to.equal(200)
-            }
-
-            else if (sumShares != 100) {
-                expect(xhrs[0].responseBody.status).to.equal(400)
-                expect(xhrs[1].responseBody.status).to.equal(400)
-            }
-            */
+            expect(registerRequest.status).to.equal(200)
+            expect(pendingRequest.status).to.equal(200)
         })
     })
 })
