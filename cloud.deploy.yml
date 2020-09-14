@@ -1,11 +1,4 @@
 steps:
-- name: 'ubuntu'
-  id: Build and run tests
-  env: ['DEBIAN_FRONTEND=noninteractive', 'NODE_ENV=dev']
-  args:
-      [   'bash', 
-          './ci-test.sh'
-      ]
 - name: 'gcr.io/cloud-builders/npm:node-10.10.0'
   args: ['install']
 - name: 'gcr.io/cloud-builders/npm:node-10.10.0'
