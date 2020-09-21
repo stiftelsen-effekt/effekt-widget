@@ -17,7 +17,7 @@ context('Actions', () => {
         cy.nextPane('basic')
         cy.onPaneOffset(2)
 
-        cy.getInPane('amount', '[data-cy=amount').type(500)
+        cy.getInPane('amount', '[data-cy=amount]').type(500)
         cy.get('[data-cy=check-select-recommended]').not('[disabled]').should('be.checked')
         cy.nextPane('amount')
         cy.onPaneOffset(3)
@@ -26,7 +26,7 @@ context('Actions', () => {
         //Referrals are simply hidden when submitting, so offset should remain 3
         cy.onPaneOffset(3)
 
-        cy.nextPane('vipps')
+        cy.nextPane('paypal')
         cy.onPaneOffset(4)
     })
 })

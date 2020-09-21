@@ -111,14 +111,15 @@ context('Actions', () => {
         }
 
         cy.wait(['@register', '@pending']).then((xhrs) => {
-            const registerRequest = xhrs[0].request
-            const pendingRequest = xhrs[1].request
+            const registerRequest = xhrs[0]
+            const pendingRequest = xhrs[1]
+            console.log(registerRequest)
 
             registerObjectURLEncoded = "data=" + encodeURIComponent(JSON.stringify(assertRegisterObject))
-            expect(registerRequest.body).to.be.eq(registerObjectURLEncoded)
+            expect(registerRequest.request.body).to.be.eq(registerObjectURLEncoded)
 
-            expect(registerRequest.status).to.equal(200)
-            expect(pendingRequest.status).to.equal(200)
+            expect(registerRequest.responseBody.status).to.equal(200)
+            expect(pendingRequest.responseBody.status).to.equal(200)
         })
     })
 })
