@@ -35,6 +35,36 @@ module.exports = class DonorPane extends Pane {
         this.checkNewsletterElement.addEventListener("change", this.newsletterCheckChanged.bind(this));
         this.chosenNewsletter = false;
 
+        this.setupButton();
+    }
+
+    setupButton() {
+        this.anonBtn = this.paneElement.getElementsByClassName("anonymous-link")[0];
+        this.anonBtn.addEventListener("click", () => this.submitAnon());
+    }
+
+    submitAnon() {
+        var pane = this.paneElement;
+        var widget = this.widget;
+
+        var nxtBtn = pane.getElementsByClassName("btn")[0];
+        nxtBtn.classList.add("loading");
+
+        widget.name = "anon@gieffektivt.no";
+        widget.email = "anon@gieffektivt.no";
+        widget.ssn = null;
+        widget.newsletter = false;
+
+        if (window.localStorage) {
+            window.localStorage.setItem("donation-name", "Anonym giver");
+            window.localStorage.removeItem("donation-email");
+        }
+
+        widget.nextSlide();
+        
+        setTimeout(function() {
+            nxtBtn.classList.remove("loading");
+        }, 200);
     }
 
     submit() {
@@ -70,8 +100,6 @@ module.exports = class DonorPane extends Pane {
         widget.name = name;
         widget.email = email;
         widget.newsletter = this.chosenNewsletter
-
-
         
         if (this.chosenTaxDeduction) {
             if (ssn.length != 11 && ssn.length != 9) {
