@@ -7,22 +7,13 @@ context('Actions', () => {
         sessionStorage.clear()
     })
 
-    it('Goes through the mutual functionality between all donation methods', () => {
+    it('Checks that navigation through panes work correctly', () => {
         cy.get('#donation-btn').click({force: true})
         cy.get("#donation-widget-container").should('have.class', 'active')
         cy.get('[data-cy=method-bank]').click({force: true})
         cy.onPaneOffset(1)
 
-        let randomName = Math.random().toString(36).substring(7)
-        let randomMail = randomName + '@testeffekt.com'
-        let ssn = "123456789"
-        cy.get('[data-cy=name]').type(randomName, {force: true})
-        cy.get('[data-cy=name]').should('have.value', randomName)
-        cy.get('[data-cy=email]').type(randomMail, {force: true})
-        cy.get('[data-cy=email]').should('have.value', randomMail)
-        cy.get('[data-cy=check-tax-deduction]').not('[disabled]').check({force: true}).should('be.checked')
-        cy.get('[data-cy=check-privacy-policy]').click()
-        cy.get('[data-cy=ssn]').type(ssn)
+        cy.fillDonorInfo()
         cy.nextPane('basic')
         cy.onPaneOffset(2)
         
@@ -55,28 +46,9 @@ context('Actions', () => {
             cy.get(`[data-cy=${orgs[0].abbriv}-share]`).type('100')
             cy.get('[data-cy=btn-frwd]').should('not.have.class', 'inactive')
             cy.get('[data-cy=total]').should('have.class', 'total-hidden')
-
-
-            cy.get(`[data-cy=${orgs[0].abbriv}-share]`).type('{backspace}{backspace}{backspace}')
-            //Fills in all shares to equal 100
-            for (i = 0; i < orgs.length; i++) { 
-                if (i != orgs.length - 1) {
-                    let split = parseInt(orgs.length)
-
-                    organizationsSplit.push({id: orgs[i].id, split: split.toString()})
-                    cy.get(`[data-cy=${orgs[i].abbriv}-share]`).type(split)
-                }
-                else {
-                    let remainder = parseInt(100 - (orgs.length-1) * orgs.length)
-
-                    organizationsSplit.push({id: orgs[i].id, split: remainder.toString()})
-                    cy.get(`[data-cy=${orgs[i].abbriv}-share]`).type(remainder)
-                }
-            }
         })
-        
-        cy.route('POST', '/donations/register*').as('register')
-        cy.route('POST', '/donations/bank/pending*').as('pending')
+
+
         cy.nextPane('shares')
         cy.onPaneOffset(4)
 
@@ -97,29 +69,4 @@ context('Actions', () => {
         //Referrals are simply hidden when submitting, so offset should remain 4
         cy.getInPane('referral', '#referral-list li').first().click({force: true})
         cy.onPaneOffset(4)
-
-        const assertRegisterObject = {
-            donor: {
-                name: randomName,
-                email: randomMail,
-                ssn: ssn,
-                newsletter: false
-            },
-            amount: null,
-            method: 'BANK',
-            organizations: organizationsSplit
-        }
-
-        cy.wait(['@register', '@pending']).then((xhrs) => {
-            const registerRequest = xhrs[0]
-            const pendingRequest = xhrs[1]
-            console.log(registerRequest)
-
-            registerObjectURLEncoded = "data=" + encodeURIComponent(JSON.stringify(assertRegisterObject))
-            expect(registerRequest.request.body).to.be.eq(registerObjectURLEncoded)
-
-            expect(registerRequest.responseBody.status).to.equal(200)
-            expect(pendingRequest.responseBody.status).to.equal(200)
-        })
-    })
 })

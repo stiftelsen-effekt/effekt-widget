@@ -9,11 +9,7 @@ context('Actions', () => {
         cy.get('#donation-widget .pane.payment-method .payment-methods .method.bank').click({force: true})
         cy.onPaneOffset(1)
 
-        let random = Math.random().toString(36).substring(7)
-        let randommail = random + '@testeffekt.com'
-        cy.get('[data-cy=name]').type(random, {force: true})
-        cy.get('[data-cy=email]').type(randommail, {force: true})
-        cy.get('[data-cy=check-privacy-policy]').click()
+        cy.fillDonorInfo()
         cy.nextPane('basic')
         cy.onPaneOffset(2)
 
