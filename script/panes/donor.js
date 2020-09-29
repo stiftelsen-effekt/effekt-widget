@@ -55,11 +55,6 @@ module.exports = class DonorPane extends Pane {
         widget.ssn = null;
         widget.newsletter = false;
 
-        if (window.localStorage) {
-            window.localStorage.setItem("donation-name", "Anonym giver");
-            window.localStorage.removeItem("donation-email");
-        }
-
         widget.nextSlide();
         
         setTimeout(function() {
