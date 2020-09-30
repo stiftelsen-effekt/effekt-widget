@@ -27,18 +27,11 @@ $cdn-url: "ENV.CDN_URL";
 }
 
 #donation-widget {
-    width: 320px;
-    height: 300px;
-    background: white;
-    box-shadow: 0 0 3px 3px rgba(0,0,0,.05);
-    position: relative;
 
     font-family: 'Open Sans', sans-serif;
 
     transition: all 300ms;
 
-    transform: scale(0.9);
-    opacity: 0;
 
     &.active {
         opacity: 1;
