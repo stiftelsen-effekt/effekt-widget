@@ -39,7 +39,7 @@ $cdn-url: "ENV.CDN_URL";
 
     transform: scale(0.9);
     opacity: 0;
-
+    
     &.active {
         opacity: 1;
         transform: scale(1);
