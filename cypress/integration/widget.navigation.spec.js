@@ -8,21 +8,21 @@ context('Actions', () => {
     })
 
     it('Checks that navigation through panes work correctly', () => {
-        cy.get('#donation-btn').click({force: true})
+        cy.get('#donation-btn').click()
         cy.get("#donation-widget-container").should('have.class', 'active')
-        cy.get('[data-cy=method-bank]').click({force: true})
+        cy.get('[data-cy=method-bank]').click()
         cy.onPaneOffset(1)
 
         cy.fillDonorInfo()
         cy.nextPane('basic')
         cy.onPaneOffset(2)
         
-        cy.get('[data-cy=check-select-split]').click({force: true})
+        cy.get('[data-cy=check-select-split]').click()
         cy.nextPane('amount')
         cy.onPaneOffset(3)
 
         cy.server()
-        let organizationsSplit = []
+        
         cy.request('GET', 'https://data.gieffektivt.no/organizations/active').then((response) => {
             let orgs = response.body.content
 
@@ -67,6 +67,7 @@ context('Actions', () => {
         cy.onPaneOffset(4)
 
         //Referrals are simply hidden when submitting, so offset should remain 4
-        cy.getInPane('referral', '#referral-list li').first().click({force: true})
+        cy.getInPane('referral', '#referral-list li').first().click()
         cy.onPaneOffset(4)
+    })
 })

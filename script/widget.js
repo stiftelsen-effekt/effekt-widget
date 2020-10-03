@@ -228,6 +228,7 @@ function DonationWidget() {
         pane.focus();
         pane.resizeWidgetToFit();
 
+        this.hideError();
         _self.sendAnalytics("go_to_slide", '', slidenum);
     }
 
