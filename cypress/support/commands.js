@@ -1,30 +1,34 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add("login", (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add("dismiss", { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-Cypress.Commands.add("getPane", (paneName) => cy.get(`#donation-widget .pane.${paneName}`))
-Cypress.Commands.add("getFromPane", (paneName, selector) => cy.get(`#donation-widget .pane.${paneName} ${selector}`))
-Cypress.Commands.add("submitPane", (paneName) => cy.getFromPane(paneName, `.btn.frwd`).click())
-Cypress.Commands.add("onPaneNumber", (paneNumber, timeout = 4000) => cy.get('#donation-widget .slider', { timeout: timeout }).should('have.css', 'transform', `matrix(1, 0, 0, 1, ${-320*paneNumber}, 0)`))
+const pane = (paneName) => {
+    return `#donation-widget .pane.${paneName}`
+}
+
+Cypress.Commands.add('fillDonorInfo', () => {
+    let randomName = Math.random().toString(36).substring(7)
+    let randomMail = randomName + '@testeffekt.com'
+    let ssn = "123456789"
+    cy.get('[data-cy=name]').type(randomName, {force: true})
+    cy.get('[data-cy=name]').should('have.value', randomName)
+    cy.get('[data-cy=email]').type(randomMail, {force: true})
+    cy.get('[data-cy=email]').should('have.value', randomMail)
+    cy.get('[data-cy=check-tax-deduction]').not('[disabled]').check({force: true}).should('be.checked')
+    cy.get('[data-cy=check-privacy-policy]').click()
+    cy.get('[data-cy=ssn]').type(ssn)
+  })
+
+Cypress.Commands.add('nextPane', (paneName) => {
+    cy.get(`${pane(paneName)} [data-cy=btn-frwd]`).click({force: true})
+  })
+
+Cypress.Commands.add('prevPane', (paneName) => {
+    cy.get(`${pane(paneName)} [data-cy=btn-back]`).click({force: true})
+})
+
+Cypress.Commands.add('onPaneOffset', (offsetNumber) => {
+    //Cypress reads the computed matrix value instead of translateX(-320px)
+    cy.get('#donation-widget [data-cy=slider]').should('have.css', 'transform', `matrix(1, 0, 0, 1, ${-320*offsetNumber}, 0)`)
+})
+
+Cypress.Commands.add('getInPane', (paneName, element) => {
+    return cy.get(`#donation-widget .pane.${paneName} ${element}`)
+})

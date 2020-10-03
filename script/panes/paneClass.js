@@ -72,6 +72,7 @@ module.exports = class Pane {
 
         btn.classList.add("btn");
         btn.classList.add("frwd");
+        btn.setAttribute("data-cy", "btn-frwd")
 
         var nxtImg = document.createElement("img");
         nxtImg.classList.add("arrowImage");
@@ -103,6 +104,7 @@ module.exports = class Pane {
 
         btn.classList.add("btn");
         btn.classList.add("back");
+        btn.setAttribute("data-cy", "btn-back")
 
         var nxtImg = document.createElement("img");
         nxtImg.classList.add("arrowImage");
