@@ -27,10 +27,10 @@ $cdn-url: "ENV.CDN_URL";
 }
 
 #donation-widget {
-    width: 320px;
-    height: 300px;
-    background: white;
-    box-shadow: 0 0 3px 3px rgba(0,0,0,.05);
+    width: 320px;		
+    height: 300px;		
+    background: white;		
+    box-shadow: 0 0 3px 3px rgba(0,0,0,.05);		
     position: relative;
 
     font-family: 'Open Sans', sans-serif;
@@ -39,7 +39,7 @@ $cdn-url: "ENV.CDN_URL";
 
     transform: scale(0.9);
     opacity: 0;
-
+    
     &.active {
         opacity: 1;
         transform: scale(1);
@@ -130,7 +130,7 @@ $cdn-url: "ENV.CDN_URL";
                 letter-spacing: 0px;
                 font-family: 'Open Sans';
             }
-
+              
             .btn-container {
                 width: 100%;
                 position: absolute;
@@ -297,6 +297,42 @@ $cdn-url: "ENV.CDN_URL";
                     #hover-field:hover #tooltip {
                       visibility: visible;
                     }
+                }
+
+                .anonymous-section {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    padding: 0 15%;
+    
+                    span {
+                        padding: 0 8px;
+                        color: #9a9999;
+                        font-size: 14px;
+                        letter-spacing: 0.5px;
+                    }
+                      
+                    .underline {
+                        flex-grow: 1;
+                        border-bottom: 1px solid #e6e5e5;
+                    }
+                }
+    
+                .anonymous-link {
+                    font-weight: 300;
+                    text-align: center;
+                    font-size: 16px;
+                    letter-spacing: 1px;
+                    font-family: 'Open Sans';
+                    color: #FFAA2B;
+                    cursor: pointer;
+                    padding-top: 8px;
+                    padding-bottom: 4px;
+                }
+    
+                .spacer {
+                    height: 8px;
+                    width: 100%;
                 }
             }
 

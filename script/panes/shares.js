@@ -172,6 +172,7 @@ module.exports = class SharesPane extends Pane {
         input.setAttribute("type", "tel");
         input.setAttribute("inputmode", "numeric");
         input.setAttribute("nocomma", "true");
+        input.setAttribute("data-cy", org.abbriv + "-share")
     
         org.inputElement = input;
     

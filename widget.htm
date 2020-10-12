@@ -7,7 +7,7 @@
             <p>Hei! Vi når dessverre ikke serveren vår fra din maskin. Du kan forsøke igjen på et senere tidspunkt. Takk!</p>
         </div>
 
-        <div class="slider">
+        <div class="slider" data-cy="slider">
             <div class="pane payment-method">
                 <div class="inner">
                     <div class="selection active">
@@ -16,15 +16,15 @@
                         <span>Kostnadene angitt dekkes av oss, slik <br> at 100% av din donasjon kommer frem.</span>
 
                         <div class="payment-methods">
-                            <div class="method bank">
+                            <div class="method bank" data-cy="method-bank">
                                 <div class="transaction-costs">2kr</div>
                             </div>
 
-                            <div class="method paypal">
+                            <div class="method paypal" data-cy="method-paypal">
                                 <div class="transaction-costs">1,90% + 2,8kr</div>
                             </div>
 
-                            <div class="method vipps">
+                            <div class="method vipps" data-cy="method-vipps">
                                 <div class="transaction-costs">2,99%</div>
                             </div>
                         </div>
@@ -35,11 +35,11 @@
             <div class="pane basic">
                 <div class="inner">
                     <h3>Om deg</h3>
-                    <input type="text" class="name" placeholder="Navn" autocomplete="off"></input>
-                    <input type="text" class="email" placeholder="Email" autocomplete="off"></input>
+                    <input type="text" class="name" data-cy="name" placeholder="Navn" autocomplete="off"></input>
+                    <input type="text" class="email" data-cy="email" placeholder="Email" autocomplete="off"></input>
                     
                     <div class="checkbox-wrapper">
-                        <input type="checkbox" name="tax-deduction" id="check-tax-deduction" autocomplete="off" /> 
+                        <input type="checkbox" name="tax-deduction" id="check-tax-deduction" data-cy="check-tax-deduction" autocomplete="off" /> 
                         <label for="check-tax-deduction">Jeg ønsker skattefradrag 
                             <div id="hover-field"> 
                                 <a target="_blank" id="info-icon"></a>
@@ -48,11 +48,11 @@
                         </label>
                     </div>
 
-                    <input type="text" class="ssn" placeholder="Fødselsnr eller orgnr" autocomplete="off" style="display: none;"></input>
+                    <input type="text" class="ssn" data-cy="ssn" placeholder="Fødselsnr eller orgnr" autocomplete="off" style="display: none;"></input>
 
                     <div class="checkbox-wrapper">
-                        <input type="checkbox" name="privacy-policy" id="check-privacy-policy" autocomplete="off" /> 
-                        <label for="check-privacy-policy">Jeg godtar <a href="https://gieffektivt.no/samarbeid-drift#personvern" target="_blank">personvernerklæringen *</a></label>
+                        <input type="checkbox" name="privacy-policy" id="check-privacy-policy" data-cy="check-privacy-policy" autocomplete="off" /> 
+                        <label for="check-privacy-policy">Jeg godtar <a href="https://gieffektivt.no/samarbeid-drift#personvern" target="_blank">personvernerklæringen</a></label>
                     </div>
 
                     <div class="checkbox-wrapper">
@@ -60,6 +60,15 @@
                         <label for="check-newsletter">Jeg ønsker å melde meg på nyhetsbrevet</label>
                     </div>
 
+                    <div class="anonymous-section">
+                        <div class="underline"></div>
+                        <span>ELLER</span>
+                        <div class="underline"></div>
+                    </div>
+                    <div class="anonymous-link">Hopp over</div>
+                    <!-- Spacer to make sure that the skip button is not too close to the prev / next buttons -->
+                    <!-- Padding would make the button clickable to close to the other buttons -->
+                    <div class="spacer"></div>
                 </div>
             </div>
 
@@ -68,34 +77,34 @@
                     <h3>Om donasjonen</h3>
                     <div class="controls">
                         <div class="amount-wrapper">
-                            <input type="text" class="amount" placeholder="sum" pattern="[0-9]*" inputmode="numeric" nocomma="true" autocomplete="off"></input>
+                            <input data-cy="amount" type="text" class="amount" placeholder="sum" pattern="[0-9]*" inputmode="numeric" nocomma="true" autocomplete="off"></input>
                             <span class="currency">kr</span>
                         </div>
 
                         <div class="recurring">
                             <div class="select recurring">
                                 <label for="check-select-recurring">Jeg vil gi en månedlig donasjon</label>
-                                <input type="radio" name="recurring-selection" id="check-select-recurring" checked="true" autocomplete="off">
-                                <label class="box" for="check-select-recurring"></label>
+                                <input type="radio" name="recurring-selection" id="check-select-recurring" data-cy="check-select-recurring-input" checked="true" autocomplete="off">
+                                <label class="box" for="check-select-recurring" data-cy="check-select-recurring"></label>
                             </div>
                             <div class="select recurring">
                                 <label for="check-select-single">Jeg vil gi en engangsdonajson</label>
-                                <input type="radio" name="recurring-selection" id="check-select-single" autocomplete="off">
-                                <label class="box" for="check-select-single"></label>
+                                <input type="radio" name="recurring-selection" id="check-select-single" data-cy="check-select-single-input" autocomplete="off">
+                                <label class="box" for="check-select-single" data-cy="check-select-single"></label>
                             </div>
                         </div>
 
                         <div class="split">
                             <div class="select split">
                                 <label for="check-select-recommended">Bruk vår anbefalte fordeling</label>
-                                <input type="radio" name="split-selection" id="check-select-recommended" checked="true" autocomplete="off" />
-                                <label class="box" for ="check-select-recommended"></label>
+                                <input type="radio" name="split-selection" id="check-select-recommended" data-cy="check-select-recommended-input" checked="true" autocomplete="off" />
+                                <label class="box" for ="check-select-recommended" data-cy="check-select-recommended"></label>
                             </div>
                             <div class="select split">
                                 <label for="check-select-split">Jeg vil velge fordeling selv</label>
 
-                                <input type="radio" name="split-selection" id="check-select-split" autocomplete="off" />
-                                <label class="box" for ="check-select-split"></label>
+                                <input type="radio" name="split-selection" id="check-select-split" data-cy="check-select-split-input" autocomplete="off" />
+                                <label class="box" for ="check-select-split" data-cy="check-select-split"></label>
                             </div>
                         </div>
                     </div>
@@ -110,7 +119,7 @@
 
                         <ul class="overlay-organizations"></ul>
 
-                        <span class="total">0/100</span>
+                        <span class="total" data-cy="total">0/100</span>
                     </div>
                 </div>
             </div>
@@ -131,7 +140,7 @@
             <div class="pane paypal">
                 <div class="inner">
                     <h3>Gå til paypal</h3>
-                    <button id="widget-paypal-button">Donér nå</button>
+                    <button id="widget-paypal-button">Doner nå</button>
                 </div>
                 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="payPalSingleForm" target="_blank" style="display: inline-block;">
                     <input type="hidden" name="cmd" value="_donations">
@@ -176,7 +185,7 @@
                     
                     <div class="vipps-btn-wrapper">
                         <a href="#" id="vipps-link">
-                            <div class="vipps-btn"></div>
+                            <div class="vipps-btn" data-cy="vipps-btn"></div>
                         </a>
                     </div>
                 </div>
