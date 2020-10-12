@@ -24,6 +24,9 @@ module.exports = class ResultPane extends Pane {
         }
         else if (this.widget.method === "PAYPAL") {
             this.setResultState("DONATION_RECIEVED");
+        } 
+        else if (this.widget.email  === "anon@gieffektivt.no") {
+            this.widget.getElementById('emailSentMessage').setAttribute("hidden", true);
         }
         else {
             this.widget.error("Donasjonskanal " + this.widget.method + " ikke støttet");
