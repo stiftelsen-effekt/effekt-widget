@@ -15,6 +15,15 @@ module.exports = class ResultPane extends Pane {
     }
     
     customFocus() {
+        var elems = document.getElementsByClassName('emailSentMessage');
+
+        for(var i = 0; i != elems.length; ++i)
+        {
+            if (this.widget.email  === "anon@gieffektivt.no") {
+            elems[i].style.visibility = "hidden";
+        }
+        }
+
         if (this.widget.method === "BANK") {
             this.setResultState("BANK_PENDING");
             this.setupBankFields();
@@ -25,9 +34,6 @@ module.exports = class ResultPane extends Pane {
         else if (this.widget.method === "PAYPAL") {
             this.setResultState("DONATION_RECIEVED");
         } 
-        else if (this.widget.email  === "anon@gieffektivt.no") {
-            this.widget.getElementById('emailSentMessage').setAttribute("hidden", true);
-        }
         else {
             this.widget.error("Donasjonskanal " + this.widget.method + " ikke støttet");
         }
