@@ -15,34 +15,31 @@ Widget-host-production.htm fetches the production code from
 the server and hosts it in a testing bed with the same
 structure as this file.
 --><!DOCTYPE html><html><head>
-        <meta charset="UTF-8">
-        <link rel="stylesheet" type="text/css" href="dist/widget.css">
-        <link rel="stylesheet" type="text/css" href="dist/widget-mobile.css">
-        <link rel="stylesheet" type="text/css" href="dist/host.css">
-        <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="dist/widget.css">
+    <link rel="stylesheet" type="text/css" href="dist/widget-mobile.css">
+    <link rel="stylesheet" type="text/css" href="dist/host.css">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
 
-        <script src="script/lib/fastclick.js"></script>
-    </head>
-    <body>
-        <div id="host-wrapper">
-            <strong>API selection</strong><br>
-            <div id="api-url-selector">
-                <div class="label" id="selector-production">Production</div>
-                <div class="label" id="selector-stage">Stage</div>
-                <div class="label" id="selector-dev">Dev</div>
-                <div class="label" id="selector-local">Local</div>
-            </div>
+    <script src="script/lib/fastclick.js"></script>
+</head>
 
-            <div id="donation-btn">Doner nå 💖</div>
+<body>
+    <div id="host-wrapper">
+        <strong>API selection</strong><br>
+        <div id="api-url-selector">
+            <div class="label" id="selector-production">Production</div>
+            <div class="label" id="selector-stage">Stage</div>
+            <div class="label" id="selector-dev">Dev</div>
+            <div class="label" id="selector-local">Local</div>
         </div>
-        
-        <div id="donation-widget-container">﻿<div id="donation-widget">
-    <div class="close-btn"></div>
 
+        <div id="donation-widget-container">﻿<div id="donation-widget">
     <div class="inner">
         <div id="no_api_error">
             <h3>Ingen tilkobling</h3>
-            <p>Hei! Vi når dessverre ikke serveren vår fra din maskin. Du kan forsøke igjen på et senere tidspunkt. Takk!</p>
+            <p>Hei! Vi når dessverre ikke serveren vår fra din maskin. Du kan forsøke igjen på et senere tidspunkt.
+                Takk!</p>
         </div>
 
         <div class="slider" data-cy="slider">
@@ -75,13 +72,14 @@ structure as this file.
                     <h3>Om deg</h3>
                     <input type="text" class="name" data-cy="name" placeholder="Navn" autocomplete="off">
                     <input type="text" class="email" data-cy="email" placeholder="Email" autocomplete="off">
-                    
+
                     <div class="checkbox-wrapper">
-                        <input type="checkbox" name="tax-deduction" id="check-tax-deduction" data-cy="check-tax-deduction" autocomplete="off"> 
-                        <label for="check-tax-deduction">Jeg ønsker skattefradrag 
-                            <div id="hover-field"> 
+                        <input type="checkbox" name="tax-deduction" id="check-tax-deduction" data-cy="check-tax-deduction" autocomplete="off">
+                        <label for="check-tax-deduction">Jeg ønsker skattefradrag
+                            <div id="hover-field">
                                 <a target="_blank" id="info-icon"></a>
-                                <span id="tooltip">Vi trenger ditt fødselsnummer for å rapportere skattefradrag til Skatteetaten for at du skal få skattefradrag for donasjonen din.</span>
+                                <span id="tooltip">Vi trenger ditt fødselsnummer for å rapportere skattefradrag til
+                                    Skatteetaten for at du skal få skattefradrag for donasjonen din.</span>
                             </div>
                         </label>
                     </div>
@@ -89,12 +87,12 @@ structure as this file.
                     <input type="text" class="ssn" data-cy="ssn" placeholder="Fødselsnr eller orgnr" autocomplete="off" style="display: none;">
 
                     <div class="checkbox-wrapper">
-                        <input type="checkbox" name="privacy-policy" id="check-privacy-policy" data-cy="check-privacy-policy" autocomplete="off"> 
-                        <label for="check-privacy-policy">Jeg godtar <a href="https://gieffektivt.no/samarbeid-drift#personvern" target="_blank">personvernerklæringen *</a></label>
+                        <input type="checkbox" name="privacy-policy" id="check-privacy-policy" data-cy="check-privacy-policy" autocomplete="off">
+                        <label for="check-privacy-policy">Jeg godtar <a href="https://gieffektivt.no/samarbeid-drift#personvern" target="_blank">personvernerklæringen</a></label>
                     </div>
 
                     <div class="checkbox-wrapper">
-                        <input type="checkbox" name="newsletter" id="check-newsletter" autocomplete="off"> 
+                        <input type="checkbox" name="newsletter" id="check-newsletter" autocomplete="off">
                         <label for="check-newsletter">Jeg ønsker å melde meg på nyhetsbrevet</label>
                     </div>
 
@@ -207,7 +205,7 @@ structure as this file.
                     <input type="hidden" name="src" value="1">
                     <input type="hidden" name="srt" value="24">
                     <input type="hidden" name="no_note" value="1">
-                    
+
                     <input type="submit" style="display: none;" id="submitRecurringPaypal">
                 </form>
 
@@ -220,7 +218,7 @@ structure as this file.
             <div class="pane vipps">
                 <div class="inner">
                     <img src="https://storage.googleapis.com/effekt-widget/assets/logos/vipps.png" class="header">
-                    
+
                     <div class="vipps-btn-wrapper">
                         <a href="#" id="vipps-link">
                             <div class="vipps-btn" data-cy="vipps-btn"></div>
@@ -237,7 +235,7 @@ structure as this file.
 
                     <div class="result-type bank-pending">
                         <h4>Du kan nå overføre til oss.</h4>
-                            
+
                         <div class="transfer-info">
                             <div class="line">
                                 <label>Kontonr</label><span class="account select-on-click" x-ms-format-detection="none">1506 29 95960</span>
@@ -246,15 +244,20 @@ structure as this file.
                                 <label>KID</label><span class="KID select-on-click" x-ms-format-detection="none" id="bank-kid"></span>
                             </div>
                         </div>
-                        <span class="email-text">Vi har også sendt en mail til <font class="email"></font> med informasjon om din donasjon. Sjekk søppelpost-mappen om du ikke har mottatt eposten i løpet av noen timer.</span>
+                        <span class="email-text">Vi har også sendt en mail til <font class="email"></font> med
+                            informasjon om din donasjon. Sjekk søppelpost-mappen om du ikke har mottatt eposten i løpet
+                            av noen timer.</span>
                     </div>
 
                     <div class="result-type vipps-pending">
-                        <p>Vi bruker vanligvis noen dager på å bekrefte Vipps-donasjoner. Du vil få en mail til <font class="email"></font> når vi har bekreftet din donasjon. Sjekk søppelpost-mappen om du ikke har mottatt eposten i løpet av noen dager.</p>
+                        <p>Vi bruker vanligvis noen dager på å bekrefte Vipps-donasjoner. Du vil få en mail til <font class="email"></font> når vi har bekreftet din donasjon. Sjekk søppelpost-mappen om du
+                            ikke har mottatt eposten i løpet av noen dager.</p>
                     </div>
 
                     <div class="result-type donation-confirmed">
-                        <p>Vi har nå mottatt din donasjon! Vi har også sendt en kvittering til <font class="email"></font> med mer informasjon. Sjekk søppelpost-mappen om du ikke har mottatt eposten i løpet av noen timer.</p>
+                        <p>Vi har nå mottatt din donasjon! Vi har også sendt en kvittering til <font class="email">
+                            </font> med mer informasjon. Sjekk søppelpost-mappen om du ikke har mottatt eposten i løpet
+                            av noen timer.</p>
                     </div>
                 </div>
             </div>
@@ -263,72 +266,73 @@ structure as this file.
         <div class="error"></div>
         <div class="progress" style="width: 0%;"></div>
     </div>
-</div>
-</div>
+</div></div>
+    </div>
 
-<script src="dist/bundle.js"></script>
-<script>
-var localUrl = "http://localhost:3000/"
-const prodUrl = "https://data.gieffektivt.no/"
-const stageUrl = "https://stage.data.gieffektivt.no/"
-const devUrl = "https://dev.data.gieffektivt.no/"
+    <script src="dist/bundle.js"></script>
+    <script>
+        var localUrl = "http://localhost:3000/"
+        const prodUrl = "https://data.gieffektivt.no/"
+        const stageUrl = "https://stage.data.gieffektivt.no/"
+        const devUrl = "https://dev.data.gieffektivt.no/"
 
-var donationWidgetElement = document.getElementById("donation-widget");
-var widget = new DonationWidget();
+        var donationWidgetElement = document.getElementById("donation-widget");
+        var widget = new DonationWidget();
 
-widget.setup(widget, donationWidgetElement);
-document.getElementById("donation-btn").addEventListener("click", function(e) {
-    widget.show();
-});
+        widget.setup(widget, donationWidgetElement);
 
-const prodSelector = document.getElementById("selector-production")
-const stageSelector = document.getElementById("selector-stage")
-const devSelector = document.getElementById("selector-dev")
-const localSelector = document.getElementById("selector-local")
+        const prodSelector = document.getElementById("selector-production")
+        const stageSelector = document.getElementById("selector-stage")
+        const devSelector = document.getElementById("selector-dev")
+        const localSelector = document.getElementById("selector-local")
 
-if (widget.network.api_url === prodUrl)
-    prodSelector.classList.add("active")
-else if (widget.network.api_url === stageUrl)
-    stageSelector.classList.add("active")
-else if (widget.network.api_url === devUrl)
-    devSelector.classList.add("active")
-else if (widget.network.api_url.indexOf("localhost") !== -1) {
-    localUrl = widget.network.api_url
-    localSelector.classList.add("active")
-}
-else
-    alert("Could not determine API url from widget.network.api_url")
+        if (widget.network.api_url === prodUrl)
+            prodSelector.classList.add("active")
+        else if (widget.network.api_url === stageUrl)
+            stageSelector.classList.add("active")
+        else if (widget.network.api_url === devUrl)
+            devSelector.classList.add("active")
+        else if (widget.network.api_url.indexOf("localhost") !== -1) {
+            localUrl = widget.network.api_url
+            localSelector.classList.add("active")
+        }
+        else
+            alert("Could not determine API url from widget.network.api_url")
 
-localSelector.addEventListener("click", () => {
-    clearSelection()
-    localSelector.classList.add("active")
-    widget.network.api_url = localUrl
-})
+        localSelector.addEventListener("click", () => {
+            clearSelection()
+            localSelector.classList.add("active")
+            widget.network.api_url = localUrl
+        })
 
-prodSelector.addEventListener("click", () => {
-    clearSelection()
-    prodSelector.classList.add("active")
-    widget.network.api_url = prodUrl
-})
+        prodSelector.addEventListener("click", () => {
+            clearSelection()
+            prodSelector.classList.add("active")
+            widget.network.api_url = prodUrl
+        })
 
-stageSelector.addEventListener("click", () => {
-    clearSelection()
-    stageSelector.classList.add("active")
-    widget.network.api_url = stageUrl
-})
+        stageSelector.addEventListener("click", () => {
+            clearSelection()
+            stageSelector.classList.add("active")
+            widget.network.api_url = stageUrl
+        })
 
-devSelector.addEventListener("click", () => {
-    clearSelection()
-    devSelector.classList.add("active")
-    widget.network.api_url = devUrl
-})
+        devSelector.addEventListener("click", () => {
+            clearSelection()
+            devSelector.classList.add("active")
+            widget.network.api_url = devUrl
+        })
 
-function clearSelection() {
-    localSelector.classList.remove("active")
-    prodSelector.classList.remove("active")
-    stageSelector.classList.remove("active")
-    devSelector.classList.remove("active")
-}
-</script>
+        function clearSelection() {
+            localSelector.classList.remove("active")
+            prodSelector.classList.remove("active")
+            stageSelector.classList.remove("active")
+            devSelector.classList.remove("active")
+        }
+    </script>
+
+
+
+
 
 </body></html>

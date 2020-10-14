@@ -101,14 +101,7 @@ function DonationWidget() {
         if (this.panes.length != paneElements.length) throw new Error("Missing Javascript object for some HTML panes");
 
         //General setup helpers
-        setupCloseBtn();
         setupSelectOnClick();
-    }
-
-    function setupCloseBtn() {
-        _self.closeBtn.addEventListener("click", function() {
-            _self.close();
-        })
     }
 
     this.setMethod = function(method) {
@@ -310,60 +303,19 @@ function DonationWidget() {
         }
     }
 
-    //Activate UI
-    this.show = function(method) {
-
-        var widget = _self;
-
-        document.body.classList.add("widget-active");
-        _self.wrapper.style.zIndex = 100000;
-
-        _self.element.classList.add("active");
-        _self.wrapper.classList.add("active");
-        var activePane = _self.panes[_self.currentSlide];
-        activePane.focus(_self, activePane);
-        activePane.resizeWidgetToFit();
-
-        _self.active = true;
-
-        if(method){
-          _self.setMethod(method);
-          _self.nextSlide();
+    this.reset = function() {
+        if (_self.currentSlide == _self.panes.length-1) { 
+            window.onbeforeunload = null;
+            //On result pane
+            //Reset widget to default state
+            _self.goToSlide(0);
+            _self.getPane(SharesPane).hide();
+            _self.getPane(VippsPane).hide();
+            _self.getPane(PaypalPane).hide();
+            _self.method = null;
+            document.getElementById("check-select-recommended").click();
+            _self.sendAnalytics("reset_widget", "");
         }
-
-        //User is engaged in form, activate "are you sure you want to leave" prompt on attempt to navigate away
-        window.onbeforeunload = function() {
-            //return true;
-        };
-
-        _self.sendAnalytics("open_widget", "");
-    }
-
-    this.close = function() {
-        document.body.classList.remove("widget-active");
-        _self.element.classList.remove("active");
-        _self.wrapper.classList.remove("active");
-        _self.element.style.maxHeight = "";
-
-        window.onbeforeunload = null;
-
-        _self.active = false;
-
-        setTimeout(function() {
-            _self.wrapper.style.zIndex = -1;
-            if (_self.currentSlide == _self.panes.length-1) { 
-                //On result pane
-                //Reset widget to default state
-                _self.goToSlide(0);
-                _self.getPane(SharesPane).hide();
-                _self.getPane(VippsPane).hide();
-                _self.getPane(PaypalPane).hide();
-                _self.method = null;
-                document.getElementById("check-select-recommended").click();
-            }
-        }, 500);
-
-        _self.sendAnalytics("close_widget", "");
     }
 
     //Helpers
