@@ -4,8 +4,6 @@ context('Actions', () => {
     })
 
     it('A standard vipps donation runs through', () => {
-        cy.get('#donation-btn').click()
-        cy.get("#donation-widget-container").should('have.class', 'active')
         cy.get('[data-cy=method-vipps]').click()
         cy.onPaneOffset(1)
 

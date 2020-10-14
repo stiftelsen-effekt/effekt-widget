@@ -8,8 +8,6 @@ context('Actions', () => {
     })
 
     it('Checks that navigation through panes work correctly', () => {
-        cy.get('#donation-btn').click()
-        cy.get("#donation-widget-container").should('have.class', 'active')
         cy.get('[data-cy=method-bank]').click()
         cy.onPaneOffset(1)
 

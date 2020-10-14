@@ -4,8 +4,6 @@ context('Actions', () => {
     })
 
     it('A standard paypal donation runs through', () => {
-        cy.get('#donation-btn').click()
-        cy.get("#donation-widget-container").should('have.class', 'active')
         cy.get('[data-cy=method-paypal]').click()
         cy.onPaneOffset(1)
 

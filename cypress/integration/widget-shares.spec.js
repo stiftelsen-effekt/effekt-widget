@@ -8,8 +8,6 @@ context('Actions', () => {
     })
 
     it('Goes through the mutual functionality between all donation methods', () => {
-        cy.get('#donation-btn').click()
-        cy.get("#donation-widget-container").should('have.class', 'active')
         cy.get('[data-cy=method-bank]').click()
         cy.onPaneOffset(1)
 
