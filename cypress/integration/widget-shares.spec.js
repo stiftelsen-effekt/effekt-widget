@@ -70,7 +70,7 @@ context('Actions', () => {
                 newsletter: false
             },
             amount: null,
-            method: 'BANK',
+            method: 2,
             organizations: organizationsSplit
         }
 
@@ -78,8 +78,7 @@ context('Actions', () => {
             const registerRequest = xhrs[0]
             const pendingRequest = xhrs[1]
 
-            let registerObjectURLEncoded = "data=" + encodeURIComponent(JSON.stringify(assertRegisterObject))
-            expect(registerRequest.request.body).to.be.eq(registerObjectURLEncoded)
+            expect(registerRequest.request.body).to.deep.equal(assertRegisterObject)
 
             expect(registerRequest.responseBody.status).to.equal(200)
             expect(pendingRequest.responseBody.status).to.equal(200)
