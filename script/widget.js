@@ -81,7 +81,7 @@ function DonationWidget() {
             widget: _self,
             paneElement: paneElements[5],
             hasPrevBtn: true,
-            hasNextBtn: true
+            hasNextBtn: false
         });
 
         this.panes[6] = new VippsPane({
