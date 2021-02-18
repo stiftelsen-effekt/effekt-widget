@@ -27,7 +27,13 @@ module.exports = {
             http.open("POST", url, true);
             http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             http.send("data=" + encodeURIComponent(JSON.stringify(data)));
-        } else if (type == "GET") {
+        } 
+        else if (type == "POST_JSON") {
+            http.open("POST", url, true);
+            http.setRequestHeader("Content-Type", "application/json");
+            http.send(JSON.stringify(data));
+        }
+        else if (type == "GET") {
             http.open("GET", url, true);
             http.send(data);
         }

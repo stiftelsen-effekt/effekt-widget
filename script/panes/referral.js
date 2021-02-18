@@ -29,13 +29,13 @@ module.exports = class ReferralPane extends Pane {
 
             if (referralType.name === "Annet") {
                 li.addEventListener("click", function() {
-                    _self.referralID = referralType.ID;
+                    _self.referralID = referralType.id;
                     _self.handleOtherOption(listElement);
                 });
             }
             else {
                 li.addEventListener("click", function() {
-                    _self.referralID = referralType.ID;
+                    _self.referralID = referralType.id;
                     _self.submit();
                 });
             }
@@ -64,12 +64,12 @@ module.exports = class ReferralPane extends Pane {
         if (_self.referralID !== null) {
             //User pressed an option
             var postData = {
-                referralTypeID: _self.referralID,
+                referralID: _self.referralID,
                 donorID: _self.widget.donorID,
                 otherComment: _self.otherComment
             };
     
-            this.widget.request("referrals/", "POST", postData, function (err, data) {
+            this.widget.request("referrals/", "POST_JSON", postData, function (err, data) {
                 _self.hide();
                 _self.widget.nextSlide();
             })

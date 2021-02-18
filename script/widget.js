@@ -139,6 +139,22 @@ function DonationWidget() {
     }
 
     this.registerDonation = function(nxtBtn) {
+        let methodId;
+        switch (this.method) {
+            case "BANK":
+                methodId = 2;
+                break;
+            case "PAYPAL":
+                methodId = 3;
+                break;
+            case "VIPPS":
+                methodId = 6;
+                break;
+            default:
+                throw new Error("Method not supported");
+                break;
+        }
+
         const postData = {
             donor: {
                 name: this.name,
@@ -147,14 +163,14 @@ function DonationWidget() {
                 newsletter: this.newsletter
             },
             amount: this.donationAmount,
-            method: this.method
+            method: methodId
         }
 
         if (this.donationSplit) {
             postData.organizations = this.donationSplit;
         }
 
-        _self.request("donations/register", "POST", postData, function(err, data) {
+        _self.request("donations/register", "POST_JSON", postData, function(err, data) {
             if (err == 0 || err) {
                 if (err == 0) _self.error("Når ikke server. Forsøk igjen senere.");
                 else if (err == 500) _self.error("Det er noe feil med donasjonen");
