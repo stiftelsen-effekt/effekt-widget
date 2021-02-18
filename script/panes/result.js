@@ -24,9 +24,22 @@ module.exports = class ResultPane extends Pane {
         }
         else if (this.widget.method === "PAYPAL") {
             this.setResultState("DONATION_RECIEVED");
-        }
+        } 
         else {
             this.widget.error("Donasjonskanal " + this.widget.method + " ikke støttet");
+        }
+
+        this.hideDefaultEmailFromUI();
+    }
+
+    hideDefaultEmailFromUI(){
+        var elems = document.getElementsByClassName('emailSentMessage');
+
+        for(var i = 0; i != elems.length; ++i)
+        {
+            if (this.widget.email  === "anon@gieffektivt.no") {
+                elems[i].style.visibility = "hidden";
+            }
         }
     }
 
